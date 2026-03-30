@@ -5,18 +5,69 @@
 
     header('Content-Type: application/json');
     header('Access-Control-Allow-Origin: *');
-    header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS,  PATCH");
+    header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS, PATCH");
     header("Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With");
 
     $steps = json_decode(file_get_contents("steps.json"), true);
 
     // print_r(json_encode($steps));
 
-    if (!isset($_GET['page'])) {
+    if (!isset($_GET['name'])) {
         $selectPersonalityStatement = $mysqlClient -> prepare("SELECT * FROM pages");
         $selectPersonalityStatement -> execute();
         $selectPersonality = $selectPersonalityStatement -> fetchAll(PDO::FETCH_ASSOC);
 
         print_r(json_encode($selectPersonality));
+    } else {
+        $selectPersonalityStatement = $mysqlClient -> prepare("SELECT * FROM pages WHERE name = :name");
+        $selectPersonalityStatement -> execute([
+            'name' => $_GET['name'],
+        ]);
+        $selectPersonality = $selectPersonalityStatement -> fetch(PDO::FETCH_ASSOC);
+
+        $personality = $selectPersonality;
+
+        if (isset($_GET['id'])) {
+            $selectStepsStatement = $mysqlClient -> prepare(
+                "SELECT * 
+                FROM steps
+                INNER JOIN pages_steps
+                ON pages_steps.id_step = steps.id_step
+                WHERE {$personality['id_page']} = pages_steps.id_page");
+            $selectStepsStatement -> execute();
+            $selectSteps = $selectStepsStatement -> fetchAll(PDO::FETCH_ASSOC);
+
+            $personality = $selectSteps;
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] === "PATCH") {
+            $data = json_decode(file_get_contents('php://input'), true);
+            if ($data['mac'] && $data['endDate'] && $data["score"]) {
+                $newGameStatement = $mysqlClient -> prepare("UPDATE game SET mac = :mac, endGame = :endDate, score = :score WHERE id_page = :id_page");
+                $newGameStatement -> execute([
+                    'mac' => $data['mac'],
+                    'endDate' => $data['endDate'],
+                    'score' => $data['score'],
+                    'id_page' => $personality['id_page'],
+                ]);
+
+                exit;
+            }
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] === "POST") {
+            $data = json_encode(file_get_contents('php://input'));
+            if (isset($data['mac'])) {
+                $newGameStatement = $mysqlClient -> prepare("INSERT INTO game (mac, id_page) VALUES (:mac, :id_page)");
+                $newGameStatement -> execute([
+                    'mac' => $data['mac'],
+                    'id_page' => $personality['id_page'],
+                ]);
+            }
+
+            exit;
+        }
+        
+        print_r(json_encode($personality));
     }
 ?>
