@@ -1,0 +1,9 @@
+@import url('/front/reset.css');
+
+#name {
+  color: #2563eb;       
+  font-size: 24px;      
+  font-weight: bold;    
+  margin-bottom: 10px;  
+  text-transform: capitalize; 
+}
