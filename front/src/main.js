@@ -5,5 +5,5 @@ const a = await getAPI("");
 
 console.log(a)
 
-axios.get("../steps.json")
-.then((val) => console.log(val));
+// axios.get("../steps.json")
+// .then((val) => console.log(val));
