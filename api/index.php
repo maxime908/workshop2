@@ -8,7 +8,7 @@
     header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS, PATCH");
     header("Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With");
 
-    $steps = json_decode(file_get_contents("steps.json"), true);
+    // $steps = json_decode(file_get_contents("steps.json"), true);
 
     // print_r(json_encode($steps));
 
@@ -33,11 +33,25 @@
                 FROM steps
                 INNER JOIN pages_steps
                 ON pages_steps.id_step = steps.id_step
-                WHERE {$personality['id_page']} = pages_steps.id_page");
+                WHERE {$personality['id_page']} = pages_steps.id_page
+                AND steps.number = {$_GET['id']}");
             $selectStepsStatement -> execute();
             $selectSteps = $selectStepsStatement -> fetchAll(PDO::FETCH_ASSOC);
 
             $personality = $selectSteps;
+
+            $json = null;
+            $file = '../front/steps.json';
+
+            foreach ($personality as $value) {
+                $json = json_decode(file_get_contents($file), true);
+                foreach ($json as $key => $value2) {
+                    if ($key === $_GET['name']) {
+                        $json[$key]['step'] = $value['number'];
+                        file_put_contents($file, json_encode($json));
+                    }
+                }
+            }
         }
 
         if ($_SERVER['REQUEST_METHOD'] === "PATCH") {
