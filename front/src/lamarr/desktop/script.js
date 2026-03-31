@@ -1,4 +1,4 @@
-import { getAPI } from "../../utils";
+import getAPI  from "../../utils.js";
 
 const name = document.querySelector('#name'); 
 
