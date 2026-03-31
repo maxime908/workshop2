@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : mar. 31 mars 2026 à 14:41
+-- Généré le : mar. 31 mars 2026 à 16:03
 -- Version du serveur : 10.4.32-MariaDB
 -- Version de PHP : 8.2.12
 
@@ -33,7 +33,7 @@ CREATE TABLE `game` (
   `startDate` timestamp NOT NULL DEFAULT current_timestamp(),
   `endDate` timestamp NULL DEFAULT NULL,
   `id_page` int(11) NOT NULL,
-  `score` int(11) NOT NULL
+  `score` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -75,22 +75,22 @@ CREATE TABLE `pages_steps` (
 --
 
 INSERT INTO `pages_steps` (`id_page_step`, `id_page`, `id_step`) VALUES
-(4, 3, 1),
-(5, 3, 2),
-(6, 3, 3),
-(7, 3, 4),
-(8, 4, 5),
-(9, 4, 6),
-(10, 4, 7),
-(11, 4, 8),
-(12, 5, 9),
-(13, 5, 10),
-(14, 5, 11),
-(15, 5, 12),
-(16, 6, 13),
-(17, 6, 14),
-(18, 6, 15),
-(19, 6, 16);
+(1, 3, 1),
+(2, 3, 2),
+(3, 3, 3),
+(4, 3, 4),
+(5, 5, 5),
+(6, 5, 6),
+(7, 5, 7),
+(8, 5, 8),
+(9, 4, 9),
+(10, 4, 10),
+(11, 4, 11),
+(12, 4, 12),
+(13, 6, 13),
+(14, 6, 14),
+(15, 6, 15),
+(16, 6, 16);
 
 -- --------------------------------------------------------
 
@@ -166,7 +166,7 @@ ALTER TABLE `steps`
 -- AUTO_INCREMENT pour la table `game`
 --
 ALTER TABLE `game`
-  MODIFY `id_game` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `id_game` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT pour la table `pages`
