@@ -40,14 +40,15 @@
 
             $personality = $selectSteps;
 
-            $json = null;
-            $file = '../front/steps.json';
+            if (str_contains(strval($_GET['id']), ".")) {
+                $json = null;
+                $file = '../front/steps.json';
 
-            foreach ($personality as $value) {
+
                 $json = json_decode(file_get_contents($file), true);
-                foreach ($json as $key => $value2) {
+                foreach ($json as $key => $value) {
                     if ($key === $_GET['name']) {
-                        $json[$key]['step'] = $value['number'];
+                        $json[$key]['step'] = floatval($_GET['id']);
                         file_put_contents($file, json_encode($json), JSON_PRETTY_PRINT);
                     }
                 }
@@ -76,6 +77,17 @@
         if ($_SERVER['REQUEST_METHOD'] === "POST") {
             $data = json_encode(file_get_contents('php://input'));
             if (isset($data['mac'])) {
+                $userSearchStatement = $mysqlClient -> prepare("SELECT * FROM game WHERE mac = :mac");
+                $userSearchStatement -> execute([
+                    'mac' => $data['mac'],
+                ]);
+                $userSearch = $userSearchStatement -> fetch(PDO::FETCH_ASSOC);
+
+                if ($userSearch) {
+                    echo json_encode(false);
+                    exit;
+                }
+
                 $newGameStatement = $mysqlClient -> prepare("INSERT INTO game (mac, id_page) VALUES (:mac, :id_page)");
                 $newGameStatement -> execute([
                     'mac' => $data['mac'],
