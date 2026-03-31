@@ -31,14 +31,15 @@ export async function createGame(personality) {
         console.log("Nouveau device id :", deviceId)
     }
 
-    return axios.post(url + "/" + personality, {
-        deviceId: deviceId,
+    console.log("Je vais envoyer à",url + personality, "la valeur de device ID :",deviceId)
+    return axios.post(url + personality, {
+        device_id: deviceId,
     })
 }
 
 export async function updateGame(personality,deviceId, endDate, score) {
     return axios.patch(url + "/" + personality, {
-        deviceId: deviceId,
+        device_id: deviceId,
         endDate: endDate,
         score: score
     })
