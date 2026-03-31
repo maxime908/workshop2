@@ -1,16 +1,19 @@
-import getAPI  from "../../utils.js";
 
-const name = document.querySelector('#name'); 
+import { getAPI } from "/src/utils.js";
 
-getAPI("/lamarr").then(res => {
-    res.data.forEach(personne => {
-        name.innerHTML += `
-            <div>
-                <h2>${personne.name}</h2>
-                <p>${personne.description}</p>
-            </div>
-        `;
-    });
-});
+// const name = document.querySelector('#name'); 
 
-console.log("jinx");
+// getAPI("/lamarr").then(res => {
+//     res.data.forEach(personne => {
+//         name.innerHTML += `
+//             <div>
+//                 <h2>${personne.name}</h2>
+//                 <p>${personne.description}</p>
+//             </div>
+//         `;
+//     });
+// });
+
+const alData = await getAPI("/lamarr")
+
+console.log(alData);
