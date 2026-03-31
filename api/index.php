@@ -40,14 +40,15 @@
 
             $personality = $selectSteps;
 
-            $json = null;
-            $file = '../front/steps.json';
+            if (str_contains(strval($_GET['id']), ".")) {
+                $json = null;
+                $file = '../front/steps.json';
 
-            foreach ($personality as $value) {
+
                 $json = json_decode(file_get_contents($file), true);
-                foreach ($json as $key => $value2) {
+                foreach ($json as $key => $value) {
                     if ($key === $_GET['name']) {
-                        $json[$key]['step'] = $value['number'];
+                        $json[$key]['step'] = floatval($_GET['id']);
                         file_put_contents($file, json_encode($json), JSON_PRETTY_PRINT);
                     }
                 }
@@ -60,10 +61,10 @@
 
         if ($_SERVER['REQUEST_METHOD'] === "PATCH") {
             $data = json_decode(file_get_contents('php://input'), true);
-            if ($data['mac'] && $data['endDate'] && $data["score"]) {
-                $newGameStatement = $mysqlClient -> prepare("UPDATE game SET mac = :mac, endGame = :endDate, score = :score WHERE id_page = :id_page");
+            if ($data['device_id'] && $data['endDate'] && $data["score"]) {
+                $newGameStatement = $mysqlClient -> prepare("UPDATE game SET device_id = :device_id, endGame = :endDate, score = :score WHERE id_page = :id_page");
                 $newGameStatement -> execute([
-                    'mac' => $data['mac'],
+                    'device_id' => $data['device_id'],
                     'endDate' => $data['endDate'],
                     'score' => $data['score'],
                     'id_page' => $personality['id_page'],
@@ -75,10 +76,21 @@
 
         if ($_SERVER['REQUEST_METHOD'] === "POST") {
             $data = json_encode(file_get_contents('php://input'));
-            if (isset($data['mac'])) {
-                $newGameStatement = $mysqlClient -> prepare("INSERT INTO game (mac, id_page) VALUES (:mac, :id_page)");
+            if (isset($data['device_id'])) {
+                $userSearchStatement = $mysqlClient -> prepare("SELECT * FROM game WHERE device_id = :device_id");
+                $userSearchStatement -> execute([
+                    'device_id' => $data['device_id'],
+                ]);
+                $userSearch = $userSearchStatement -> fetch(PDO::FETCH_ASSOC);
+
+                if ($userSearch) {
+                    echo json_encode(false);
+                    exit;
+                }
+
+                $newGameStatement = $mysqlClient -> prepare("INSERT INTO game (device_id, id_page) VALUES (:device_id, :id_page)");
                 $newGameStatement -> execute([
-                    'mac' => $data['mac'],
+                    'device_id' => $data['device_id'],
                     'id_page' => $personality['id_page'],
                 ]);
             }

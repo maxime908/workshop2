@@ -1,19 +1,49 @@
 import { all } from "axios";
-import { getAPI, createGame } from "../../utils";
+import { getAPI, createGame, getStep, getPersonnality } from "../../utils";
 
-const allData = await getAPI("/bass")
+// Ici modifier avec le nom de votre personnalité
+const personnality = "bass"
 
-const step1 = await getAPI("/bass/1")
+let allData = await getPersonnality(personnality)
+allData = allData.data
 
-document.querySelector("h1").textContent = allData.data.name
+console.log(allData)
 
-console.log(allData.data)
+// Exemple d'utilisation du contenu de allData
+document.querySelector("#title").textContent = allData.name
+document.querySelector("#desc").textContent = allData.description
 
 
+
+// On essaie de créer une partie. True = la partie a été créée / False = la partie n'a pas pu être créée (quelq'un est déjà en train de jouer)
+let createGameStatus = await createGame("bass")
+createGameStatus = createGameStatus.data
+
+
+// Quand on clique sur le bouton "Commencer l'expérience"
 document.querySelector("#start").addEventListener("click", () => {
-    document.querySelector(".step1").textContent = step1.data
+    showStep(1)
+    if (createGameStatus) {
+        // On affiche l'étape 1
+        showStep(1)
+    } else {
+        // Ici afficher l'info que quelqu'un joue déjà et qu'il faut attendre encore quelques instants
+    }
 })
 
-// createGame("bass",)
+async function showStep(step) {
 
-console.log("Device id",MediaDeviceInfo.deviceId)
+    // Cette variable contient toutes les infos d'une étape infos importantes : le nom (correspond à la question) et toutes les infos de l'intéraction en JSON
+    const stepContent = await getStep(personnality, step)
+
+    console.log("J'ai getStep", step ,"ça m'a donné", stepContent)
+
+    if (step == 1) {
+        // Ici on gère l'affichage de l'intéraction 1
+    } else if (step == 2) {
+        // Ici on gère l'affichage de l'intéraction 2
+    } else if (step == 3) {
+        // Ici on gère l'affichage de l'intéraction 3
+    } // ... et ainsi de suite si on souhaite ajouter des intéractions
+
+}
