@@ -49,6 +49,9 @@ let stepContent;
 
 // Afficher un step
 async function showStep(step) {
+    
+    // Cette variable contient toutes les infos d'une étape infos importantes : le nom (correspond à la question) et toutes les infos de l'intéraction en JSON
+    stepContent = await getStep(personnality, step)
 
     const decimal = step % 1;
 
@@ -58,8 +61,7 @@ async function showStep(step) {
         console.log("Il a donné une mauvaise réponse")
     } else {
 
-        // Cette variable contient toutes les infos d'une étape infos importantes : le nom (correspond à la question) et toutes les infos de l'intéraction en JSON
-        stepContent = await getStep(personnality, step)
+        
         stepContent = stepContent.data[0]
 
         stepContent = JSON.parse(stepContent.interaction)
