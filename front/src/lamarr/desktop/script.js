@@ -1,19 +1,58 @@
+async function readSteps() {
+  try {
 
-import { getAPI } from "/src/utils.js";
+    const response = await fetch('/steps.json'); 
+    
+    if (!response.ok) {
+      throw new Error(`Erreur lors du chargement : ${response.status}`);
+    }
+    
+    // On transforme la réponse en objet JavaScript utilisable
+    const data = await response.json();
+    return data;
+    
+  } catch (error) {
+    console.error("Impossible de lire le fichier steps.json :", error);
+  }
+}
 
-// const name = document.querySelector('#name'); 
+async function readSteps() {
+  try {
 
-// getAPI("/lamarr").then(res => {
-//     res.data.forEach(personne => {
-//         name.innerHTML += `
-//             <div>
-//                 <h2>${personne.name}</h2>
-//                 <p>${personne.description}</p>
-//             </div>
-//         `;
-//     });
-// });
+    const response = await fetch('/steps.json'); 
+    
+    if (!response.ok) {
+      throw new Error(`Erreur lors du chargement : ${response.status}`);
+    }
+    
+    // On transforme la réponse en objet JavaScript utilisable
+    const data = await response.json();
+    return data;
+    
+  } catch (error) {
+    console.error("Impossible de lire le fichier steps.json :", error);
+  }
+}
 
-const alData = await getAPI("/lamarr")
+let oldData;
 
-console.log(alData);
+async function changeWindow() {
+
+    const data = await readSteps()
+    const dataStep = data.lamarr.step
+    
+    if (dataStep == oldData) {
+        console.log("Aucune valeur changée")
+    } else {
+        console.log("Nouvelles valeurs, changeons la window !")
+        document.querySelector("h2").textContent = "Nous sommes à l'étape " + dataStep
+    }
+    
+    console.log("data :", dataStep)
+
+    console.log("oldData :", oldData)
+
+    oldData = dataStep
+}
+
+setInterval(changeWindow,1000)
