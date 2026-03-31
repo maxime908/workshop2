@@ -39,20 +39,18 @@
             $selectSteps = $selectStepsStatement -> fetchAll(PDO::FETCH_ASSOC);
 
             $personality = $selectSteps;
-
-            $json = null;
-            $file = '../front/steps.json';
-
-            foreach ($personality as $value) {
-                $json = json_decode(file_get_contents($file), true);
-                foreach ($json as $key => $value2) {
-                    if ($key === $_GET['name']) {
-                        $json[$key]['step'] = $value['number'];
-                        file_put_contents($file, json_encode($json));
-                    }
-                }
-            }
         }
+
+        // $json = null;
+        // $file = '../front/steps.json';
+
+        // $json = json_decode(file_get_contents($file), true);
+        // foreach ($json as $key => $value) {
+        //     if ($key === $_GET['name']) {
+        //         $json[$key]['step']++;
+        //         file_put_contents($file, json_encode($json));
+        //     }
+        // }
 
         if ($_SERVER['REQUEST_METHOD'] === "PATCH") {
             $data = json_decode(file_get_contents('php://input'), true);
