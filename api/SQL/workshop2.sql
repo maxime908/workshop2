@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : mar. 31 mars 2026 à 10:31
+-- Généré le : mar. 31 mars 2026 à 14:41
 -- Version du serveur : 10.4.32-MariaDB
 -- Version de PHP : 8.2.12
 
@@ -29,19 +29,12 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `game` (
   `id_game` int(11) NOT NULL,
-  `mac` text NOT NULL,
+  `device_id` text NOT NULL,
   `startDate` timestamp NOT NULL DEFAULT current_timestamp(),
-  `endGame` timestamp NULL DEFAULT NULL,
+  `endDate` timestamp NULL DEFAULT NULL,
   `id_page` int(11) NOT NULL,
   `score` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Déchargement des données de la table `game`
---
-
-INSERT INTO `game` (`id_game`, `mac`, `startDate`, `endGame`, `id_page`, `score`) VALUES
-(2, '418', '2026-03-30 13:06:27', '2026-03-30 13:06:27', 3, 5);
 
 -- --------------------------------------------------------
 
@@ -173,7 +166,7 @@ ALTER TABLE `steps`
 -- AUTO_INCREMENT pour la table `game`
 --
 ALTER TABLE `game`
-  MODIFY `id_game` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_game` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT pour la table `pages`
