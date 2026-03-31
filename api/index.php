@@ -76,7 +76,7 @@
 
         if ($_SERVER['REQUEST_METHOD'] === "POST") {
             $data = json_encode(file_get_contents('php://input'));
-            if (isset($_POST['device_id'])) {
+            if (isset($data['device_id'])) {
                 $userSearchStatement = $mysqlClient -> prepare("SELECT * FROM game WHERE endDate IS NULL");
                 $userSearchStatement -> execute();
                 $userSearch = $userSearchStatement -> fetch(PDO::FETCH_ASSOC);
@@ -94,7 +94,7 @@
 
                         $userInsertStatement = $mysqlClient -> prepare("INSERT INTO game (device_id, id_page) VALUES (:device_id, :id_page)");
                         $userInsertStatement -> execute([
-                            'device_id' => $_POST['device_id'],
+                            'device_id' => $data['device_id'],
                             'id_page' => $personality['id_page'],
                         ]);
 
@@ -108,7 +108,7 @@
 
                 $newGameStatement = $mysqlClient -> prepare("INSERT INTO game (device_id, id_page) VALUES (:device_id, :id_page)");
                 $newGameStatement -> execute([
-                    'device_id' => $_POST['device_id'],
+                    'device_id' => $data['device_id'],
                     'id_page' => $personality['id_page'],
                 ]);
                 echo json_encode(true);
