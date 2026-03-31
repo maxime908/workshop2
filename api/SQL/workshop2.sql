@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : lun. 30 mars 2026 à 15:34
+-- Généré le : mar. 31 mars 2026 à 10:31
 -- Version du serveur : 10.4.32-MariaDB
 -- Version de PHP : 8.2.12
 
@@ -60,10 +60,10 @@ CREATE TABLE `pages` (
 --
 
 INSERT INTO `pages` (`id_page`, `name`, `description`) VALUES
-(3, 'Lamarr', 'Une description de Lamarr'),
-(4, 'Bass', 'Une description de Lamarr'),
-(5, 'Tesla', 'Une description de Tesla'),
-(6, 'Turing', 'Une description de Turing');
+(3, 'Lamarr', 'Actrice hollywoodienne et inventrice autrichienne, Hedy Lamarr est célèbre à la fois pour sa carrière au cinéma et pour avoir co-inventé une technologie de transmission par étalement de spectre, à l’origine du Wi-Fi et du Bluetooth.'),
+(4, 'Bass', 'Designer graphique et cinéaste américain, Saul Bass est célèbre pour ses génériques de films innovants et ses logos emblématiques. Son style minimaliste a profondément influencé le design moderne.'),
+(5, 'Tesla', 'Inventeur et ingénieur visionnaire, Tesla est connu pour ses travaux sur le courant alternatif et ses nombreuses innovations en électricité. Ses recherches ont largement contribué au développement des systèmes électriques modernes.'),
+(6, 'Turing', 'Mathématicien britannique, Turing est considéré comme l’un des pères de l’informatique. Il a joué un rôle crucial dans le décryptage des codes pendant la Seconde Guerre mondiale et a posé les bases de l’intelligence artificielle.');
 
 -- --------------------------------------------------------
 
@@ -82,8 +82,22 @@ CREATE TABLE `pages_steps` (
 --
 
 INSERT INTO `pages_steps` (`id_page_step`, `id_page`, `id_step`) VALUES
-(1, 5, 1),
-(2, 3, 1);
+(4, 3, 1),
+(5, 3, 2),
+(6, 3, 3),
+(7, 3, 4),
+(8, 4, 5),
+(9, 4, 6),
+(10, 4, 7),
+(11, 4, 8),
+(12, 5, 9),
+(13, 5, 10),
+(14, 5, 11),
+(15, 5, 12),
+(16, 6, 13),
+(17, 6, 14),
+(18, 6, 15),
+(19, 6, 16);
 
 -- --------------------------------------------------------
 
@@ -103,7 +117,22 @@ CREATE TABLE `steps` (
 --
 
 INSERT INTO `steps` (`id_step`, `number`, `name`, `interaction`) VALUES
-(1, 1, 'Une question', '[\"Une intération\"]');
+(1, 0, 'Hedy Lamarr', '[\"start\"]'),
+(2, 1, 'Hedy Lamarr', '[\"discover\", \"invention\"]'),
+(3, 2, 'Hedy Lamarr', '[\"choice\", \"player_action\"]'),
+(4, 3, 'Hedy Lamarr', '[\"end\"]'),
+(5, 0, 'Nikola Tesla', '[\"start\"]'),
+(6, 1, 'Nikola Tesla', '[\"discover\", \"electricity\"]'),
+(7, 2, 'Nikola Tesla', '[\"choice\", \"player_action\"]'),
+(8, 3, 'Nikola Tesla', '[\"end\"]'),
+(9, 0, 'Saul Bass', '[\"start\"]'),
+(10, 1, 'Saul Bass', '[\"discover\", \"design\"]'),
+(11, 2, 'Saul Bass', '[\"choice\", \"player_action\"]'),
+(12, 3, 'Saul Bass', '[\"end\"]'),
+(13, 0, 'Alan Turing', '[\"start\"]'),
+(14, 1, 'Alan Turing', '[\"discover\", \"machine\"]'),
+(15, 2, 'Alan Turing', '[\"choice\", \"player_action\"]'),
+(16, 3, 'Alan Turing', '[\"end\"]');
 
 --
 -- Index pour les tables déchargées
@@ -156,13 +185,13 @@ ALTER TABLE `pages`
 -- AUTO_INCREMENT pour la table `pages_steps`
 --
 ALTER TABLE `pages_steps`
-  MODIFY `id_page_step` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_page_step` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT pour la table `steps`
 --
 ALTER TABLE `steps`
-  MODIFY `id_step` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_step` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- Contraintes pour les tables déchargées

@@ -1,12 +1,21 @@
-import { getAPI } from "../../utils";
+import { all } from "axios";
+import { getPersonnality } from "../../utils";
 
-const allData = await getAPI("/lamarr")
+const allData = await getPersonnality("/lamarr")
 
-const step1 = await getAPI("/lamarr/1")
+const step = await getPersonnality("/lamarr/1")
 
-document.querySelector("h1").textContent = allData.data
+document.querySelector("h1").textContent = allData.data.name
+document.querySelector(".desc").textContent = allData.data.description
 
 
-document.querySelector("#start").addEventListener("click", () => {
-    document.querySelector(".step1").textContent = step1.data
+document.querySelectorAll("#steps button").forEach(element => {
+    element.addEventListener("click", async() => {
+        console.log(element.value)
+        const step = await getPersonnality("/lamarr/", element.value)
+        console.log(step)
+        document.querySelector(".step").textContent = step.data.name
+        console.log(step)
+        // console.log(step.data[0].name)
+    })
 })

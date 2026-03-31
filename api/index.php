@@ -48,10 +48,14 @@
                 foreach ($json as $key => $value2) {
                     if ($key === $_GET['name']) {
                         $json[$key]['step'] = $value['number'];
-                        file_put_contents($file, json_encode($json));
+                        file_put_contents($file, json_encode($json), JSON_PRETTY_PRINT);
                     }
                 }
             }
+
+            print_r(json_encode($personality));
+
+            exit;
         }
 
         if ($_SERVER['REQUEST_METHOD'] === "PATCH") {
