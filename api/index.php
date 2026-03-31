@@ -81,6 +81,11 @@
 
             exit;
         }
+
+        if (!$personality) {
+            echo "Aucune personnalité trouvé";
+            exit;
+        }
         
         print_r(json_encode($personality));
     }
