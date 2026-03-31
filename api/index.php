@@ -61,10 +61,10 @@
 
         if ($_SERVER['REQUEST_METHOD'] === "PATCH") {
             $data = json_decode(file_get_contents('php://input'), true);
-            if ($data['mac'] && $data['endDate'] && $data["score"]) {
-                $newGameStatement = $mysqlClient -> prepare("UPDATE game SET mac = :mac, endGame = :endDate, score = :score WHERE id_page = :id_page");
+            if ($data['device_id'] && $data['endDate'] && $data["score"]) {
+                $newGameStatement = $mysqlClient -> prepare("UPDATE game SET device_id = :device_id, endGame = :endDate, score = :score WHERE id_page = :id_page");
                 $newGameStatement -> execute([
-                    'mac' => $data['mac'],
+                    'device_id' => $data['device_id'],
                     'endDate' => $data['endDate'],
                     'score' => $data['score'],
                     'id_page' => $personality['id_page'],
@@ -76,10 +76,10 @@
 
         if ($_SERVER['REQUEST_METHOD'] === "POST") {
             $data = json_encode(file_get_contents('php://input'));
-            if (isset($data['mac'])) {
-                $userSearchStatement = $mysqlClient -> prepare("SELECT * FROM game WHERE mac = :mac");
+            if (isset($data['device_id'])) {
+                $userSearchStatement = $mysqlClient -> prepare("SELECT * FROM game WHERE device_id = :device_id");
                 $userSearchStatement -> execute([
-                    'mac' => $data['mac'],
+                    'device_id' => $data['device_id'],
                 ]);
                 $userSearch = $userSearchStatement -> fetch(PDO::FETCH_ASSOC);
 
@@ -88,9 +88,9 @@
                     exit;
                 }
 
-                $newGameStatement = $mysqlClient -> prepare("INSERT INTO game (mac, id_page) VALUES (:mac, :id_page)");
+                $newGameStatement = $mysqlClient -> prepare("INSERT INTO game (device_id, id_page) VALUES (:device_id, :id_page)");
                 $newGameStatement -> execute([
-                    'mac' => $data['mac'],
+                    'device_id' => $data['device_id'],
                     'id_page' => $personality['id_page'],
                 ]);
             }
