@@ -77,15 +77,22 @@
         if ($_SERVER['REQUEST_METHOD'] === "POST") {
             $data = json_encode(file_get_contents('php://input'));
             if (isset($data['device_id'])) {
-                $userSearchStatement = $mysqlClient -> prepare("SELECT * FROM game WHERE device_id = :device_id");
+                $userSearchStatement = $mysqlClient -> prepare("SELECT device_id, DATE_FORMAT(endGame, '%i') AS endGame, DATE_FORMAT(startDate, '%i') AS startGame FROM game WHERE device_id = :device_id");
                 $userSearchStatement -> execute([
                     'device_id' => $data['device_id'],
                 ]);
                 $userSearch = $userSearchStatement -> fetch(PDO::FETCH_ASSOC);
 
                 if ($userSearch) {
-                    echo json_encode(false);
-                    exit;
+                    if (!empty($userSearch["endGame"]) && $userSearch["endGame"] > $userSearch["startGame"] + 5) {
+                        $resetUserStatement = $mysqlClient -> prepare("DELETE FROM game WHERE device_id = :device_id");
+                        $resetUserStatement -> execute([
+                            'device_id' => $data['device_id'],
+                        ]);
+                    } else {
+                        echo json_encode(false);
+                        exit;
+                    }
                 }
 
                 $newGameStatement = $mysqlClient -> prepare("INSERT INTO game (device_id, id_page) VALUES (:device_id, :id_page)");
