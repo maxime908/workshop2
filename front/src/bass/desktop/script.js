@@ -1,12 +1,40 @@
-import { getAPI } from "../../utils";
+async function readSteps() {
+  try {
 
-const allData = await getAPI("/bass")
+    const response = await fetch('/steps.json'); 
+    
+    if (!response.ok) {
+      throw new Error(`Erreur lors du chargement : ${response.status}`);
+    }
+    
+    // On transforme la réponse en objet JavaScript utilisable
+    const data = await response.json();
+    return data;
+    
+  } catch (error) {
+    console.error("Impossible de lire le fichier steps.json :", error);
+  }
+}
 
-const step1 = await getAPI("/bass/1")
+let oldData;
 
-document.querySelector("h1").textContent = allData.data
+async function changeWindow() {
 
+    const data = await readSteps()
+    const dataStep = data.bass.step
+    
+    if (dataStep == oldData) {
+        console.log("Aucune valeur changée")
+    } else {
+        console.log("Nouvelles valeurs, changeons la window !")
+        document.querySelector("h2").textContent = "Nous sommes à l'étape " + dataStep
+    }
+    
+    console.log("data :", dataStep)
 
-document.querySelector("#start").addEventListener("click", () => {
-    document.querySelector(".step1").textContent = step1.data
-})
+    console.log("oldData :", oldData)
+
+    oldData = dataStep
+}
+
+setInterval(changeWindow,1000)
