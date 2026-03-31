@@ -1,60 +1,79 @@
 import { all } from "axios";
 import { getAPI, createGame, getStep, getPersonnality } from "../../utils";
 
+// Ici modifier avec le nom de votre personnalité
 const personnality = "lamarr"
 
 let allData = await getPersonnality(personnality)
 allData = allData.data
 
-document.querySelector("h1").textContent = allData.name
-document.querySelector(".desc").textContent = allData.description
+console.log(allData)
 
+// --- CACHER LES BOUTONS AU DEPART ---
+document.querySelector("#step1").style.display = "none"
+document.querySelector("#step2").style.display = "none"
+document.querySelector("#step3").style.display = "none"
+
+// Exemple d'utilisation du contenu de allData
+document.querySelector("#title").textContent = allData.name
+document.querySelector("#desc").textContent = allData.description // Correction # en .
+
+
+
+// On essaie de créer une partie. True = la partie a été créée / False = la partie n'a pas pu être créée (quelq'un est déjà en train de jouer)
 let createGameStatus = await createGame("lamarr")
 createGameStatus = createGameStatus.data
 
-// --- GESTION DU CLIC COMMENCER ---
-document.querySelector("#step0").addEventListener("click", () => {
+
+// Quand on clique sur le bouton "Commencer l'expérience"
+document.querySelector("#start").addEventListener("click", () => {
+    document.querySelector("#start").style.display = "none"
+    document.querySelector("#step1").style.display = "block"
+    showStep(0)
     if (createGameStatus) {
-        // 1. On cache le bouton "Commencer"
-        document.querySelector("#step0").style.display = "none";
-        // 2. On lance l'étape 1
-        showStep(1)
+        // On affiche l'étape 1
+        console.log("le jeu a commencé")
     } else {
-        document.querySelector(".step").textContent = "Une session est déjà en cours..."
+        // Ici afficher l'info que quelqu'un joue déjà
     }
 })
 
-// --- ÉCOUTEURS POUR LES AUTRES BOUTONS ---
-document.querySelector("#step1").addEventListener("click", () => showStep(2)) // Clique sur Etape 1 -> Go Etape 2
-document.querySelector("#step2").addEventListener("click", () => showStep(3)) // Clique sur Etape 2 -> Go Etape 3
-document.querySelector("#step3").addEventListener("click", () => {
-    document.querySelector(".step").textContent = "Fin de l'expérience !";
-    document.querySelector("#step3").style.display = "none";
+document.querySelector("#step1").addEventListener("click", () => {
+    document.querySelector("#step1").style.display = "none"
+    document.querySelector("#step2").style.display = "block"
+    showStep(1)
+})
 
-    document.querySelector("#step0").style.display = "inline-block";
-    document.querySelector("#step0").textContent = "Recommencer l'expérience";
+document.querySelector("#step2").addEventListener("click", () => {
+    document.querySelector("#step2").style.display = "none"
+    document.querySelector("#step3").style.display = "block"
+    showStep(2)
+})
+
+document.querySelector("#step3").addEventListener("click", () => {
+    document.querySelector("#step3").style.display = "none"
+    document.querySelector("#start").style.display = "block"
+    showStep(3)
 })
 
 async function showStep(step) {
-    const stepContent = await getStep(personnality, step)
-    const displayElement = document.querySelector(".step")
 
-    // On cache TOUS les boutons d'étapes d'abord pour faire le ménage
-    document.querySelectorAll("#steps button").forEach(btn => btn.style.display = "none");
+    // Cette variable contient toutes les infos d'une étape infos importantes : le nom (correspond à la question) et toutes les infos de l'intéraction en JSON
+    let stepContent = await getStep(personnality, step)
+    stepContent = stepContent.data
+
+    console.log("J'ai getStep", step ,"ça m'a donné", stepContent)
+
+    if (stepContent && stepContent.name) {
+        document.querySelector("#title").textContent = stepContent.name
+    }
 
     if (step == 1) {
-        displayElement.textContent = "Question 1 : " + stepContent.name
-        // On affiche le bouton de l'étape 1 pour pouvoir passer à la suite
-        document.querySelector("#step1").style.display = "inline-block";
-
+        // Ici on gère l'affichage de l'intéraction 1
     } else if (step == 2) {
-        displayElement.textContent = "Question 2 : " + stepContent.name
-        // On affiche le bouton de l'étape 2
-        document.querySelector("#step2").style.display = "inline-block";
-
+        // Ici on gère l'affichage de l'intéraction 2
     } else if (step == 3) {
-        displayElement.textContent = "Question 3 : " + stepContent.name
-        // On affiche le bouton de l'étape 3
-        document.querySelector("#step3").style.display = "inline-block";
-    }
+        // Ici on gère l'affichage de l'intéraction 3
+    } // ... et ainsi de suite si on souhaite ajouter des intéractions
+
 }
