@@ -42,7 +42,7 @@ L'objectif principal de cette session est de transformer les maquettes haute fid
 * **Responsive Design** : Adaptation des vues pour les différents formats d'écran.
 
 #### 2. Logique de Progression des Personnages
-* **Système d'Étapes (Stepper)** : Développement du moteur de navigation permettant de suivre l'évolution de chaque personnage de manière indépendante.
+* **Système d'Étapes** : Développement du moteur de navigation permettant de suivre l'évolution de chaque personnage de manière indépendante.
 * **Gestion d'État** : Mise en place de la persistance des étapes pour éviter la perte de progression lors de la navigation.
 
 #### 3. Gestion du Contenu Dynamique
