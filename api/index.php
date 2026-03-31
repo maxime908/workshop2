@@ -40,16 +40,25 @@
 
             $personality = $selectSteps;
 
+            $json = null;
+            $file = '../front/steps.json';
+
             if (str_contains(strval($_GET['id']), ".")) {
-                $json = null;
-                $file = '../front/steps.json';
-
-
                 $json = json_decode(file_get_contents($file), true);
                 foreach ($json as $key => $value) {
                     if ($key === $_GET['name']) {
                         $json[$key]['step'] = floatval($_GET['id']);
                         file_put_contents($file, json_encode($json), JSON_PRETTY_PRINT);
+                    }
+                }
+            } else {
+                foreach ($personality as $value) {
+                    $json = json_decode(file_get_contents($file), true);
+                    foreach ($json as $key => $value2) {
+                        if ($key === $_GET['name']) {
+                            $json[$key]['step'] = $value['number'];
+                            file_put_contents($file, json_encode($json), JSON_PRETTY_PRINT);
+                        }
                     }
                 }
             }
@@ -84,7 +93,6 @@
 
                 if ($userSearch) {
                     $startDate = strtotime($userSearch["startDate"]);
-                    $endDate = strtotime($userSearch["endDate"]);
 
                     if (strtotime(date("Y-m-d H:i:s")) > $startDate + 60 * 5) {
                         $userInsertStatement = $mysqlClient -> prepare("UPDATE game SET endDate = :endDate WHERE device_id = :device_id");
