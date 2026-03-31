@@ -1,14 +1,26 @@
-# Tâches à réalisées pour les différents jours :
+# 📌 Tâches du 31/03/2026
 
-## 31/03/2026
+## 🎨 Front-end
 
-### Front :
+### 🔧 Mise en place
+- Importer la base de données fournie dans le fichier SQL (dossier `api`) afin de pouvoir tester l’API en local.
 
-- Importer la base de donnée contenu dans le fichier SQL qui est dans le dossier api pour pouvoir tester l'api en local.
-- Crée à l'aide ***d'Axios*** et des requêtes ***GET*** tous les boutons des différents personnages dynamiquement.
-- Faire en sorte que quand on ***appuis*** sur un de ces ***boutons*** cela charge une page qui contiendra les ***bonnes questions, réponses***.
-- Faire en sorte que ***grâce à une requête à l'api*** cela crée une ***nouvelle game*** lorsque un utilisateur ***clique sur un bouton*** et que quand la partie ce termine cela ***modifie cette game***.
+### 🔗 Connexion à l’API
+- Utiliser **Axios** pour effectuer des requêtes **GET**.
+- Générer dynamiquement les boutons correspondant aux différents personnages à partir des données récupérées.
 
-### Back :
+### 🧭 Navigation & interaction
+- Implémenter un système permettant, lors du clic sur un bouton personnage :
+  - de rediriger vers une nouvelle page,
+  - d’y afficher les **questions et réponses associées**.
 
-- Même moi je sais pas
+### 🎮 Gestion de partie (game)
+- Lors du clic sur un personnage :
+  - envoyer une requête à l’API pour **créer une nouvelle partie**.
+- À la fin de la partie :
+  - envoyer une requête pour **mettre à jour la partie** (score, progression, etc.).
+
+---
+
+## ⚙️ Back-end
+- Gestion des parties (création, mise à jour)
