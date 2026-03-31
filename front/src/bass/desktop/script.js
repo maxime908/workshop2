@@ -27,7 +27,15 @@ async function changeWindow() {
         console.log("Aucune valeur changée")
     } else {
         console.log("Nouvelles valeurs, changeons la window !")
-        document.querySelector("h2").textContent = "Nous sommes à l'étape " + dataStep
+        document.querySelector("h2").textContent = "Nous sommes à l'étape " + dataStep + " !"
+
+        const decimal = dataStep % 1;
+
+        if (decimal.toFixed(1) == 0.1) {
+          document.querySelector("h2").textContent = "Nous sommes à l'étape " + dataStep + " et il y a eu une bonne réponse !"
+        } else if (decimal.toFixed(1) == 0.2) {
+          document.querySelector("h2").textContent = "Nous sommes à l'étape " + dataStep + " et il y a eu une mauvaise réponse !"
+        }
     }
     
     console.log("data :", dataStep)
