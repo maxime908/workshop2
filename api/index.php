@@ -41,16 +41,18 @@
             $personality = $selectSteps;
         }
 
-        // $json = null;
-        // $file = '../front/steps.json';
+        if (isset($_GET['changeStep'])) {
+            $json = null;
+            $file = '../front/steps.json';
 
-        // $json = json_decode(file_get_contents($file), true);
-        // foreach ($json as $key => $value) {
-        //     if ($key === $_GET['name']) {
-        //         $json[$key]['step']++;
-        //         file_put_contents($file, json_encode($json));
-        //     }
-        // }
+            $json = json_decode(file_get_contents($file), true);
+            foreach ($json as $key => $value) {
+                if ($key === $_GET['name']) {
+                    $json[$key]['step']++;
+                    file_put_contents($file, json_encode($json, JSON_PRETTY_PRINT));
+                }
+            }
+        }
 
         if ($_SERVER['REQUEST_METHOD'] === "PATCH") {
             $data = json_decode(file_get_contents('php://input'), true);
