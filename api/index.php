@@ -76,30 +76,42 @@
 
         if ($_SERVER['REQUEST_METHOD'] === "POST") {
             $data = json_encode(file_get_contents('php://input'));
-            if (isset($data['device_id'])) {
-                $userSearchStatement = $mysqlClient -> prepare("SELECT device_id, DATE_FORMAT(endGame, '%i') AS endGame, DATE_FORMAT(startDate, '%i') AS startGame FROM game WHERE device_id = :device_id");
-                $userSearchStatement -> execute([
-                    'device_id' => $data['device_id'],
-                ]);
+            if (isset($_POST['device_id'])) {
+                $userSearchStatement = $mysqlClient -> prepare("SELECT * FROM game WHERE endDate IS NULL");
+                $userSearchStatement -> execute();
                 $userSearch = $userSearchStatement -> fetch(PDO::FETCH_ASSOC);
 
                 if ($userSearch) {
-                    if (!empty($userSearch["endGame"]) && $userSearch["endGame"] > $userSearch["startGame"] + 5) {
-                        $resetUserStatement = $mysqlClient -> prepare("DELETE FROM game WHERE device_id = :device_id");
-                        $resetUserStatement -> execute([
-                            'device_id' => $data['device_id'],
+                    $startDate = strtotime($userSearch["startDate"]);
+                    $endDate = strtotime($userSearch["endDate"]);
+
+                    if (strtotime(date("Y-m-d H:i:s")) > $startDate + 60 * 5) {
+                        $userInsertStatement = $mysqlClient -> prepare("UPDATE game SET endDate = :endDate WHERE device_id = :device_id");
+                        $userInsertStatement -> execute([
+                            'device_id' => $userSearch['device_id'],
+                            'endDate' => date("Y-m-d H:i:s"),
                         ]);
-                    } else {
-                        echo json_encode(false);
+
+                        $userInsertStatement = $mysqlClient -> prepare("INSERT INTO game (device_id, id_page) VALUES (:device_id, :id_page)");
+                        $userInsertStatement -> execute([
+                            'device_id' => $_POST['device_id'],
+                            'id_page' => $personality['id_page'],
+                        ]);
+
+                        echo json_encode(true);
                         exit;
                     }
+
+                    echo json_encode(false);
+                    exit;
                 }
 
                 $newGameStatement = $mysqlClient -> prepare("INSERT INTO game (device_id, id_page) VALUES (:device_id, :id_page)");
                 $newGameStatement -> execute([
-                    'device_id' => $data['device_id'],
+                    'device_id' => $_POST['device_id'],
                     'id_page' => $personality['id_page'],
                 ]);
+                echo json_encode(true);
             }
 
             exit;
