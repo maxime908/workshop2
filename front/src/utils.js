@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const url = "http://localhost/workshop2/api/lamarr/1/"
+const url = "http://localhost/workshop2/api/"
 
 export function getAPI(path) {
     return axios.get(url + path)
