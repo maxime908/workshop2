@@ -1,14 +1,1 @@
-{
-    "tesla": {
-        "step": 1
-    },
-    "lamarr": {
-        "step": 0
-    },
-    "bass": {
-        "step": 1
-    },
-    "turing": {
-        "step": 0
-    }
-}
+{"tesla":{"step":1},"lamarr":{"step":0},"bass":{"step":1},"turing":{"step":0}}
