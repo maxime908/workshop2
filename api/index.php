@@ -39,6 +39,10 @@
             $selectSteps = $selectStepsStatement -> fetchAll(PDO::FETCH_ASSOC);
 
             $personality = $selectSteps;
+
+            echo "Je suis l'étape : " . $_GET['id'];
+
+            exit;
         }
 
         if (isset($_GET['changeStep'])) {
