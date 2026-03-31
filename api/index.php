@@ -75,7 +75,8 @@
         }
 
         if ($_SERVER['REQUEST_METHOD'] === "POST") {
-            $data = json_encode(file_get_contents('php://input'));
+            $data = json_decode(file_get_contents('php://input'), true);
+            
             if (isset($data['device_id'])) {
                 $userSearchStatement = $mysqlClient -> prepare("SELECT * FROM game WHERE endDate IS NULL");
                 $userSearchStatement -> execute();
