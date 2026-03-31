@@ -18,7 +18,20 @@ Pour commencer, vous devez récupérer les fichiers sources depuis le dépôt Gi
 
 ---
 
-## Étape 2 : Configuration du Front-end
+## Étape 2 : Configuration de la Base de Données
+
+Le projet nécessite une base de données MySQL pour fonctionner correctement.
+
+1.  **Créer la base de données** :
+    Ouvrez votre outil de gestion de base de données (ex: phpMyAdmin, MySQL Workbench) et créez une nouvelle base de données nommée : `workshop2`.
+
+2.  **Importer les données** :
+    Importez le fichier SQL situé dans le dossier du projet :
+    * **Chemin :** `api/SQL/workshop2.sql`
+
+---
+
+## Étape 3 : Configuration du Front-end
 
 Avant de lancer l'application, nous devons nous placer dans le répertoire contenant l'interface utilisateur et installer les outils nécessaires.
 
@@ -35,7 +48,7 @@ Avant de lancer l'application, nous devons nous placer dans le répertoire conte
 
 ---
 
-## Étape 3 : Lancement du serveur
+## Étape 4 : Lancement du serveur
 
 Une fois que les dépendances sont installées, vous pouvez démarrer l'environnement de développement.
 
@@ -52,7 +65,7 @@ Une fois que les dépendances sont installées, vous pouvez démarrer l'environn
 > **Rappel** : N'oubliez pas de garder votre terminal ouvert tant que vous travaillez sur le projet !
 ---
 
-## Étape 4 : Test du projet (Mobile & Desktop)
+## Étape 5 : Test du projet (Mobile & Desktop)
 
 Pour tester l'interactivité entre les différents affichages, suivez scrupuleusement ces étapes :
 
@@ -72,8 +85,13 @@ Une fois les deux sections ouvertes, vous pouvez tester le flux de l'application
     * **Étape 1**
     * **Étape 2**
     * **Étape 3**
-
 3.  Observez les changements et les interactions qui s'opèrent entre votre vue mobile et votre vue desktop.
+
+### ⚠️ Recommencer une partie
+Le système de réinitialisation (reset) n'étant pas encore implémenté dans l'interface front-end, si vous souhaitez recommencer une partie après avoir cliqué sur "Commencer" :
+* Allez dans votre gestionnaire de base de données (phpMyAdmin).
+* Accédez à la base `workshop2`.
+* **Supprimez la ligne actuelle** dans la table `game`.
 
 ---
 **Note :** Assurez-vous que les deux fenêtres sont bien connectées au même serveur local pour que les interactions fonctionnent correctement.
