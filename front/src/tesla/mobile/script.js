@@ -1,31 +1,29 @@
-// import { getAPI } from "../../utils";
+import { all } from "axios";
+import { getPersonnality, createGame } from "../../utils";
+
+const allData = await getPersonnality("/tesla")
+
+const step1 = await getPersonnality("/tesla/1")
+
+document.querySelector("h1").textContent = allData.data.name
+document.querySelector(".desc").textContent = allData.data.description
 
 
 
-const step1 = document.querySelector(".step1")
-const step2 = document.querySelector(".step2")
-const step3 = document.querySelector(".step3")
-const text = document.querySelector(".text")
+document.querySelectorAll("#steps button").forEach(element => {
+    element.addEventListener("click", async () => {
+        console.log(element.value);
+        const step = await getPersonnality("/tesla/", element.value)
 
-step1.addEventListener("click", () => {
-    step2.style.display = "flex"
-    step1.style.display = "none"
-    text.textContent = "Étape 1"
-    
-})
+        console.log(step);
+        
 
-step2.addEventListener("click", () => {
-    step3.style.display = "flex"
-    step2.style.display = "none"
-    text.textContent = "Étape 2"
-    
 
-})
+        // document.querySelector(".step1").textContent = step1.data
+        // console.log(step1.data[0].name)
+    })
+});
 
-step3.addEventListener("click", () => {
-    step1.style.display = "flex"
-    step3.style.display = "none"
-    text.textContent = "Fini !"
-    
 
-})
+
+
