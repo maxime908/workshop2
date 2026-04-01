@@ -1,5 +1,4 @@
-import axios from "axios";
-import { getAPI, createGame, getStep, getPersonnality } from "../../utils";
+import { getAPI, createGame, getStep, getPersonnality, setParams } from "../../utils";
 
 // Ici modifier avec le nom de votre personnalité
 const personnality = "bass"
@@ -53,57 +52,53 @@ async function showStep(step) {
     // Cette variable contient toutes les infos d'une étape infos importantes : le nom (correspond à la question) et toutes les infos de l'intéraction en JSON
     stepContent = await getStep(personnality, step)
 
-    const decimal = step % 1;
+    stepContent = stepContent.data[0]
 
-    if (decimal.toFixed(1) == 0.1) {
-        console.log("Il a donné une bonne réponse")
-    } else if (decimal.toFixed(1) == 0.2) {
-        console.log("Il a donné une mauvaise réponse")
-    } else {
+    stepContent = JSON.parse(stepContent.interaction)
 
+    console.log("J'ai getStep", step ,"ça m'a donné", stepContent)
+
+    if (step == 1) {
+        document.querySelector("#step0").style.display = "none"
+        // Ici on gère l'affichage de l'intéraction 1
+    } else if (step == 2) {
+        // Ici on gère l'affichage de l'intéraction 2
+    } else if (step == 3) {
+        // Ici on gère l'affichage de l'intéraction 3
+    } // ... et ainsi de suite si on souhaite ajouter des intéractions
+
+    // On créé un nouveau step
+    const newStep = document.createElement("div");
+    newStep.setAttribute("id", "step" + step)
+    newStep.classList.add("step");
+    newStep.innerHTML = `
+        <h1>${stepContent.question}</h1>
+        <button id="answer1" class="answer">${stepContent.answer1}</button>
+        <button id="answer2" class="answer">${stepContent.answer2}</button>
+        <button id="answer3" class="answer">${stepContent.answer3}</button>
+    `
+
+    // On ajoute le nouveau step au body
+    document.body.appendChild(newStep)
+
+
+    // Quand on clique sur une réponse
+    document.querySelectorAll(".answer").forEach(element => {
+        element.addEventListener("click", () => {
+            if (element.textContent = stepContent.goodAnswer) {
+                console.log("Bonne réponse !")
+                setParams(personnality, "goodAnswer")
+                showNext()
+            } else {
+                setParams(personnality, "wrongAnswer")
+                showNext()
+            }
+        })
         
-        stepContent = stepContent.data[0]
+    });
+}
 
-        stepContent = JSON.parse(stepContent.interaction)
-
-        console.log("J'ai getStep", step ,"ça m'a donné", stepContent)
-
-        if (step == 1) {
-            document.querySelector("#step0").style.display = "none"
-            // Ici on gère l'affichage de l'intéraction 1
-        } else if (step == 2) {
-            // Ici on gère l'affichage de l'intéraction 2
-        } else if (step == 3) {
-            // Ici on gère l'affichage de l'intéraction 3
-        } // ... et ainsi de suite si on souhaite ajouter des intéractions
-
-        // On créé un nouveau step
-        const newStep = document.createElement("div");
-        newStep.setAttribute("id", "step" + step)
-        newStep.classList.add("step");
-        newStep.innerHTML = `
-            <h1>${stepContent.question}</h1>
-            <button id="answer1" class="answer">${stepContent.answer1}</button>
-            <button id="answer2" class="answer">${stepContent.answer2}</button>
-            <button id="answer3" class="answer">${stepContent.answer3}</button>
-        `
-
-        // On ajoute le nouveau step au body
-        document.body.appendChild(newStep)
-
-
-        // Quand on clique sur une réponse
-        document.querySelectorAll(".answer").forEach(element => {
-            element.addEventListener("click", () => {
-                if (element.textContent = stepContent.goodAnswer) {
-                    console.log("Bonne réponse !")
-                    showStep(1.1)
-                } else {
-                    showStep(1.2)
-                }
-            })
-            
-        });
-    }
+function showNext() {
+    document.querySelector("#next").style.display = "flex"
 }
 
