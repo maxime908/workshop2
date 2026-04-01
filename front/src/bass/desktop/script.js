@@ -1,42 +1,189 @@
-async function readSteps() {
-  try {
-
-    const response = await fetch('/steps.json'); 
-    
-    if (!response.ok) {
-      throw new Error(`Erreur lors du chargement : ${response.status}`);
-    }
-    
-    // On transforme la réponse en objet JavaScript utilisable
-    const data = await response.json();
-    return data;
-    
-  } catch (error) {
-    console.error("Impossible de lire le fichier steps.json :", error);
-  }
-}
+import gsap from "gsap";
+import { readJSONFile } from "../../utils";
 
 let oldData;
 
 async function changeWindow() {
 
-    const data = await readSteps()
-    const dataStep = data.bass.step
-    
-    if (dataStep == oldData) {
-        console.log("Aucune valeur changée")
+  const data = await readJSONFile('/steps.json')
+  const dataStep = data.bass.step
+
+  if (!oldData) {
+    oldData = ""
+    console.log("DataStep au tout début donne", dataStep)
+    hideStep(0)
+    showStep(dataStep)
+  }
+
+  if (JSON.stringify(data.bass) == JSON.stringify(oldData)) {
+    console.log("Aucune valeur changée")
+  } else {
+
+    if (JSON.stringify(data.bass.step) != JSON.stringify(oldData.step)) {
+      hideStep(dataStep - 1)
+      showStep(dataStep)
     } else {
-        console.log("Nouvelles valeurs, changeons la window !")
-        document.querySelector("h2").textContent = "Nous sommes à l'étape " + dataStep + " !"
-        document.querySelector("p").textContent = "État de la réponse : " + data.bass.params
-        
+      console.log("Le params a changé")
+      if (data.bass.params == "goodAnswer") {
+        showAnswer(dataStep, true)
+      } else if (data.bass.params == "wrongAnswer") {
+        showAnswer(dataStep, false)
+      }
     }
+    // console.log("Nouvelles valeurs, changeons la window !")
+    // document.querySelector("h2").textContent = "Nous sommes à l'étape " + dataStep + " !"
+    // document.querySelector("p").textContent = "État de la réponse : " + data.bass.params
+
+
+
     
-    console.log("data :", dataStep)
 
-    console.log("oldData :", oldData)
+  }
 
-    oldData = dataStep
+  // console.log("data :", data.bass)
+
+  // console.log("oldData :", oldData)
+
+  oldData = data.bass
 }
 
-setInterval(changeWindow,1000)
+setInterval(changeWindow, 500)
+
+
+function showStep(step) {
+  gsap.fromTo(document.querySelector("#step" + step), {
+    opacity: 0,
+    x: 1200
+  }, {
+    duration: 0.5,
+    ease: "power4.out",
+    x: 0,
+    opacity: 1,
+  });
+}
+
+function hideStep(step) {
+  gsap.fromTo(document.querySelector("#step" + step), {
+    opacity: 1,
+    x: 0
+  }, {
+    duration: 0.5,
+    ease: "power4.out",
+    x: -1200,
+    opacity: 0,
+  });
+}
+
+
+function showAnswer(step, good) {
+
+  if (good) {
+    launchParty()
+  }
+  
+  if (step == 1) {
+
+    // On enlève le paragraphe 1
+    gsap.to("#paragraph1", {
+      duration: 0.5,
+      ease: "power4.out",
+      x: -600
+    })
+
+    // On enlève le paragraphe 2
+    gsap.to("#paragraph2", {
+      duration: 0.5,
+      ease: "power4.out",
+      x: 600,
+      delay: 0.2
+    })
+
+    // On zoom la carte
+    gsap.to("#map2", {
+      duration: 0.8,
+      ease: "power4.out",
+      scale: 2,
+      x: -350,
+      y: -300,
+      delay: 0.6
+    })
+
+    // On fait "bouncer" New York
+    gsap.to("#newYorkPoint", {
+      duration: 0.5,
+      ease: "power4.out",
+      scale: 1.3,
+      yoyo: true,
+      repeat: -1,
+      transformOrigin: "50% 50%",
+    })
+  } else if (step == 2) {
+
+    // On enlève le portrait de Kubrick
+    gsap.to("#portrait2", {
+      duration: 0.5,
+      ease: "power4.out",
+      x: -600
+    })
+
+    // On enlève le portrait de Preminger
+    gsap.to("#portrait3", {
+      duration: 0.5,
+      ease: "power4.out",
+      x: 600
+    })
+
+    // On met en avant le portrait de hitchcock
+    gsap.to("#portrait1", {
+      duration: 0.5,
+      ease: "power4.out",
+      x: -180,
+      y: 250,
+      scale: 1.5
+    })
+
+    // On affiche la longue description de hitchcock
+    gsap.to("#longDesc", {
+      duration: 0.5,
+      ease: "power4.out",
+      opacity: 1
+    })
+  }
+
+}
+
+
+//Confetti c'est la fête
+function launchParty(dure = 1000) {
+  const duration = dure,
+    animationEnd = Date.now() + duration,
+    defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+
+  function randomInRange(min, max) {
+    return Math.random() * (max - min) + min;
+  }
+
+  const interval = setInterval(function () {
+    const timeLeft = animationEnd - Date.now();
+
+    if (timeLeft <= 0) {
+      return clearInterval(interval);
+    }
+
+    const particleCount = 50 * (timeLeft / duration);
+
+
+    confetti(
+      Object.assign({}, defaults, {
+        particleCount,
+        origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 },
+      })
+    );
+    confetti(
+      Object.assign({}, defaults, {
+        particleCount,
+        origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 },
+      })
+    );
+  }, 250);
+}
