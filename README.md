@@ -7,7 +7,7 @@ Pour commencer, vous devez récupérer les fichiers sources depuis le dépôt Gi
 1.  **Cloner le dépôt** :
     Ouvrez votre terminal et utilisez la commande `git clone` avec l'URL du projet.
     ```bash
-    git clone <URL_DU_DEPOT_GITHUB>
+    git clone https://github.com/maxime908/workshop2
     ```
 
 2.  **Se déplacer dans le projet** :
