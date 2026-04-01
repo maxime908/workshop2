@@ -1,232 +1,269 @@
-@import url('/front/reset.css');
+@import url('../../../reset.css');
 
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
-body {
-    font-family: 'Segoe UI', sans-serif;
-    background-color: #F5C97A;
-    min-height: 100vh;
+/* Layout général section frise */
+#section-step2 {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 2rem;
+    flex-direction: column;
+    padding: 20px;
+    gap: 12px;
 }
 
-/* --- Carte principale --- */
-.card {
-    background: #fff;
-    border-radius: 24px;
-    padding: 24px 20px;
-    max-width: 380px;
-    width: 100%;
-    box-shadow: 0 4px 24px rgba(0,0,0,0.08);
-}
-
-#title {
-    font-size: 18px;
-    font-weight: 600;
-    color: #111;
-    margin-bottom: 16px;
-    line-height: 1.3;
-}
-
-#desc {
-    font-size: 14px;
-    color: #555;
-    margin-bottom: 20px;
-}
-
-/* --- Boutons de navigation (start, step1, step2, step3) --- */
-#start, #step1, #step2, #step3 {
-    display: block;
-    width: 100%;
-    padding: 14px;
-    background: #111;
-    color: #fff;
-    font-size: 15px;
-    font-weight: 500;
-    border: none;
-    border-radius: 14px;
-    cursor: pointer;
-    margin-top: 20px;
-    transition: opacity 0.15s;
-}
-
-#start:hover, #step1:hover, #step2:hover, #step3:hover {
-    opacity: 0.85;
-}
-
-/* --- Section step2 : pool de chips --- */
-#section-step2 h2,
-#section-step3 h2 {
-    font-size: 14px;
-    font-weight: 500;
-    color: #888;
-    margin-bottom: 10px;
-    margin-top: 16px;
-}
-
+/* Chips événements en haut en ligne */
 #section-step2-events {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
-    margin-bottom: 16px;
-    min-height: 44px;
-    padding: 10px;
-    border: 1.5px dashed #ccc;
-    border-radius: 12px;
-    background: #f7f7f5;
 }
 
-/* --- Chips --- */
-.chip {
-    display: inline-flex;
-    align-items: center;
-    padding: 6px 14px;
-    border-radius: 20px;
-    font-size: 13px;
-    font-weight: 500;
-    cursor: grab;
-    border: 1.5px solid #ccc;
-    background: #fff;
-    color: #222;
-    user-select: none;
-    transition: transform 0.1s, opacity 0.1s;
-    touch-action: none;
-}
-
-.chip:active {
-    cursor: grabbing;
-    transform: scale(1.05);
-}
-
-.chip.dragging {
-    opacity: 0.4;
-}
-
-.chip.correct {
-    background: #EAF3DE;
-    border-color: #639922;
-    color: #3B6D11;
-    cursor: default;
-}
-
-.chip.incorrect {
-    background: #FCEBEB;
-    border-color: #A32D2D;
-    color: #791F1F;
-}
-
-/* --- Timeline --- */
-#tl-rows {
+/* Frise verticale */
+#section-step2-dates {
     display: flex;
     flex-direction: column;
-    gap: 0;
-    padding-left: 16px;
+    gap: 16px;
+    border-left: 2px solid #333;
+    padding-left: 20px;
 }
 
-.tl-row {
+/* Chaque ligne date + chips */
+.timeline-row {
     display: flex;
-    align-items: flex-start;
+    flex-direction: column;
+    gap: 6px;
     position: relative;
-    padding-bottom: 8px;
 }
 
-.tl-row::before {
+/* Point sur la frise */
+.timeline-row::before {
     content: '';
     position: absolute;
-    left: -10px;
-    top: 12px;
+    left: -26px;
+    top: 6px;
     width: 10px;
     height: 10px;
     border-radius: 50%;
-    background: #222;
-    z-index: 2;
+    background: #333;
 }
 
-.tl-row::after {
-    content: '';
-    position: absolute;
-    left: -6px;
-    top: 22px;
-    width: 1.5px;
-    bottom: 0;
-    background: #ccc;
-}
-
-.tl-row:last-child::after {
-    display: none;
-}
-
+/* Label de la date */
 .date-label {
+    font-weight: bold;
     font-size: 13px;
-    font-weight: 500;
-    color: #666;
-    min-width: 72px;
-    padding-top: 6px;
-    flex-shrink: 0;
 }
 
-.drop-zone {
+/* Zone des chips placées sous chaque date */
+.chips-zone {
     display: flex;
     flex-wrap: wrap;
     gap: 6px;
-    flex: 1;
-    min-height: 38px;
-    padding: 5px 8px;
-    border-radius: 8px;
-    border: 1.5px dashed transparent;
-    transition: border-color 0.15s, background 0.15s;
+    min-height: 36px;
 }
 
-.drop-zone.drag-over {
-    border-color: #378ADD;
-    background: #E6F1FB;
-}
-
-/* --- Boutons Soumettre / Suivant --- */
-#tl-submit, #tl-next {
-    width: 100%;
+/* Bouton soumettre */
+#submit {
     padding: 14px;
-    border-radius: 14px;
+    width: 100%;
     background: #111;
-    color: #fff;
+    color: white;
+    border: none;
+    border-radius: 12px;
     font-size: 15px;
     font-weight: 500;
-    border: none;
     cursor: pointer;
-    margin-top: 20px;
-    transition: opacity 0.15s;
+    margin-top: 8px;
 }
 
-#tl-submit:hover, #tl-next:hover {
-    opacity: 0.85;
-}
 
-#tl-next {
-    display: none;
-}
-
-/* --- Feedback --- */
-#tl-feedback {
-    display: none;
-    margin-top: 12px;
-    padding: 10px 14px;
+/* Style de base des boutons d'événements */
+#section-step2-events button {
+    padding: 10px 20px;
+    margin: 5px;
+    border: 2px solid #333;
     border-radius: 8px;
+    background-color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+/* Chips événements arrondies */
+.chip {
+    padding: 8px 16px;
+    border: 1.5px solid #333;
+    border-radius: 20px;
+    background: white;
+    cursor: pointer;
     font-size: 13px;
     font-weight: 500;
 }
 
-#tl-feedback.ok {
-    background: #EAF3DE;
-    color: #3B6D11;
+/* Fond de la section */
+#section-step2 {
+    background: white;
+    border-radius: 16px;
+    padding: 20px;
+    margin: 16px;
 }
 
-#tl-feedback.bad {
-    background: #FCEBEB;
-    color: #791F1F;
+/* Titre de la section */
+#section-step2 h2 {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 8px;
 }
+
+#section-step2-dates button.correct {
+    background-color: #c6f6d5;
+    border-color: #38a169;
+    color: #22543d;
+}
+#section-step2-dates button.incorrect {
+    background-color: #fed7d7;
+    border-color: #e53e3e;
+    color: #742a2a;
+}
+
+
+#section-step3 {
+    background: white;
+    border-radius: 16px;
+    padding: 20px;
+    margin: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+#section-step3-questions p {
+    font-size: 15px;
+    font-weight: 500;
+    text-align: center;
+    line-height: 1.5;
+}
+
+#section-step3-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#section-step3-buttons button {
+    width: 100%;
+    padding: 14px;
+    border: 1.5px solid #333;
+    border-radius: 10px;
+    background: white;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+#section-step3-buttons button.correct {
+    background-color: #c6f6d5;
+    border-color: #38a169;
+    color: #22543d;
+}
+
+#section-step3-buttons button.incorrect {
+    background-color: #fed7d7;
+    border-color: #e53e3e;
+    color: #742a2a;
+}
+
+#section-step4 {
+    background: white;
+    border-radius: 16px;
+    padding: 20px;
+    margin: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+
+#step4-question {
+    font-size: 15px;
+    font-weight: 500;
+    text-align: center;
+    line-height: 1.5;
+}
+
+#validate {
+    padding: 14px;
+    width: 100%;
+    background: #111;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+#section-step4 button.correct {
+    background-color: #c6f6d5;
+    border-color: #38a169;
+    color: #22543d;
+}
+
+#section-step4 button.incorrect {
+    background-color: #fed7d7;
+    border-color: #e53e3e;
+    color: #742a2a;
+}
+
+.track {
+  position: relative;
+  /* On fixe une largeur raisonnable pour un mobile */
+  width: 80%; 
+  max-width: 300px; 
+  
+  /* On la centre horizontalement */
+  margin: 40px auto; 
+  
+  height: 40px;
+  display: flex;
+  align-items: center;
+  touch-action: none;
+  cursor: pointer;
+  /* debug: background: rgba(0,0,0,0.05); // active ça pour voir la zone de clic */
+}
+
+.line { 
+  width: 100%; 
+  height: 2px; 
+  background: black; 
+}
+
+.dot-fixed { 
+  position: absolute; 
+  background: black; 
+  border-radius: 50%; 
+  top: 50%; 
+  transform: translateY(-50%); 
+}
+
+.start { 
+  left: 0; 
+  width: 16px; 
+  height: 16px; 
+} /* Ton gros point */
+
+.end { 
+  right: 0; 
+  width: 8px; 
+  height: 8px; 
+}   /* Ton petit point */
+
+.thumb {
+  position: absolute;
+  left: 0;
+  width: 24px;
+  height: 24px;
+  background: black;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  display: flex;
+  justify-content: center;
+}
+
+#value-display { position: absolute; bottom: 30px; font-weight: bold; white-space: nowrap; }

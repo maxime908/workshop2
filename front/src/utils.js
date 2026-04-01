@@ -66,6 +66,25 @@ export async function updateScore(personality,score) {
     })
 }
 
+// Lire dans le fichier JSON (pour le desktop)
+export async function readJSONFile(file) {
+  try {
+
+    const response = await fetch(file);
+
+    if (!response.ok) {
+      throw new Error(`Erreur lors du chargement : ${response.status}`);
+    }
+
+    // On transforme la réponse en objet JavaScript utilisable
+    const data = await response.json();
+    return data;
+
+  } catch (error) {
+    console.error("Impossible de lire le fichier steps.json :", error);
+  }
+}
+
 
 
 // Gérer les deviceId
