@@ -63,6 +63,11 @@ async function showStep(step) {
 
     console.log(stepContent);
 
+    if (stepContent.data.length === 0) {
+        window.location.href = "../../stats/index.html";
+        return;
+    }
+
     stepContent = stepContent.data[0]
 
     stepContent = JSON.parse(stepContent.interaction)
