@@ -81,9 +81,9 @@
     }
 
     // Si il y a un paramètre name envoyer dans l'url cela récupère la personnalitée correspondante
-    $selectPersonalityStatement = $mysqlClient -> prepare("SELECT * FROM pages WHERE name LIKE :name");
+    $selectPersonalityStatement = $mysqlClient -> prepare("SELECT * FROM pages WHERE name = :name");
     $selectPersonalityStatement -> execute([
-        'name' => $_GET['name'] . '%',
+        'name' => $_GET['name'],
     ]);
     $selectPersonality = $selectPersonalityStatement -> fetch(PDO::FETCH_ASSOC);
 

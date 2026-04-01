@@ -20,8 +20,8 @@ if (stats.length === 0) {
 stats.forEach(element => {
     statsId.innerHTML += 
     `
-        <div class="gsap-anim">
-            <div class="p-3 card-hover card">
+        <div class="gsap-anim w-100">
+            <div class="p-3 card-hover card w-75 m-auto">
                 <div class="d-flex justify-content-between">
                     <div class="d-flex flex-column">
                         <span class="text-muted">

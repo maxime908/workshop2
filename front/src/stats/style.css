@@ -1,5 +1,5 @@
 section .gsap-anim {
-    transform: translateX(-150%);
+    transform: translateX(-100%);
 }
 
 section .card-hover {
