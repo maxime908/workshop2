@@ -37,8 +37,8 @@
                             <span>Etape : <?php echo $selectStep['number'] += 1; ?></span>
                         </div>
                         <?php if (!isset($_GET['update'])): ?>
-                            <p><?php echo $selectStep['question']; ?></p>
-                            <p><?php echo $selectStep['interaction']; ?></p>
+                            <p style="white-space: pre;"><?php echo $selectStep['question']; ?></p>
+                            <p style="white-space: pre;"><?php echo $selectStep['interaction']; ?></p>
                         <?php else: ?>
                             <?php if ($selectStep['id_step'] == $_GET['id']): ?>
                                 <textarea class="w-75" name="question"><?php echo $selectStep['question']; ?></textarea>
