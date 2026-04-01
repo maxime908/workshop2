@@ -1,0 +1,12 @@
+section .gsap-anim {
+    transform: translateX(-100%);
+}
+
+section .card-hover {
+    transition: 0.25s;
+}
+
+section .card-hover:hover {
+    scale: 1.05;
+    transition: 0.25s;
+}
