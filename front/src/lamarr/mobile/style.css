@@ -10,3 +10,62 @@
 
 .correct { background-color: green; }
 .incorrect { background-color: red; }
+
+
+.track {
+  position: relative;
+  /* On fixe une largeur raisonnable pour un mobile */
+  width: 80%; 
+  max-width: 300px; 
+  
+  /* On la centre horizontalement */
+  margin: 40px auto; 
+  
+  height: 40px;
+  display: flex;
+  align-items: center;
+  touch-action: none;
+  cursor: pointer;
+  /* debug: background: rgba(0,0,0,0.05); // active ça pour voir la zone de clic */
+}
+
+.line { 
+  width: 100%; 
+  height: 2px; 
+  background: black; 
+}
+
+.dot-fixed { 
+  position: absolute; 
+  background: black; 
+  border-radius: 50%; 
+  top: 50%; 
+  transform: translateY(-50%); 
+}
+
+.start { 
+  left: 0; 
+  width: 16px; 
+  height: 16px; 
+} /* Ton gros point */
+
+.end { 
+  right: 0; 
+  width: 8px; 
+  height: 8px; 
+}   /* Ton petit point */
+
+.thumb {
+  position: absolute;
+  left: 0;
+  width: 24px;
+  height: 24px;
+  background: black;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  display: flex;
+  justify-content: center;
+}
+
+#value-display { position: absolute; bottom: 30px; font-weight: bold; white-space: nowrap; }

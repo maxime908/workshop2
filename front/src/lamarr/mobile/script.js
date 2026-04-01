@@ -4,6 +4,11 @@ import { getAPI, createGame, getStep, getPersonnality } from "../../utils";
 // Nom de la personnalité utilisée pour toutes les requêtes API
 const personnality = "lamarr"
 
+const containerChoices = document.querySelector("#section-step2-events");
+const containerDates = document.querySelector("#section-step2-dates");
+
+const containerChoicesQuestion = document.querySelector("#section-step3-buttons");
+const containerQuestion = document.querySelector("#section-step3-questions");
 // Récupère les infos de la personnalité (nom, description, etc.)
 let allData = await getPersonnality(personnality)
 allData = allData.data
@@ -33,18 +38,17 @@ document.querySelector("#start").addEventListener("click", async () => {
     const result = await getStep("lamarr", 0);
     console.log(result.data)
 
+
     // Parse le JSON de la question pour récupérer les choix
     let choices = result.data[0].question;
     choices = JSON.parse(choices)
     choices = choices.choices
 
-    if (!choices) {
+    if (!choices ) {
         console.error("Erreur: choices introuvable", result);
         return;
     }
-
-    const containerChoices = document.querySelector("#section-step2-events");
-    const containerDates = document.querySelector("#section-step2-dates");
+    
 
     containerChoices.innerHTML = "";
     containerDates.innerHTML = "";
@@ -125,24 +129,108 @@ document.querySelector("#start").addEventListener("click", async () => {
     }
 })
 
-// Navigation étape 1 → étape 2
+/// Navigation étape 1 → étape 2
 document.querySelector("#step1").addEventListener("click", async () => {
-    document.querySelector("#step1").style.display = "none"
-    document.querySelector("#step2").style.display = "block"
-    showStep(1)
-})
+    // 1. On gère l'affichage initial
+    document.querySelector("#step1").style.display = "none";
+    document.querySelector("#section-step2").style.display = "none";
+    document.querySelector("#section-step3").style.display = "block";
+    
+    
+    // On cache le bouton de l'étape suivante pour forcer à répondre
+    document.querySelector("#step2").style.display = "none"; 
 
-// Navigation étape 2 → étape 3
+    showStep(1);
+
+    const result_question = await getStep("lamarr", 1);
+    let parsed = JSON.parse(result_question.data[0].question);
+    let choices_questions = parsed.choices;
+
+    if (!choices_questions) {
+        console.error("Erreur: choices introuvable", result_question);
+        return;
+    }
+
+    containerChoicesQuestion.innerHTML = "";
+    containerQuestion.innerHTML = "";
+
+    // Affichage de la question
+    const questions = document.createElement("p");
+    questions.textContent = parsed.question;
+    containerQuestion.appendChild(questions);
+
+    // 2. Création des boutons de choix
+    choices_questions.forEach(choice => {
+        const button = document.createElement("button");
+        button.textContent = choice.label; 
+        
+        button.addEventListener("click", () => {
+            if (choice.correct) {
+                button.classList.add("correct");
+                console.log("Bravo !");
+                // On affiche le bouton de l'étape suivante uniquement si c'est juste
+                document.querySelector("#step2").style.display = "block";
+            } else {
+                button.classList.add("incorrect");
+                console.log("Raté !");
+            }
+        });
+
+        containerChoicesQuestion.appendChild(button);
+    }); 
+});
+
+// Navigation étape 2 → étape 3/
 document.querySelector("#step2").addEventListener("click", () => {
     document.querySelector("#step2").style.display = "none"
     document.querySelector("#step3").style.display = "block"
+    document.querySelector("#section-step3").style.display = "none" 
+    document.querySelector("#section-step4").style.display = "block" 
     showStep(2)
-})
+
+    const track = document.getElementById('track');
+    const thumb = document.getElementById('thumb');
+    const display = document.getElementById('value-display');
+
+    const MAX_VALUE = 30000000;
+    let finalValue = 0; // C'est cette variable que tu utiliseras pour ton JSON
+
+        function updateSlider(e) {
+        const largeurBarre = track.offsetWidth; 
+        
+        // 2. On calcule la position du doigt (X) par rapport au début de la barre
+        let positionX = e.clientX - track.getBoundingClientRect().left;
+        let ratio = positionX / largeurBarre;
+        ratio = Math.max(0, Math.min(1, ratio));
+
+        // 4. MISE À JOUR VISUELLE : on déplace le bouton noir
+        thumb.style.left = (ratio * 100) + "%";
+
+        finalValue = Math.round(ratio * MAX_VALUE);
+        
+        // 6. ON AFFICHE LE TEXTE
+        display.textContent = finalValue.toLocaleString() + "$";
+    }
+
+    // Gestion des clics et mouvements
+    track.addEventListener('pointerdown', (e) => {
+        track.setPointerCapture(e.pointerId); // "Capture" le pointeur pour ne pas le perdre si on bouge vite
+        updateSlider(e);
+        
+        track.onpointermove = updateSlider; // Active le mouvement
+    });
+
+    track.addEventListener('pointerup', (e) => {
+        track.onpointermove = null; // Désactive le mouvement
+        console.log("Valeur finale choisie :", finalValue);
+    });
+});
 
 // Navigation étape 3 → retour au début
 document.querySelector("#step3").addEventListener("click", () => {
     document.querySelector("#step3").style.display = "none"
     document.querySelector("#start").style.display = "block"
+    document.querySelector("#section-step4").style.display = "none" 
     showStep(3)
 })
 
