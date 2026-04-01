@@ -89,22 +89,12 @@ async function showStep(step) {
         // Ici on gère l'affichage de l'intéraction 3
     } // ... et ainsi de suite si on souhaite ajouter des intéractions
 
-    // if (step == 1) {
-    //     document.querySelector("#step0").style.display = "none"
-    //     // Ici on gère l'affichage de l'intéraction 1
-    // } else if (step == 2) {
-    //     document.querySelector("#step1").style.display = "none"
-    //     // Ici on gère l'affichage de l'intéraction 2
-    // } else if (step == 3) {
-    //     // Ici on gère l'affichage de l'intéraction 3
-    // } // ... et ainsi de suite si on souhaite ajouter des intéractions
-
     // On créé un nouveau step
     const newStep = document.createElement("div");
     newStep.setAttribute("id", "step" + step)
     newStep.classList.add("step");
 
-    if (stepContent.type == "qcm1") {
+    if (stepContent.type === "qcm1") {
         // Ici on gère l'affichage du qcm avec 3 réponses
         newStep.innerHTML = `
         <h1>${stepContent.question}</h1>
@@ -124,7 +114,7 @@ async function showStep(step) {
 
                 if (!answered) {
                     answered = true
-                    if (element.textContent = stepContent.goodAnswer) {
+                    if (element.textContent === stepContent.goodAnswer) {
                         console.log("Bonne réponse !")
                         setParams(personnality, "goodAnswer")
                         showNextButton()
@@ -142,7 +132,7 @@ async function showStep(step) {
             })
 
         });
-    } else if (stepContent.type == "qcm2") {
+    } else if (stepContent.type === "qcm2") {
         // Ici on gère l'affichage du qcm avec 4 réponses
         newStep.innerHTML = `
         <h1>${stepContent.question}</h1>
@@ -163,7 +153,7 @@ async function showStep(step) {
 
                 if (!answered) {
                     answered = true
-                    if (element.textContent = stepContent.goodAnswer) {
+                    if (element.textContent === stepContent.goodAnswer) {
                         console.log("Bonne réponse !")
                         setParams(personnality, "goodAnswer")
                         showNextButton()
@@ -172,7 +162,7 @@ async function showStep(step) {
                         showNextButton()
 
                         document.querySelectorAll(".answer").forEach(element2 => {
-                            if (element2.textContent == stepContent.goodAnswer) {
+                            if (element2.textContent === stepContent.goodAnswer) {
                                 console.log("Bonne réponse !");
                             }
                         });
@@ -181,7 +171,7 @@ async function showStep(step) {
             })
 
         });
-    } else if (stepContent.type == "frise") {
+    } else if (stepContent.type === "frise") {
         // Ici on gère l'affichage de la frise chronologique
         newStep.innerHTML = `
         <h1>${stepContent.question}</h1>
