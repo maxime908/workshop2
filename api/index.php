@@ -43,6 +43,22 @@
     // return;
 
     if (!isset($_GET['name'])) {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $data = json_decode(file_get_contents('php://input'), true);
+
+            if (isset($data["device_id"])) {
+                $selectUsersAllStats = $mysqlClient -> prepare("SELECT * FROM game WHERE device_id = :device_id AND endDate IS NOT NULL");
+                $selectUsersAllStats -> execute([
+                    'device_id' => $data['device_id'],
+                ]);
+                $allUserStats = $selectUsersAllStats -> fetchAll(PDO::FETCH_ASSOC);
+
+                echo json_encode($allUserStats);
+            }
+
+            exit;
+        }
+
         $selectPersonalityStatement = $mysqlClient -> prepare("SELECT * FROM pages");
         $selectPersonalityStatement -> execute();
         $selectPersonality = $selectPersonalityStatement -> fetchAll(PDO::FETCH_ASSOC);
@@ -52,10 +68,9 @@
         exit;
     }
 
-
-    $selectPersonalityStatement = $mysqlClient -> prepare("SELECT * FROM pages WHERE name = :name");
+    $selectPersonalityStatement = $mysqlClient -> prepare("SELECT * FROM pages WHERE name LIKE :name");
     $selectPersonalityStatement -> execute([
-        'name' => $_GET['name'],
+        'name' => $_GET['name'] . '%',
     ]);
     $selectPersonality = $selectPersonalityStatement -> fetch(PDO::FETCH_ASSOC);
 
@@ -151,7 +166,7 @@
     }
 
     if (isset($_GET['params']) && $_SERVER['REQUEST_METHOD'] === "POST") {
-        $data = json_decode(file_get_contents("php://input"));
+        $data = json_decode(file_get_contents("php://input"), true);
 
         if (isset($data['params'])) {
             $json = null;
