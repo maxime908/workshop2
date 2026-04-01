@@ -3,6 +3,12 @@ import { getAPI, createGame, getStep, getPersonnality, setParams } from "../../u
 // Ici modifier avec le nom de votre personnalité
 const personnality = "tesla"
 
+// Step en cours
+let currentStep = 0
+
+// A répondu à la question ?
+let answered = false
+
 let allData = await getPersonnality(personnality)
 allData = allData.data
 
@@ -50,8 +56,21 @@ let stepContent;
 // Afficher un step
 async function showStep(step) {
 
+    hideNextButton()
+    setParams(personnality, "")
+
+    currentStep = step
+    answered = false
+
     // Cette variable contient toutes les infos d'une étape infos importantes : le nom (correspond à la question) et toutes les infos de l'intéraction en JSON
     stepContent = await getStep(personnality, step)
+
+    console.log(stepContent);
+
+    if (stepContent.data.length === 0) {
+        window.location.href = "../../stats/index.html";
+        return;
+    }
 
     stepContent = stepContent.data[0]
 
@@ -60,54 +79,138 @@ async function showStep(step) {
     console.log("J'ai getStep", step, "ça m'a donné", stepContent)
 
     if (step == 1) {
-        document.querySelector("#step0").style.display = "none"
+        hideStep(0)
         // Ici on gère l'affichage de l'intéraction 1
     } else if (step == 2) {
-        document.querySelector("#step1").style.display = "none"
+        hideStep(1)
         // Ici on gère l'affichage de l'intéraction 2
     } else if (step == 3) {
+        hideStep(2)
         // Ici on gère l'affichage de l'intéraction 3
     } // ... et ainsi de suite si on souhaite ajouter des intéractions
+
+    // if (step == 1) {
+    //     document.querySelector("#step0").style.display = "none"
+    //     // Ici on gère l'affichage de l'intéraction 1
+    // } else if (step == 2) {
+    //     document.querySelector("#step1").style.display = "none"
+    //     // Ici on gère l'affichage de l'intéraction 2
+    // } else if (step == 3) {
+    //     // Ici on gère l'affichage de l'intéraction 3
+    // } // ... et ainsi de suite si on souhaite ajouter des intéractions
 
     // On créé un nouveau step
     const newStep = document.createElement("div");
     newStep.setAttribute("id", "step" + step)
     newStep.classList.add("step");
-    newStep.innerHTML = `
-        <h1>Question ${step}</h1>
+
+    if (stepContent.type == "qcm1") {
+        // Ici on gère l'affichage du qcm avec 3 réponses
+        newStep.innerHTML = `
+        <h1>${stepContent.question}</h1>
         <button id="answer1" class="answer">${stepContent.answer1}</button>
         <button id="answer2" class="answer">${stepContent.answer2}</button>
         <button id="answer3" class="answer">${stepContent.answer3}</button>
         `
-    // <h1>${stepContent.question}</h1>
 
-    // On ajoute le nouveau step au body
-    document.body.appendChild(newStep)
+        // On ajoute le nouveau step au body
+        document.querySelector("#steps").appendChild(newStep)
 
+        // Quand on clique sur une réponse
+        document.querySelectorAll(".answer").forEach(element => {
 
-    // Quand on clique sur une réponse
-    document.querySelectorAll(".answer").forEach(element => {
-        element.addEventListener("click", () => {
-            if (element.textContent = stepContent.goodAnswer) {
-                console.log("Bonne réponse !")
-                setParams(personnality, "goodAnswer")
-                showNext()
-            } else {
-                setParams(personnality, "wrongAnswer")
-                showNext()
-            }
-        })
+            element.addEventListener("click", () => {
+                console.log("Cliqué", answered);
 
-    });
+                if (!answered) {
+                    answered = true
+                    if (element.textContent = stepContent.goodAnswer) {
+                        console.log("Bonne réponse !")
+                        setParams(personnality, "goodAnswer")
+                        showNextButton()
+                    } else {
+                        setParams(personnality, "wrongAnswer")
+                        showNextButton()
+
+                        document.querySelectorAll(".answer").forEach(element2 => {
+                            if (element2.textContent == stepContent.goodAnswer) {
+                                console.log("Bonne réponse !");
+                            }
+                        });
+                    }
+                }
+            })
+
+        });
+    } else if (stepContent.type == "qcm2") {
+        // Ici on gère l'affichage du qcm avec 4 réponses
+        newStep.innerHTML = `
+        <h1>${stepContent.question}</h1>
+        <button id="answer1" class="answer">${stepContent.answer1}</button>
+        <button id="answer2" class="answer">${stepContent.answer2}</button>
+        <button id="answer3" class="answer">${stepContent.answer3}</button>
+        <button id="answer4" class="answer">${stepContent.answer4}</button>
+        `
+
+        // On ajoute le nouveau step au body
+        document.querySelector("#steps").appendChild(newStep)
+
+        // Quand on clique sur une réponse
+        document.querySelectorAll(".answer").forEach(element => {
+
+            element.addEventListener("click", () => {
+                console.log("Cliqué", answered);
+
+                if (!answered) {
+                    answered = true
+                    if (element.textContent = stepContent.goodAnswer) {
+                        console.log("Bonne réponse !")
+                        setParams(personnality, "goodAnswer")
+                        showNextButton()
+                    } else {
+                        setParams(personnality, "wrongAnswer")
+                        showNextButton()
+
+                        document.querySelectorAll(".answer").forEach(element2 => {
+                            if (element2.textContent == stepContent.goodAnswer) {
+                                console.log("Bonne réponse !");
+                            }
+                        });
+                    }
+                }
+            })
+
+        });
+    } else if (stepContent.type == "frise") {
+        // Ici on gère l'affichage de la frise chronologique
+        newStep.innerHTML = `
+        <h1>${stepContent.question}</h1>
+        <div class="track" id="track">
+            <div class="line"></div>
+            <div class="dot-fixed start"></div> 
+            <div class="dot-fixed middle"></div> 
+            <div class="dot-fixed end"></div> 
+        </div>
+        `
+
+        // On ajoute le nouveau step au body
+        document.querySelector("#steps").appendChild(newStep)
+    }
 }
 
-function showNext() {
-    document.querySelector("#next").style.display = "flex"
+
+function hideStep(step) {
+    document.querySelector("#step" + step).style.display = "none"
 }
 
+function showNextButton() {
+    document.querySelector("#nextContainer").style.display = "flex"
+}
 
+function hideNextButton() {
+    document.querySelector("#nextContainer").style.display = "none"
+}
 
-// - Drag l'élément
-// - Pouvoir le Drop dans la bonne zone
-// - Si dans la bonne zone : je ne peux plus Drag
-// - Sinon toujours le laisser dans le Drop mais pouvoir le Drag 
+document.querySelector("#next").addEventListener("click", () => {
+    showStep(currentStep + 1)
+})
