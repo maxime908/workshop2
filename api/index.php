@@ -134,7 +134,7 @@
             $newGameStatement = $mysqlClient -> prepare("UPDATE game SET device_id = :device_id, endGame = :endDate, score = :score WHERE id_page = :id_page");
             $newGameStatement -> execute([
                 'device_id' => $data['device_id'],
-                'endDate' => $data['endDate'],
+                'endDate' => date("Y-m-d H:i:s"),
                 'score' => $data['score'],
                 'id_page' => $personality['id_page'],
             ]);
