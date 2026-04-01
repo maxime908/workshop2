@@ -151,7 +151,7 @@
     }
 
     if (isset($_GET['params']) && $_SERVER['REQUEST_METHOD'] === "POST") {
-        $data = json_decode(file_get_contents("php://input"));
+        $data = json_decode(file_get_contents("php://input"), true);
 
         if (isset($data['params'])) {
             $json = null;
