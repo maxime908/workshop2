@@ -98,14 +98,15 @@
         $json = null;
         $file = '../front/steps.json';
 
-        foreach ($personality as $value) {
-            $json = json_decode(file_get_contents($file), true);
-            // print_r(json_decode(file_get_contents($file), true));
-            // return;
-            foreach ($json as $key => $value2) {
-                if ($key === $_GET['name']) {
-                    $json[$key]['step'] = $value['number'];
-                    file_put_contents($file, json_encode($json), JSON_PRETTY_PRINT);
+
+        if ($personality) {
+            foreach ($personality as $value) {
+                $json = json_decode(file_get_contents($file), true);
+                foreach ($json as $key => $value2) {
+                    if ($key === $_GET['name']) {
+                        $json[$key]['step'] = $value['number'];
+                        file_put_contents($file, json_encode($json), JSON_PRETTY_PRINT);
+                    }
                 }
             }
         }
