@@ -29,6 +29,7 @@ createGameStatus = createGameStatus.data
 document.querySelector("#start").addEventListener("click", () => {
     document.querySelector("#start").style.display = "none"
     document.querySelector("#step1").style.display = "block"
+    document.querySelector("#section-step2").style.display = "block"
     showStep(0)
     if (createGameStatus) {
         // On affiche l'étape 1

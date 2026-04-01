@@ -12,6 +12,36 @@
 
     // print_r(json_encode($steps));
 
+    // $tabNull = [
+    //     "question" => "Replace les évenements a la date correspondante",
+    //     "choice" => [
+    //         "date" => [
+    //             "1914",
+    //             "1933",
+    //             "1937-1938",
+    //             "1942",
+    //             "2000",
+    //         ],
+    //         "name" => [
+    //             "Naissance",
+    //             "Grand scandale",
+    //             "Grand succès",
+    //             "Fuite de l’Europe",
+    //             "Décès",
+    //             "Mariage",
+    //             "Nouveau système de comm",
+    //             "Signe avec la MGM",
+    //         ],
+    //     ],
+    // ];
+
+    // $test = $mysqlClient -> prepare("UPDATE steps SET question = :question WHERE id_step = 1");
+    // $test -> execute([
+    //     "question" => json_encode($tabNull),
+    // ]);
+
+    // return;
+
     if (!isset($_GET['name'])) {
         $selectPersonalityStatement = $mysqlClient -> prepare("SELECT * FROM pages");
         $selectPersonalityStatement -> execute();

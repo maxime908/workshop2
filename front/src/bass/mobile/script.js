@@ -3,6 +3,9 @@ import { getAPI, createGame, getStep, getPersonnality, setParams } from "../../u
 // Ici modifier avec le nom de votre personnalité
 const personnality = "bass"
 
+// Step en cours
+let currentStep = 0
+
 let allData = await getPersonnality(personnality)
 allData = allData.data
 
@@ -32,15 +35,17 @@ buttonsStart.forEach(element => {
         let createGameStatus = await createGame("bass")
         createGameStatus = createGameStatus.data
 
-        if (createGameStatus) {
-            console.log("J'ai pu créer une game")
-            // On affiche l'étape 1
-            showStep(1)
-        } else {
-            dialog.showModal()
-            console.log("Je n'ai pas pu créer une game")
-            // Ici afficher l'info que quelqu'un joue déjà et qu'il faut attendre encore quelques instants
-        }
+        showStep(1)
+
+        // if (createGameStatus) {
+        //     console.log("J'ai pu créer une game")
+        //     // On affiche l'étape 1
+        //     showStep(1)
+        // } else {
+        //     dialog.showModal()
+        //     console.log("Je n'ai pas pu créer une game")
+        //     // Ici afficher l'info que quelqu'un joue déjà et qu'il faut attendre encore quelques instants
+        // }
     })
 });
 
@@ -48,6 +53,10 @@ let stepContent;
 
 // Afficher un step
 async function showStep(step) {
+    
+    hideNextButton()
+
+    currentStep = step
     
     // Cette variable contient toutes les infos d'une étape infos importantes : le nom (correspond à la question) et toutes les infos de l'intéraction en JSON
     stepContent = await getStep(personnality, step)
@@ -59,11 +68,13 @@ async function showStep(step) {
     console.log("J'ai getStep", step ,"ça m'a donné", stepContent)
 
     if (step == 1) {
-        document.querySelector("#step0").style.display = "none"
+        hideStep(0)
         // Ici on gère l'affichage de l'intéraction 1
     } else if (step == 2) {
+        hideStep(1)
         // Ici on gère l'affichage de l'intéraction 2
     } else if (step == 3) {
+        hideStep(2)
         // Ici on gère l'affichage de l'intéraction 3
     } // ... et ainsi de suite si on souhaite ajouter des intéractions
 
@@ -85,20 +96,31 @@ async function showStep(step) {
     // Quand on clique sur une réponse
     document.querySelectorAll(".answer").forEach(element => {
         element.addEventListener("click", () => {
-            if (element.textContent = stepContent.goodAnswer) {
+            if (element.textContent == stepContent.goodAnswer) {
                 console.log("Bonne réponse !")
                 setParams(personnality, "goodAnswer")
-                showNext()
+                showNextButton()
             } else {
                 setParams(personnality, "wrongAnswer")
-                showNext()
+                showNextButton()
             }
         })
         
     });
 }
 
-function showNext() {
+function hideStep(step) {
+    document.querySelector("#step" + step).style.display = "none"
+}
+
+function showNextButton() {
     document.querySelector("#next").style.display = "flex"
 }
 
+function hideNextButton() {
+    document.querySelector("#next").style.display = "none"
+}
+
+document.querySelector("#next").addEventListener("click", () => {
+    showStep(currentStep + 1)
+})

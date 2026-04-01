@@ -66,8 +66,8 @@ export function getDeviceId() {
 }
 
 export function createDeviceId() {
-    // const deviceId = crypto.randomUUID();
-    const deviceId = "TESTTESTTEST2456789"
+    const deviceId = crypto.randomUUID();
+    // const deviceId = "TESTTESTTEST2456789"
     localStorage.setItem("deviceId",JSON.stringify(deviceId))
     
     return deviceId
