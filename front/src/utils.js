@@ -37,6 +37,12 @@ export async function createGame(personality) {
     })
 }
 
+export async function setParams(personality, params) {
+    return axios.post(url + personality + "/params", {
+        params: params,
+    })
+}
+
 export async function updateGame(personality,deviceId, endDate, score) {
     return axios.patch(url + "/" + personality, {
         device_id: deviceId,
