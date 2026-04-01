@@ -266,4 +266,9 @@
   justify-content: center;
 }
 
-#value-display { position: absolute; bottom: 30px; font-weight: bold; white-space: nowrap; }
+#value-display { 
+    position: absolute; 
+    bottom: 30px; 
+    font-weight: bold; 
+    white-space: nowrap; 
+}
