@@ -121,14 +121,14 @@
     if (isset($_GET['params']) && $_SERVER['REQUEST_METHOD'] === "POST") {
         $data = json_decode(file_get_contents("php://input"));
 
-        if (isset($_POST['params'])) {
+        if (isset($data['params'])) {
             $json = null;
             $file = '../front/steps.json';
 
             $json = json_decode(file_get_contents($file), true);
             foreach ($json as $key => $value) {
                 if ($key === $_GET['name']) {
-                    $json[$key]['params'] = $_POST['params'];
+                    $json[$key]['params'] = $data['params'];
                     file_put_contents($file, json_encode($json), JSON_PRETTY_PRINT);
                 }
             }
