@@ -31,7 +31,7 @@
             <form action="gestion/update.php" method="post">
                 <div class="card p-3 d-flex flex-row justify-content-between align-items-center">
                     <input type="hidden" name="id" value="<?php echo $selectStep['id_step']; ?>">
-                    <div>
+                    <div class="w-100">
                         <div class="d-flex gap-5">
                             <span>Nom : <?php echo $selectStep['name']; ?></span>
                             <span>Etape : <?php echo $selectStep['number'] += 1; ?></span>
@@ -49,7 +49,7 @@
                     <?php if (!isset($_GET['update'])): ?>
                         <a href="?update=true&id=<?php echo $selectStep['id_step']; ?>" class="btn btn-primary">Modifier</a>
                     <?php else: ?>
-                        <div>
+                        <div class="d-flex gap-2">
                             <a href="admin.php" class="btn btn-secondary">Retour</a>
                             <button type="submit" class="btn btn-success">Valider</button>
                         </div>
