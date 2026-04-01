@@ -34,7 +34,7 @@ document.querySelector("#start").addEventListener("click", async () => {
    const result = await getStep("lamarr", 0);
 
     let choices = result.data[0].question;
-
+    console.log(result.data)
     choices = JSON.parse(choices)
 
     choices = choices.choices
@@ -49,7 +49,7 @@ document.querySelector("#start").addEventListener("click", async () => {
 
     containerChoices.innerHTML = "";
     containerDates.innerHTML = "";
-
+    const answers = []
     let selected = null
 
     containerChoices.addEventListener("click", (e) => {
@@ -69,8 +69,27 @@ document.querySelector("#start").addEventListener("click", async () => {
     const uniqueDates = [...new Set(choices.map(c => c.date))];
 
     containerDates.addEventListener("click", (e) => {
-    if (!selected) return
-        console.log("je place", selected.textContent, "sur la date", e.target.textContent)
+
+        
+        if (!selected) return
+        if (selected.dataset.date === e.target.textContent) {
+            console.log("bonne réponse !")
+        } else {
+            console.log("mauvaise réponse !")
+        }
+       answers.push({
+            name: selected.textContent,
+            placedDate: e.target.textContent,
+            correctDate: selected.dataset.date,
+            correct: selected.dataset.date === e.target.textContent ? 1 : 0
+        })
+        if (selected.dataset.date === e.target.textContent) {
+            selected.classList.add("correct")
+        } else {
+            selected.classList.add("incorrect")
+        }
+        selected = null
+        console.log(answers)
     })
 
     uniqueDates.forEach(date => {
