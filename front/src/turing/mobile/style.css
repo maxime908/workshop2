@@ -34,11 +34,12 @@ body {
     text-align: center;
     letter-spacing: 5px;
     box-shadow: inset 0px 4px 8px rgba(0,0,0,0.2);
+    display: block;
 }
 
 /* --- PANNEAUX (LAMPES ET CLAVIER) --- */
 .lamp-board, .keyboard-container {
-    display: flex;
+    display: flex block;
     flex-wrap: wrap;
     justify-content: center;
     max-width: 650px;
