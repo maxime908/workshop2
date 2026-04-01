@@ -51,10 +51,11 @@ document.querySelector("#step3").addEventListener("click", ()=>{
     document.querySelector("#start").style.display = "block"
 })
 
-const letterShow = document.createElement("div");
-const clavier = document.createElement("div");
-const TextInput = document.createElement("input");
 
+
+let letterShow
+let clavier
+let TextInput
 
 
 async function showStep(step) {
@@ -63,6 +64,10 @@ async function showStep(step) {
     
 
     if (step == 1) {
+
+        letterShow = document.createElement("div");
+        clavier = document.createElement("div");
+        TextInput = document.createElement("input");
        
         clavier.classList.add("keyboard-container");
         letterShow.classList.add("lamp-board"); 
@@ -82,9 +87,16 @@ async function showStep(step) {
                 'W', 'X', 'C', 'V', 'B', 'N'
             ];
 
+            const supp = document.createElement("button");
+            supp.innerText="supprimer"
+            
+
+
             touchesEnigma.forEach(lettre => {
                 const toucheLum = document.createElement("div");
                 const touche = document.createElement("button");
+                
+                
                 
                 toucheLum.textContent = lettre;
                 touche.textContent = lettre;
@@ -116,9 +128,14 @@ async function showStep(step) {
                     }
                 });
 
+                supp.addEventListener("click",() => {
+                    TextInput.value =""
+                })
+
                 letterShow.appendChild(toucheLum);
                 clavier.appendChild(touche);
             });
+            clavier.appendChild(supp)
             
         
             document.querySelector("body").appendChild(TextInput);
@@ -129,9 +146,11 @@ async function showStep(step) {
     else if (step == 2) {
         console.log("harry potter2")
         document.querySelector("#title").textContent = stepContent.name
-        clavier.style.display="none"
-        letterShow.style.display="none"
-        TextInput.style.display="none"
+        clavier.remove()
+        TextInput.remove()
+        letterShow.remove()
+
+
 
     } else if (step == 3) {
         console.log("harry potter3")
