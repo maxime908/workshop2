@@ -51,22 +51,88 @@ document.querySelector("#step3").addEventListener("click", ()=>{
     document.querySelector("#start").style.display = "block"
 })
 
+const letterShow = document.createElement("div");
+const clavier = document.createElement("div");
+const TextInput = document.createElement("input");
+
+
 
 async function showStep(step) {
-
-    // Cette variable contient toutes les infos d'une étape infos importantes : le nom (correspond à la question) et toutes les infos de l'intéraction en JSON
     let stepContent = await getStep(personnality, step)
-
-    stepContent=stepContent.data
-
-    console.log("J'ai getStep", step ,"ça m'a donné", stepContent)
+    stepContent = stepContent.data
+    
 
     if (step == 1) {
-        console.log("harry potter")
-        document.querySelector("#title").textContent = stepContent.name
-    } else if (step == 2) {
+       
+        clavier.classList.add("keyboard-container");
+        letterShow.classList.add("lamp-board"); 
+        TextInput.classList.add("secret-input");
+
+
+
+        if (clavier.children.length === 0) {
+            
+            const Alphabet = ['A','B','C','D','E','F','G','H','I','J',
+                'K','L','M','N','O','P','Q','R','S','T','U','V',
+                'W','X','Y','Z'];
+
+            const touchesEnigma = [
+                'A', 'Z', 'E', 'R', 'T', 'Y', 'U', 'I', 'O','P', 
+                'Q', 'S', 'D', 'F', 'G', 'H', 'J','K', 'L', 'M',
+                'W', 'X', 'C', 'V', 'B', 'N'
+            ];
+
+            touchesEnigma.forEach(lettre => {
+                const toucheLum = document.createElement("div");
+                const touche = document.createElement("button");
+                
+                toucheLum.textContent = lettre;
+                touche.textContent = lettre;
+                
+                touche.classList.add("key");
+                toucheLum.classList.add("lamp");
+                
+                
+                toucheLum.dataset.lettre = lettre; 
+
+                touche.addEventListener("click", () => {
+                    let indexActuel = Alphabet.indexOf(lettre);
+                    let nouvelIndex = (indexActuel + 3) % Alphabet.length; 
+                    let lettreChiffree = Alphabet[nouvelIndex];
+                    
+                    TextInput.value += lettreChiffree;
+
+
+                    const lampeAAllumer = letterShow.querySelector(`[data-lettre="${lettreChiffree}"]`);
+                    
+                    if (lampeAAllumer) {
+                        
+                        lampeAAllumer.classList.add("lit");
+                        
+                
+                        setTimeout(() => {
+                            lampeAAllumer.classList.remove("lit");
+                        }, 500);
+                    }
+                });
+
+                letterShow.appendChild(toucheLum);
+                clavier.appendChild(touche);
+            });
+            
+        
+            document.querySelector("body").appendChild(TextInput);
+            document.querySelector("body").appendChild(letterShow);
+            document.querySelector("body").appendChild(clavier); 
+        }
+    }
+    else if (step == 2) {
         console.log("harry potter2")
         document.querySelector("#title").textContent = stepContent.name
+        clavier.style.display="none"
+        letterShow.style.display="none"
+        TextInput.style.display="none"
+
     } else if (step == 3) {
         console.log("harry potter3")
         document.querySelector("#title").textContent = stepContent.name
