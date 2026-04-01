@@ -13,7 +13,7 @@ Pour commencer, vous devez récupérer les fichiers sources depuis le dépôt Gi
 2.  **Se déplacer dans le projet** :
     Entrez dans le dossier principal qui vient d'être créé.
     ```bash
-    cd <NOM_DU_PROJET>
+    cd workshop2
     ```
 
 ---
