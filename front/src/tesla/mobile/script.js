@@ -105,3 +105,9 @@ function showNext() {
     document.querySelector("#next").style.display = "flex"
 }
 
+
+
+// - Drag l'élément
+// - Pouvoir le Drop dans la bonne zone
+// - Si dans la bonne zone : je ne peux plus Drag
+// - Sinon toujours le laisser dans le Drop mais pouvoir le Drag 
