@@ -94,6 +94,8 @@
 
         foreach ($personality as $value) {
             $json = json_decode(file_get_contents($file), true);
+            // print_r(json_decode(file_get_contents($file), true));
+            // return;
             foreach ($json as $key => $value2) {
                 if ($key === $_GET['name']) {
                     $json[$key]['step'] = $value['number'];
