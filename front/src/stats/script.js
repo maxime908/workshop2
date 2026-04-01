@@ -8,8 +8,15 @@ stats = stats.data;
 const statsId = document.getElementById("stats");
 let i = 1;
 
+if (stats.length === 0) {
+    statsId.innerHTML = "Aucune parties jouées sur cet appareil !"; 
+    statsId.style.alignItems = "center";
+    statsId.style.justifyContent = "center";
+    statsId.style.height = "100vh";
+    document.querySelector("main").classList.remove("p-5")
+}
+
 stats.forEach(element => {
-    console.log(`score pour le device ${element.device_id} : ${element.score}`)
     statsId.innerHTML += 
     `
         <div class="card">
@@ -17,6 +24,9 @@ stats.forEach(element => {
                 <div class="d-flex flex-column">
                     <span class="text-muted">
                         ${i}
+                    </span>
+                    <span>
+                        Personnalité(e) choisi : ${element.name}
                     </span>
                     <span>
                         score : ${element.score}
@@ -31,5 +41,3 @@ stats.forEach(element => {
     scoreTot += element.score; 
     i++;
 });
-
-console.log(`Le score total est de : ${scoreTot}`);

@@ -47,7 +47,13 @@
             $data = json_decode(file_get_contents('php://input'), true);
 
             if (isset($data["device_id"])) {
-                $selectUsersAllStats = $mysqlClient -> prepare("SELECT * FROM game WHERE device_id = :device_id AND endDate IS NOT NULL");
+                $selectUsersAllStats = $mysqlClient -> prepare(
+                    "SELECT * 
+                    FROM game
+                    INNER JOIN pages
+                    ON game.id_page = pages.id_page
+                    WHERE device_id = :device_id 
+                    AND endDate IS NOT NULL");
                 $selectUsersAllStats -> execute([
                     'device_id' => $data['device_id'],
                 ]);
