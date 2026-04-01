@@ -18,8 +18,6 @@
         $selectPersonality = $selectPersonalityStatement -> fetchAll(PDO::FETCH_ASSOC);
 
         print_r(json_encode($selectPersonality));
-
-        exit;
     }
 
 
@@ -47,11 +45,11 @@
         $json = null;
         $file = '../front/steps.json';
 
-        if (str_contains(strval($_GET['id']), ".")) {
+        foreach ($personality as $value) {
             $json = json_decode(file_get_contents($file), true);
-            foreach ($json as $key => $value) {
+            foreach ($json as $key => $value2) {
                 if ($key === $_GET['name']) {
-                    $json[$key]['step'] = floatval($_GET['id']);
+                    $json[$key]['step'] = $value['number'];
                     file_put_contents($file, json_encode($json), JSON_PRETTY_PRINT);
                 }
             }
@@ -64,7 +62,6 @@
 
     if ($_SERVER['REQUEST_METHOD'] === "PATCH") {
         $data = json_decode(file_get_contents('php://input'), true);
-
         if ($data['device_id'] && $data['endDate'] && $data["score"]) {
             $newGameStatement = $mysqlClient -> prepare("UPDATE game SET device_id = :device_id, endGame = :endDate, score = :score WHERE id_page = :id_page");
             $newGameStatement -> execute([
@@ -124,14 +121,16 @@
     if (isset($_GET['params']) && $_SERVER['REQUEST_METHOD'] === "POST") {
         $data = json_decode(file_get_contents("php://input"));
 
-        $json = null;
-        $file = '../front/steps.json';
+        if (isset($_POST['params'])) {
+            $json = null;
+            $file = '../front/steps.json';
 
-        $json = json_decode(file_get_contents($file), true);
-        foreach ($json as $key => $value) {
-            if ($key === $_GET['name']) {
-                $json[$key]['params'] = $_GET['params'];
-                file_put_contents($file, json_encode($json), JSON_PRETTY_PRINT);
+            $json = json_decode(file_get_contents($file), true);
+            foreach ($json as $key => $value) {
+                if ($key === $_GET['name']) {
+                    $json[$key]['params'] = $_POST['params'];
+                    file_put_contents($file, json_encode($json), JSON_PRETTY_PRINT);
+                }
             }
         }
 
