@@ -42,10 +42,15 @@
 
     // return;
 
+
+    // Pour verifier si un paramètre name n'est pas envoyé dans l'url
     if (!isset($_GET['name'])) {
+        // Verifier la methode de la requête
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            // Récuper donner envoyer en POST
             $data = json_decode(file_get_contents('php://input'), true);
 
+            // Récuper les stats de l'utilisateur qui est entrain de jouer
             if (isset($data["device_id"])) {
                 $selectUsersAllStats = $mysqlClient -> prepare(
                     "SELECT * 
@@ -65,6 +70,7 @@
             exit;
         }
 
+        // Récuper les personnalitées
         $selectPersonalityStatement = $mysqlClient -> prepare("SELECT * FROM pages");
         $selectPersonalityStatement -> execute();
         $selectPersonality = $selectPersonalityStatement -> fetchAll(PDO::FETCH_ASSOC);
@@ -74,6 +80,7 @@
         exit;
     }
 
+    // Si il y a un paramètre name envoyer dans l'url cela récupère la personnalitée correspondante
     $selectPersonalityStatement = $mysqlClient -> prepare("SELECT * FROM pages WHERE name LIKE :name");
     $selectPersonalityStatement -> execute([
         'name' => $_GET['name'] . '%',
@@ -82,19 +89,21 @@
 
     $personality = $selectPersonality;
 
-    if (isset($_GET['id'])) {
+    // Vérifier si un numéro d'étape est envoyer dans l'url et si c'est le cas récupérer l'étape correspondant à la personnalitée choisie 
+    if (isset($_GET['step'])) {
         $selectStepsStatement = $mysqlClient -> prepare(
             "SELECT * 
             FROM steps
             INNER JOIN pages_steps
             ON pages_steps.id_step = steps.id_step
             WHERE {$personality['id_page']} = pages_steps.id_page
-            AND steps.number = {$_GET['id']}");
+            AND steps.number = {$_GET['step']}");
         $selectStepsStatement -> execute();
         $selectSteps = $selectStepsStatement -> fetchAll(PDO::FETCH_ASSOC);
 
         $personality = $selectSteps;
 
+        // Pour update le json et y passé le bonne étape à la bonne personnalitée
         $json = null;
         $file = '../front/steps.json';
 
@@ -116,8 +125,11 @@
         exit;
     }
 
+
+    // Pour finir une game
     if ($_SERVER['REQUEST_METHOD'] === "PATCH") {
         $data = json_decode(file_get_contents('php://input'), true);
+
         if ($data['device_id'] && $data['endDate'] && $data["score"]) {
             $newGameStatement = $mysqlClient -> prepare("UPDATE game SET device_id = :device_id, endGame = :endDate, score = :score WHERE id_page = :id_page");
             $newGameStatement -> execute([
@@ -131,6 +143,7 @@
         }
     }
 
+    // Crée une game et verifier si le dernière utilsateur qui à lancé une game sa fait plus de 5 minutes qu'il l'a lancé 
     if (!isset($_GET['params']) && $_SERVER['REQUEST_METHOD'] === "POST") {
         $data = json_decode(file_get_contents('php://input'), true);
         
@@ -174,6 +187,7 @@
         exit;
     }
 
+    // Pour update le param du json
     if (isset($_GET['params']) && $_SERVER['REQUEST_METHOD'] === "POST") {
         $data = json_decode(file_get_contents("php://input"), true);
 
@@ -193,6 +207,7 @@
         exit;
     }
 
+    // Pour savoir si aucune personnalité a été trouvé
     if (!$personality) {
         echo "Aucune personnalité trouvé";
         exit;

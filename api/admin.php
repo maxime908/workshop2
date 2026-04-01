@@ -29,7 +29,7 @@
     <section class="p-5 d-flex flex-column gap-3">
         <?php foreach ($selectSteps as $selectStep): ?>
             <form action="gestion/update.php" method="post">
-                <div class="card p-3 d-flex flex-row justify-content-between align-items-center">
+                <div class="card p-3 d-flex flex-row justify-content-between align-items-start">
                     <input type="hidden" name="id" value="<?php echo $selectStep['id_step']; ?>">
                     <div class="w-100">
                         <div class="d-flex gap-5">
@@ -42,7 +42,7 @@
                         <?php else: ?>
                             <?php if ($selectStep['id_step'] == $_GET['id']): ?>
                                 <textarea class="w-75" name="question"><?php echo $selectStep['question']; ?></textarea>
-                                <textarea class="w-75" name="interaction"><?php echo $selectStep['interaction']; ?></textarea>
+                                <textarea class="w-75 h-100" name="interaction"><?php echo $selectStep['interaction']; ?></textarea>
                             <?php endif; ?>
                         <?php endif; ?>
                     </div>
