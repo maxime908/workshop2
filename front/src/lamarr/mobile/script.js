@@ -27,7 +27,6 @@ document.querySelector("#desc").textContent = allData.description
 let createGameStatus = await createGame("lamarr")
 createGameStatus = createGameStatus.data
 
-
 document.querySelector("#start").addEventListener("click", async () => {
     // Cache le bouton start et affiche l'étape 0
     document.querySelector("#start").style.display = "none"
@@ -68,7 +67,8 @@ document.querySelector("#start").addEventListener("click", async () => {
     choices.forEach(choice => {
         const button = document.createElement("button");
         button.textContent = choice.name;
-        button.dataset.date = choice.date; // date correcte stockée en dataset
+        button.dataset.date = choice.date;
+        button.classList.add("chip")  // ajoute ça
         containerChoices.appendChild(button);
     });
 
@@ -79,12 +79,17 @@ document.querySelector("#start").addEventListener("click", async () => {
     containerDates.addEventListener("click", (e) => {
         if (!selected) return
 
-        // Stocke la réponse du joueur (correct = 1 si bonne réponse, 0 sinon)
+        const row = e.target.closest(".timeline-row")
+        if (!row) return
+
+        const chipsZone = row.querySelector(".chips-zone")
+        chipsZone.appendChild(selected)
+
         answers.push({
             name: selected.textContent,
-            placedDate: e.target.textContent,
+            placedDate: row.dataset.date,
             correctDate: selected.dataset.date,
-            correct: selected.dataset.date === e.target.textContent ? 1 : 0
+            correct: selected.dataset.date == row.dataset.date ? 1 : 0
         })
 
         selected = null
@@ -92,11 +97,22 @@ document.querySelector("#start").addEventListener("click", async () => {
     })
 
     // Crée un bouton pour chaque date unique de la frise
-    uniqueDates.forEach(date => {
-        const button = document.createElement("button");
-        button.textContent = date;
-        containerDates.appendChild(button);
-    });
+   uniqueDates.forEach(date => {
+        const row = document.createElement("div")
+        row.classList.add("timeline-row")
+        row.dataset.date = date
+
+        const label = document.createElement("span")
+        label.classList.add("date-label")
+        label.textContent = date
+
+        const chipsZone = document.createElement("div")
+        chipsZone.classList.add("chips-zone")
+
+        row.appendChild(label)
+        row.appendChild(chipsZone)
+        containerDates.appendChild(row)
+    })
 
     // Quand on clique sur Soumettre
     document.querySelector("#submit").addEventListener("click", () => {
@@ -106,9 +122,8 @@ document.querySelector("#start").addEventListener("click", async () => {
             return
         }
 
-        // Colorie chaque bouton en vert (correct) ou rouge (incorrect)
         answers.forEach(answer => {
-            const buttons = containerChoices.querySelectorAll("button")
+            const buttons = containerDates.querySelectorAll("button")
             buttons.forEach(btn => {
                 if (btn.textContent === answer.name) {
                     btn.classList.add(answer.correct === 1 ? "correct" : "incorrect")
@@ -116,8 +131,39 @@ document.querySelector("#start").addEventListener("click", async () => {
             })
         })
 
-        // Passe à l'étape suivante après 2 secondes
-        setTimeout(() => document.querySelector("#step1").click(), 2000)
+       // Quand on clique sur Soumettre
+        document.querySelector("#submit").addEventListener("click", () => {
+            if (answers.length < choices.length) {
+                console.log("Tu n'as pas placé tous les événements !");
+                return;
+            }
+
+            // On récupère tous les boutons d'événements créés au début
+            const eventButtons = containerChoices.querySelectorAll("button");
+
+            answers.forEach(answer => {
+                // On cherche le bouton qui correspond à cet événement
+                eventButtons.forEach(btn => {
+                    if (btn.textContent === answer.name) {
+                        // On ajoute la classe selon si c'est correct (1) ou pas (0)
+                        if (answer.correct === 1) {
+                            btn.classList.add("correct");
+                            btn.classList.remove("incorrect"); // Sécurité
+                        } else {
+                            btn.classList.add("incorrect");
+                            btn.classList.remove("correct");
+                        }
+                    }
+                });
+            });
+
+            console.log("Résultats affichés !");
+
+            // Passage à l'étape suivante après 2 secondes
+            setTimeout(() => {
+                document.querySelector("#step1").click();
+            }, 2000);
+        });
     })
 
     showStep(0)
@@ -181,7 +227,7 @@ document.querySelector("#step1").addEventListener("click", async () => {
 });
 
 // Navigation étape 2 → étape 3/
-document.querySelector("#step2").addEventListener("click", () => {
+document.querySelector("#step2").addEventListener("click", async() => {
     document.querySelector("#step2").style.display = "none"
     document.querySelector("#step3").style.display = "block"
     document.querySelector("#section-step3").style.display = "none" 
@@ -196,21 +242,21 @@ document.querySelector("#step2").addEventListener("click", () => {
     let finalValue = 0; // C'est cette variable que tu utiliseras pour ton JSON
 
         function updateSlider(e) {
-        const largeurBarre = track.offsetWidth; 
-        
-        // 2. On calcule la position du doigt (X) par rapport au début de la barre
-        let positionX = e.clientX - track.getBoundingClientRect().left;
-        let ratio = positionX / largeurBarre;
-        ratio = Math.max(0, Math.min(1, ratio));
+            const largeurBarre = track.offsetWidth; 
+            
+            // 2. On calcule la position du doigt (X) par rapport au début de la barre
+            let positionX = e.clientX - track.getBoundingClientRect().left;
+            let ratio = positionX / largeurBarre;
+            ratio = Math.max(0, Math.min(1, ratio));
 
-        // 4. MISE À JOUR VISUELLE : on déplace le bouton noir
-        thumb.style.left = (ratio * 100) + "%";
+            // 4. MISE À JOUR VISUELLE : on déplace le bouton noir
+            thumb.style.left = (ratio * 100) + "%";
 
-        finalValue = Math.round(ratio * MAX_VALUE);
-        
-        // 6. ON AFFICHE LE TEXTE
-        display.textContent = finalValue.toLocaleString() + "$";
-    }
+            finalValue = Math.round(ratio * MAX_VALUE);
+            
+            // 6. ON AFFICHE LE TEXTE
+            display.textContent = finalValue.toLocaleString() + "$";
+        }
 
     // Gestion des clics et mouvements
     track.addEventListener('pointerdown', (e) => {
@@ -224,6 +270,25 @@ document.querySelector("#step2").addEventListener("click", () => {
         track.onpointermove = null; // Désactive le mouvement
         console.log("Valeur finale choisie :", finalValue);
     });
+
+   
+    const stepData = await getStep(personnality, 2)
+    const parsed = JSON.parse(stepData.data[0].question)
+
+    document.querySelector("#step4-question").textContent = parsed.question
+    document.querySelector("#validate").classList.remove("correct", "incorrect")
+    document.querySelector("#validate").textContent = "Valider"
+
+    document.querySelector("#validate").addEventListener("click", async () => {
+        if (finalValue <= 1000) {
+            document.querySelector("#validate").classList.add("correct")
+            document.querySelector("#validate").textContent = parsed.message
+        } else {
+            document.querySelector("#validate").classList.add("incorrect")
+            document.querySelector("#validate").textContent = "Mauvaise réponse, réessaie !"
+        }
+        setTimeout(() => document.querySelector("#step3").click(), 5000)
+    })
 });
 
 // Navigation étape 3 → retour au début
