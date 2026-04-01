@@ -68,6 +68,13 @@ async function showStep(step) {
     // Cette variable contient toutes les infos d'une étape infos importantes : le nom (correspond à la question) et toutes les infos de l'intéraction en JSON
     stepContent = await getStep(personnality, step)
 
+    console.log(stepContent);
+
+    if (stepContent.data.length === 0) {
+        window.location.href = "../../stats/index.html";
+        return;
+    }
+
     stepContent = stepContent.data[0]
 
     stepContent = JSON.parse(stepContent.interaction)

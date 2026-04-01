@@ -22,6 +22,14 @@ export function getStep(personality, step) {
         .catch(err => console.log(err));
 }
 
+export function getStats(device_id) {
+    return axios.post(url, {
+        device_id: device_id
+    })
+    .then(response => response)
+    .catch(err => console.log(err));
+}
+
 export async function createGame(personality) {
     let deviceId = getDeviceId()
     

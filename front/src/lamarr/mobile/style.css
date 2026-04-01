@@ -1,4 +1,4 @@
-@import url('/front/reset.css');
+@import url('../../../reset.css');
 
 #name {
   color: #2563eb;       
@@ -7,3 +7,6 @@
   margin-bottom: 10px;  
   text-transform: capitalize; 
 }
+
+.correct { background-color: green; }
+.incorrect { background-color: red; }
