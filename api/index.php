@@ -81,9 +81,9 @@
     }
 
     // Si il y a un paramètre name envoyer dans l'url cela récupère la personnalitée correspondante
-    $selectPersonalityStatement = $mysqlClient -> prepare("SELECT * FROM pages WHERE name LIKE :name");
+    $selectPersonalityStatement = $mysqlClient -> prepare("SELECT * FROM pages WHERE name = :name");
     $selectPersonalityStatement -> execute([
-        'name' => $_GET['name'] . '%',
+        'name' => $_GET['name'],
     ]);
     $selectPersonality = $selectPersonalityStatement -> fetch(PDO::FETCH_ASSOC);
 
@@ -134,7 +134,7 @@
             $newGameStatement = $mysqlClient -> prepare("UPDATE game SET device_id = :device_id, endGame = :endDate, score = :score WHERE id_page = :id_page");
             $newGameStatement -> execute([
                 'device_id' => $data['device_id'],
-                'endDate' => $data['endDate'],
+                'endDate' => date("Y-m-d H:i:s"),
                 'score' => $data['score'],
                 'id_page' => $personality['id_page'],
             ]);

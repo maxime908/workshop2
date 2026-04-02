@@ -1,71 +1,282 @@
 @import url('../../../reset.css');
 
-#name {
-  color: #2563eb;       
-  font-size: 24px;      
-  font-weight: bold;    
-  margin-bottom: 10px;  
-  text-transform: capitalize; 
+/* ── PAGE GÉNÉRALE ── */
+body {
+    background: #e8d5c0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    font-family: sans-serif;
 }
 
-.correct { background-color: green; }
-.incorrect { background-color: red; }
+h1#title {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 4px;
+    text-align: center;
+}
 
+p#desc {
+    font-size: 13px;
+    color: #555;
+    text-align: center;
+    margin-bottom: 16px;
+}
+
+#start {
+    padding: 14px 32px;
+    background: #7a2a3a;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 16px;
+}
+
+/* ── SECTION FRISE (étape 0) ── */
+#section-step2 {
+    background: white;
+    border-radius: 20px;
+    padding: 20px;
+    width: 100%;
+    max-width: 360px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+#section-step2 h2 {
+    font-size: 13px;
+    font-weight: 600;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+}
+
+/* Chips événements en haut */
+#section-step2-events {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+/* Chip de base */
+.chip {
+    padding: 7px 14px;
+    border: 1.5px solid #ccc;
+    border-radius: 20px;
+    background: white;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+/* Frise verticale */
+#section-step2-dates {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    border-left: 2px solid #333;
+    padding-left: 20px;
+}
+
+/* Chaque ligne date + chips */
+.timeline-row {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    position: relative;
+}
+
+/* Point sur la frise */
+.timeline-row::before {
+    content: '';
+    position: absolute;
+    left: -26px;
+    top: 5px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #333;
+}
+
+/* Label de la date */
+.date-label {
+    font-weight: 700;
+    font-size: 13px;
+    color: #222;
+}
+
+/* Zone des chips placées sous chaque date */
+.chips-zone {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    min-height: 36px;
+}
+
+/* Correct / incorrect sur les chips */
+.chip.correct,
+#section-step2-dates button.correct {
+    background-color: #c6f6d5;
+    border-color: #38a169;
+    color: #22543d;
+}
+
+.chip.incorrect,
+#section-step2-dates button.incorrect {
+    background-color: #fed7d7;
+    border-color: #e53e3e;
+    color: #742a2a;
+}
+
+/* Bouton soumettre */
+#submit {
+    padding: 14px;
+    width: 100%;
+    background: #7a2a3a;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 4px;
+}
+
+/* ── SECTION QCM (étape 1) ── */
+#section-step3 {
+    background: white;
+    border-radius: 20px;
+    padding: 24px 20px;
+    width: 100%;
+    max-width: 360px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+#section-step3-questions p {
+    font-size: 16px;
+    font-weight: 600;
+    text-align: center;
+    line-height: 1.5;
+    color: #111;
+}
+
+#section-step3-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#section-step3-buttons button {
+    width: 100%;
+    padding: 14px;
+    border: 1.5px solid #ccc;
+    border-radius: 10px;
+    background: white;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+#section-step3-buttons button.correct {
+    background-color: #c6f6d5;
+    border-color: #38a169;
+    color: #22543d;
+}
+
+#section-step3-buttons button.incorrect {
+    background-color: #fed7d7;
+    border-color: #e53e3e;
+    color: #742a2a;
+}
+
+#step2 {
+    padding: 14px 32px;
+    background: #7a2a3a;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 8px;
+    width: 100%;
+    max-width: 360px;
+}
+
+/* ── SECTION SLIDER (étape 2) ── */
+#section-step4 {
+    background: white;
+    border-radius: 20px;
+    padding: 40px 20px;
+    width: 100%;
+    max-width: 360px;
+}
 
 .track {
-  position: relative;
-  /* On fixe une largeur raisonnable pour un mobile */
-  width: 80%; 
-  max-width: 300px; 
-  
-  /* On la centre horizontalement */
-  margin: 40px auto; 
-  
-  height: 40px;
-  display: flex;
-  align-items: center;
-  touch-action: none;
-  cursor: pointer;
-  /* debug: background: rgba(0,0,0,0.05); // active ça pour voir la zone de clic */
+    position: relative;
+    width: 80%;
+    max-width: 300px;
+    margin: 40px auto;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    touch-action: none;
+    cursor: pointer;
 }
 
-.line { 
-  width: 100%; 
-  height: 2px; 
-  background: black; 
+.line {
+    width: 100%;
+    height: 2px;
+    background: black;
 }
 
-.dot-fixed { 
-  position: absolute; 
-  background: black; 
-  border-radius: 50%; 
-  top: 50%; 
-  transform: translateY(-50%); 
+.dot-fixed {
+    position: absolute;
+    background: black;
+    border-radius: 50%;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
-.start { 
-  left: 0; 
-  width: 16px; 
-  height: 16px; 
-} /* Ton gros point */
+.start {
+    left: 0;
+    width: 16px;
+    height: 16px;
+}
 
-.end { 
-  right: 0; 
-  width: 8px; 
-  height: 8px; 
-}   /* Ton petit point */
+.end {
+    right: 0;
+    width: 8px;
+    height: 8px;
+}
 
 .thumb {
-  position: absolute;
-  left: 0;
-  width: 24px;
-  height: 24px;
-  background: black;
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-  top: 50%;
-  display: flex;
-  justify-content: center;
+    position: absolute;
+    left: 0;
+    width: 24px;
+    height: 24px;
+    background: black;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    display: flex;
+    justify-content: center;
 }
 
-#value-display { position: absolute; bottom: 30px; font-weight: bold; white-space: nowrap; }
+#value-display {
+    position: absolute;
+    bottom: 30px;
+    font-weight: bold;
+    white-space: nowrap;
+}

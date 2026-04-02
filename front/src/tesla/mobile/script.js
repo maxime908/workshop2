@@ -3,6 +3,15 @@ import { getAPI, createGame, getStep, getPersonnality, setParams } from "../../u
 // Ici modifier avec le nom de votre personnalité
 const personnality = "tesla"
 
+// Step en cours
+let currentStep = 0
+
+// A répondu à la question ?
+let answered = false
+
+// Stocke le bouton événement actuellement sélectionné
+let selected = null
+
 let allData = await getPersonnality(personnality)
 allData = allData.data
 
@@ -50,8 +59,21 @@ let stepContent;
 // Afficher un step
 async function showStep(step) {
 
+    hideNextButton()
+    setParams(personnality, "")
+
+    currentStep = step
+    answered = false
+
     // Cette variable contient toutes les infos d'une étape infos importantes : le nom (correspond à la question) et toutes les infos de l'intéraction en JSON
     stepContent = await getStep(personnality, step)
+
+    console.log(stepContent);
+
+    if (stepContent.data.length === 0) {
+        window.location.href = "../../stats/index.html";
+        return;
+    }
 
     stepContent = stepContent.data[0]
 
@@ -60,12 +82,13 @@ async function showStep(step) {
     console.log("J'ai getStep", step, "ça m'a donné", stepContent)
 
     if (step == 1) {
-        document.querySelector("#step0").style.display = "none"
+        hideStep(0)
         // Ici on gère l'affichage de l'intéraction 1
     } else if (step == 2) {
-        document.querySelector("#step1").style.display = "none"
+        hideStep(1)
         // Ici on gère l'affichage de l'intéraction 2
     } else if (step == 3) {
+        hideStep(2)
         // Ici on gère l'affichage de l'intéraction 3
     } // ... et ainsi de suite si on souhaite ajouter des intéractions
 
@@ -73,41 +96,243 @@ async function showStep(step) {
     const newStep = document.createElement("div");
     newStep.setAttribute("id", "step" + step)
     newStep.classList.add("step");
-    newStep.innerHTML = `
-        <h1>Question ${step}</h1>
+
+    if (stepContent.type === "qcm1") {
+        // Ici on gère l'affichage du qcm avec 3 réponses
+        newStep.innerHTML = `
+        <h1>${stepContent.question}</h1>
         <button id="answer1" class="answer">${stepContent.answer1}</button>
         <button id="answer2" class="answer">${stepContent.answer2}</button>
         <button id="answer3" class="answer">${stepContent.answer3}</button>
         `
-    // <h1>${stepContent.question}</h1>
+
+        // On ajoute le nouveau step au body
+        document.querySelector("#steps").appendChild(newStep)
+
+        // Quand on clique sur une réponse
+        document.querySelectorAll(".answer").forEach(element => {
+
+            element.addEventListener("click", () => {
+                console.log("Cliqué", answered);
+
+                if (!answered) {
+                    answered = true
+                    if (element.textContent === stepContent.goodAnswer) {
+                        console.log("Bonne réponse !")
+                        setParams(personnality, "goodAnswer")
+                        showNextButton()
+                    } else {
+                        setParams(personnality, "wrongAnswer")
+                        showNextButton()
+
+                        document.querySelectorAll(".answer").forEach(element2 => {
+                            if (element2.textContent == stepContent.goodAnswer) {
+                                console.log("Bonne réponse !");
+                            }
+                        });
+                    }
+                }
+            })
+
+        });
+    } else if (stepContent.type === "qcm2") {
+        // Ici on gère l'affichage du qcm avec 4 réponses
+        newStep.innerHTML = `
+        <h1>${stepContent.question}</h1>
+        <button id="answer1" class="answer"><img src="../assets/moteur.svg" alt="${stepContent.answer1}"></button>
+        <button id="answer2" class="answer"><img src="../assets/bobine.svg" alt="${stepContent.answer2}"></button>
+        <button id="answer3" class="answer"><img src="../assets/barrage.svg" alt="${stepContent.answer3}"></button>
+        <button id="answer4" class="answer"><img src="../assets/radio.svg" alt="${stepContent.answer4}"></button>
+        `
+
+        // On ajoute le nouveau step au body
+        document.querySelector("#steps").appendChild(newStep)
+
+        // Quand on clique sur une réponse
+        document.querySelectorAll(".answer").forEach(element => {
+
+            element.addEventListener("click", () => {
+                console.log("Cliqué", answered);
+
+                if (!answered) {
+                    answered = true
+                    if (element.textContent === stepContent.goodAnswer) {
+                        console.log("Bonne réponse !")
+                        setParams(personnality, "goodAnswer")
+                        showNextButton()
+                    } else {
+                        setParams(personnality, "wrongAnswer")
+                        showNextButton()
+
+                        document.querySelectorAll(".answer").forEach(element2 => {
+                            if (element2.textContent === stepContent.goodAnswer) {
+                                console.log("Bonne réponse !");
+                            }
+                        });
+                    }
+                }
+            })
+
+        });
+    } else if (stepContent.type === "frise") {
+        // Ici on gère l'affichage de la frise chronologique
+        newStep.innerHTML = `
+            <h1>${stepContent.question}</h1>
+            <div id="choices-container" class="choices-container"></div>
+            <div id="dates-container" class="dates-container"></div>
+            <button id="submitFrise" style="margin-top: 20px;">Valider ma frise</button>
+        `;
+
+        // On ajoute le nouveau step au body
+        document.querySelector("#steps").appendChild(newStep);
+
+        // On récupère les zones qu'on vient juste de créer
+        const containerChoices = newStep.querySelector("#choices-container");
+        const containerDates = newStep.querySelector("#dates-container");
+        const submitBtn = newStep.querySelector("#submitFrise");
+
+        const choices = stepContent.choices;
+        let answers = []; // Stockera les réponses actuelles du joueur
+
+        // On crée les boutons pour chaque événement (à piocher)
+        choices.forEach(choice => {
+            const button = document.createElement("button");
+            button.textContent = choice.name;
+            button.dataset.date = choice.date;
+
+            button.classList.add("chip");
+            containerChoices.appendChild(button);
+        });
+
+        // Sélection d'un événement au clic
+        containerChoices.addEventListener("click", (e) => {
+            if (e.target.tagName === "BUTTON") {
+                selected = e.target;
+                console.log("Sélectionné :", selected.textContent);
+            }
+        });
+
+        // On crée les lignes de dates pour la frise
+        const uniqueDates = [...new Set(choices.map(c => c.date))];
+        uniqueDates.forEach(date => {
+            const row = document.createElement("div");
+            row.classList.add("timeline-row");
+            row.dataset.date = date;
+
+            const label = document.createElement("span");
+            label.classList.add("date-label");
+            label.textContent = date;
+
+            const chipsZone = document.createElement("div");
+            chipsZone.classList.add("chips-zone");
+
+            row.appendChild(label);
+            row.appendChild(chipsZone);
+            containerDates.appendChild(row);
+        });
+
+        // Dépôt de l'événement sur une date
+        containerDates.addEventListener("click", (e) => {
+            if (!selected) return;
+
+            const row = e.target.closest(".timeline-row");
+            if (!row) return;
+
+            // On déplace le bouton visuellement
+            const chipsZone = row.querySelector(".chips-zone");
+            chipsZone.appendChild(selected);
+
+            // Si cet événement avait déjà été placé avant on l'enlève de la mémoire
+            answers = answers.filter(ans => ans.name !== selected.textContent);
+
+            // On enregistre la nouvelle position
+            answers.push({
+                name: selected.textContent,
+                placedDate: row.dataset.date,
+                correctDate: selected.dataset.date,
+                correct: selected.dataset.date === row.dataset.date ? 1 : 0
+            });
+
+            selected = null; // On désélectionne le bouton
+        });
+
+        // Vérification quand on clique sur "Valider ma frise"
+        submitBtn.addEventListener("click", () => {
+
+            // On vérifie que tout a été placé
+            if (answers.length < choices.length) {
+                console.log("Tu n'as pas placé tous les événements !");
+                return;
+            }
+
+            if (!answered) {
+                answered = true;
+                let allCorrect = true;
+
+                // On vérifie chaque réponse et on ajoute le style
+                answers.forEach(answer => {
+                    containerDates.querySelectorAll("button").forEach(btn => {
+                        if (btn.textContent === answer.name) {
+                            if (answer.correct === 1) {
+                                btn.classList.add("correct");
+                            } else {
+                                btn.classList.add("incorrect");
+                                allCorrect = false;
+                            }
+                        }
+                    });
+                });
+
+                if (allCorrect) {
+                    console.log("Frise parfaite !");
+                    setParams(personnality, "goodAnswer");
+                } else {
+                    console.log("Il y a des erreurs dans la frise.");
+                    setParams(personnality, "wrongAnswer");
+                }
+
+                submitBtn.style.display = "none";
+                showNextButton();
+            }
+        });
+    }
+
 
     // On ajoute le nouveau step au body
-    document.body.appendChild(newStep)
+    document.querySelector("#steps").appendChild(newStep)
 
-
-    // Quand on clique sur une réponse
-    document.querySelectorAll(".answer").forEach(element => {
+    //On rend tous les points sur la frise
+    document.querySelectorAll(".date").forEach(element => {
         element.addEventListener("click", () => {
-            if (element.textContent = stepContent.goodAnswer) {
+            console.log("Cliqué sur la date")
+            if (element.getAttribute("id") == "goodAnswer") {
                 console.log("Bonne réponse !")
                 setParams(personnality, "goodAnswer")
-                showNext()
+                showNextButton()
             } else {
+                console.log("Mauvaise réponse !")
                 setParams(personnality, "wrongAnswer")
-                showNext()
             }
         })
 
     });
 }
 
-function showNext() {
-    document.querySelector("#next").style.display = "flex"
+
+
+function hideStep(step) {
+    document.querySelector("#step" + step).style.display = "none"
 }
 
+function showNextButton() {
+    document.querySelector("#nextContainer").style.display = "flex"
+}
 
+function hideNextButton() {
+    document.querySelector("#nextContainer").style.display = "none"
+}
 
-// - Drag l'élément
-// - Pouvoir le Drop dans la bonne zone
-// - Si dans la bonne zone : je ne peux plus Drag
-// - Sinon toujours le laisser dans le Drop mais pouvoir le Drag 
+document.querySelector("#next").addEventListener("click", () => {
+    showStep(currentStep + 1)
+})
+

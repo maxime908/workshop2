@@ -56,6 +56,9 @@ document.querySelector("#step3").addEventListener("click", ()=>{
 let letterShow
 let clavier
 let TextInput
+let cryptedText
+let qcmContainer
+let qcmIa
 
 
 async function showStep(step) {
@@ -65,14 +68,17 @@ async function showStep(step) {
 
     if (step == 1) {
 
+        
         letterShow = document.createElement("div");
         clavier = document.createElement("div");
         TextInput = document.createElement("input");
+        cryptedText = document.createElement("h2")
+        cryptedText.innerText="XIXK"
        
         clavier.classList.add("keyboard-container");
         letterShow.classList.add("lamp-board"); 
         TextInput.classList.add("secret-input");
-
+        TextInput.disabled=true
 
 
         if (clavier.children.length === 0) {
@@ -89,6 +95,9 @@ async function showStep(step) {
 
             const supp = document.createElement("button");
             supp.innerText="supprimer"
+
+            const valid = document.createElement("button")
+            valid.innerText="Valider"
             
 
 
@@ -111,10 +120,7 @@ async function showStep(step) {
                     let indexActuel = Alphabet.indexOf(lettre);
                     let nouvelIndex = (indexActuel + 3) % Alphabet.length; 
                     let lettreChiffree = Alphabet[nouvelIndex];
-                    
                     TextInput.value += lettreChiffree;
-
-
                     const lampeAAllumer = letterShow.querySelector(`[data-lettre="${lettreChiffree}"]`);
                     
                     if (lampeAAllumer) {
@@ -135,26 +141,112 @@ async function showStep(step) {
                 letterShow.appendChild(toucheLum);
                 clavier.appendChild(touche);
             });
-            clavier.appendChild(supp)
             
-        
+            valid.addEventListener("click",()=>{
+                if (TextInput.value =="ALAN"){
+                    console.log("win")
+                    TextInput.style.backgroundColor="green"
+                }else{
+                    console.log("lose")
+                    TextInput.style.backgroundColor="red"
+                }
+            })
+      
+            clavier.appendChild(supp)
+
+
+
+            document.querySelector("body").appendChild(cryptedText)
             document.querySelector("body").appendChild(TextInput);
             document.querySelector("body").appendChild(letterShow);
-            document.querySelector("body").appendChild(clavier); 
+            document.querySelector("body").appendChild(valid)
+            document.querySelector("body").appendChild(clavier);
+            
         }
     }
     else if (step == 2) {
-        console.log("harry potter2")
+        console.log("Etape 2 chargée")
         document.querySelector("#title").textContent = stepContent.name
-        clavier.remove()
-        TextInput.remove()
-        letterShow.remove()
+        
+        if (clavier) clavier.remove()
+        if (TextInput) TextInput.remove()
+        if (letterShow) letterShow.remove()
 
+        qcmContainer = document.createElement("div");
+        
+        const questionElement = document.createElement("h3");
+        questionElement.textContent = "question";
+        qcmContainer.appendChild(questionElement);
 
+        const awnsers = ["reponsse A", "reponsse B", "reponsse C", "reponsse D"];
+        const gooodAwnser = "reponsse B"; 
+        
+        const buttonStep2 = [];
 
+        awnsers.forEach(awnser => {
+            const btnAw = document.createElement("button");
+            btnAw.textContent = awnser;
+            btnAw.style.display = "block"; 
+            btnAw.style.margin = "10px 0"; 
+            
+            
+            buttonStep2.push(btnAw);
+            
+            btnAw.addEventListener("click", () => {
+                buttonStep2.forEach(btn => btn.disabled = true);
+
+                if (awnser === gooodAwnser) {
+                    console.log("Bonne réponse !");
+                    btnAw.style.backgroundColor = "green";
+                } else {
+                    console.log("Mauvaise réponse !");
+                    btnAw.style.backgroundColor = "red";
+                }
+            });
+            
+            qcmContainer.appendChild(btnAw);
+        });
+
+        document.querySelector("body").appendChild(qcmContainer);
+        
     } else if (step == 3) {
         console.log("harry potter3")
         document.querySelector("#title").textContent = stepContent.name
-    } // ... et ainsi de suite si on souhaite ajouter des intéractions
+        if (qcmContainer) qcmContainer.remove()
+    
+        qcmIa = document.createElement("div")
 
+        const awnsers = ["personne A", "personne B"]
+        const goodAnwser = "personne A"
+
+       
+        const buttonStep3 = [];
+
+        awnsers.forEach(awnser => {
+            const btnAw = document.createElement("button");
+            btnAw.textContent = awnser;
+            btnAw.style.display = "block"; 
+            btnAw.style.margin = "10px 0"; 
+            
+   
+            buttonStep3.push(btnAw);
+            
+            btnAw.addEventListener("click", () => {
+                buttonStep3.forEach(btn => btn.disabled = true);
+
+                if (awnser === goodAnwser) {
+                    console.log("Bonne réponse !");
+                    btnAw.style.backgroundColor = "green";
+                } else {
+                    console.log("Mauvaise réponse !");
+                    btnAw.style.backgroundColor = "red";
+                }
+            });
+            
+            qcmIa.appendChild(btnAw);
+        });
+
+        document.querySelector("body").appendChild(qcmIa)
+
+    } 
 }
