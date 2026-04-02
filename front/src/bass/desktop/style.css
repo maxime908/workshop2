@@ -31,7 +31,8 @@ body {
 }
 
 #step2 h2, #step3 h2 {
-    font-size: 85px
+    font-size: 85px;
+    color: #7A3A2A;
 }
 
 
@@ -128,11 +129,7 @@ p {
     font-size: 24px;
 }
 
-#paragraph2 {
-    text-align: right;
-    right: -464px;
-    position: relative;
-}
+
 
 h1, h2 {
     font-family: "Anton SC", sans-serif;
@@ -155,12 +152,12 @@ h2 {
 }
 
 #map2 {
-    height: 600px;
+    height: 630px;
     width: auto;
 }
 
 #step1 h2 {
-    margin-top: 100px;
+    /* margin-top: 100px; */
     font-size: 85px;
 }
 
@@ -205,7 +202,76 @@ h2 {
     right: -60px;
 }
 
-#miniTitle {
+#video4 {
+    position: absolute;
+    height: 2000px;
+    top: 100px;
+    left: -400px;
+}
+
+#step4 {
+    background: linear-gradient(180deg, #F2C0C0 0.96%, #E40000 53.37%, #70140D 100%);
+}
+
+#pp {
+    margin-left: 150px;
+}
+
+
+#qrcode {
+    background-color: #fff;
+    padding: 25px;
+    border-radius: 26px;
+    width: fit-content;
+}
+
+#backgroundPath {
+    position: absolute;
+    top: -3000px;
+    height: 9000px;
+}
+
+#step4 h1 {
+    width: 300px;
+    line-height: 1;
+}
+
+#video5 {
+    position: absolute;
+    height: 300px;
+    top: 650px;
+    right: 100px;
+}
+
+#miniInfos98 {
+    position: absolute;
+    bottom: 200px;
+    right: 100px;
+}
+
+#miniInfos99 {
+    margin-top: 80px;
+}
+
+#main {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+#step2 .miniInfos {
+    opacity: 0;
+    margin-top: 200px;
+}
+
+#miniAnswer {
+    position: absolute;
+    top: 220px;
+
+    opacity: 0;
+}
+
+.miniTitle {
     display: flex;
     justify-content: left;
     align-items: center;
@@ -213,10 +279,28 @@ h2 {
     
 }
 
-#miniInfos {
-    margin-top: 200px;
-    margin-left: 480px;
-    max-width: 500px;
+.miniInfos {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+    max-width: 600px;
+
+    /* margin-top: 200px;
+    margin-left: 480px; */
+}
+
+.miniInfos p {
+    font-size: 22px;
+}
+
+#paragraph1 {
+    margin-top: 100px;
+}
+
+#paragraph2 {
+    margin-top: 50px;
+    margin-left: 500px;
 }
 
 h3 {

@@ -11,9 +11,9 @@
     <!-- Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Anton+SC&family=Jost:ital,wght@0,100..900;1,100..900&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Anton+SC&family=Jost:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <!-- QR Code -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 </head>
 
 <body>
@@ -22,12 +22,47 @@
 
     <div id="steps">
 
+        <div id="step4" class="step">
+            <div>
+                <h1>SAUL BASS</h1>
+                <img id="pp" src="../assets/bass.png" alt="">
+            </div>
+        </div>
+
         <div id="step3" class="step">
+
+            <svg id="main" width="220" height="248" viewBox="0 0 220 248" fill="none"
+                xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M54.0436 98.3666L93.0686 132.759L134.592 88.4229L129.736 38.9787L205.62 -29.9406L259.288 23.5662L225.735 60.7922L223.936 109.037L124.807 171.3L133.601 186.692L83.6028 247.705L77.6563 236.384L95.7226 191.805L69.2591 181.732L29.528 226.97L21.3035 212.742L42.3678 177.882L41.6356 176.886L13.9241 198.658L8.84702 186.475L32.2843 159.091L31.5572 157.594L4.968 178.753L-3.69612e-05 167.933L14.3954 152.595L12.8233 113.066L54.0436 98.3666ZM39.8362 120.738L25.8721 123.501L26.2954 136.202L39.8409 120.743L39.8362 120.738Z"
+                    fill="#011310" />
+            </svg>
+
 
             <h2>ANNÉES 70</h2>
 
-            <div id="miniInfos">
-                <div id="miniTitle">
+
+            <div id="miniInfos99" class="miniInfos">
+                <div class="miniTitle">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="20" height="20" rx="4" fill="#C8251A" />
+                    </svg>
+
+                    <h3>DES LOGOS CULTES</h3>
+                </div>
+                <p>Dans les années 1970, Saul Bass se fait plus discret au cinéma et se concentre davantage sur le
+                    design graphique. Il travaille notamment sur des identités visuelles pour de grandes entreprises,
+                    comme AT&T ou United Airlines, en créant des logos modernes et épurés. Il continue aussi à réaliser
+                    quelques projets personnels et des courts-métrages, mais son activité principale reste le design, où
+                    il impose un style simple, symbolique et très reconnaissable.</p>
+            </div>
+
+            <img id="video4" src="../assets/video4.gif" alt="">
+            <img id="video5" src="../assets/video5.gif" alt="">
+
+
+            <div id="miniInfos98" class="miniInfos">
+                <div class="miniTitle">
                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <rect width="20" height="20" rx="4" fill="#C8251A" />
                     </svg>
@@ -35,9 +70,10 @@
                     <h3>CONSÉCRATION INNATENDUE</h3>
                 </div>
 
-                <p>Saul Bass : un créateur complet, aussi réalisateur oscarisé pour Why Man Creates que maître du
-                    graphisme.
-                </p>
+                <p>Au final, le parcours de Saul Bass montre une grande diversité : du cinéma au design d’entreprise, il
+                    a profondément marqué l’image visuelle du XXe siècle. Son travail, récompensé notamment par un
+                    Oscar, pour son court-métrage Wy Man Creates, continue d’influencer aujourd’hui le graphisme et le
+                    monde du film.</p>
             </div>
 
             <img id="video2" src="../assets/video2.gif" alt="">
@@ -72,8 +108,8 @@
 
             <h2>ANNÉES 50</h2>
 
-            <div id="miniInfos">
-                <div id="miniTitle">
+            <div class="miniInfos">
+                <div class="miniTitle">
                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <rect width="20" height="20" rx="4" fill="#C8251A" />
                     </svg>
@@ -81,7 +117,10 @@
                     <h3>UNE SYNERGIE CRÉATIVE AVEC HITCHCOCK</h3>
                 </div>
 
-                <p>La collaboration entre Saul Bass et Alfred Hitchcock a marqué l’histoire du cinéma grâce à leur travail innovant sur les génériques et l’identité visuelle des films. Bass, graphiste de génie, a créé des séquences d’ouverture devenues iconiques, comme celles de Psychose, Sueurs froides (Vertigo) et La Mort aux trousses.</p>
+                <p>La collaboration entre Saul Bass et Alfred Hitchcock a marqué l’histoire du cinéma grâce à leur
+                    travail innovant sur les génériques et l’identité visuelle des films. Bass, graphiste de génie, a
+                    créé des séquences d’ouverture devenues iconiques, comme celles de Psychose, Sueurs froides
+                    (Vertigo) et La Mort aux trousses.</p>
             </div>
 
             <div class="portrait" id="portrait1">
@@ -110,22 +149,63 @@
 
 
         <div id="step1" class="step">
-            <svg id="vector3" width="1099" height="882" viewBox="0 0 1099 882" fill="none"
+            <svg id="vector3" width="897" height="824" viewBox="0 0 897 824" fill="none"
                 xmlns="http://www.w3.org/2000/svg">
                 <path
-                    d="M977.745 5.83778C976.806 6.85592 977.877 8.24643 979.219 8.2819C979.88 8.29188 980.69 8.00496 981.275 7.3146L983.339 7.70889C982.657 8.60164 983.761 9.3939 984.837 9.29728C985.262 9.26226 985.951 9.12643 985.821 8.40416C1007.89 14.8409 1028.28 26.2595 1046.46 40.9064C1066.71 57.2152 1081.13 77.0389 1089.64 101.72C1099.8 131.19 1100.46 161.939 1093.37 192.754C1085.12 228.66 1066.97 260.29 1042.42 287.372C1015.64 316.89 995.272 340.771 1001.13 383.105C1006.33 420.721 1014.32 434.385 1014.05 475.733C1013.54 553.18 980.406 618.942 903.065 642.04C882.539 648.174 862.293 651.444 840.893 653.819C823.068 655.795 805.924 658.89 789.587 665.732C740.55 686.275 740.334 738.318 718.887 781.514C704.127 811.247 676.282 839.502 648.066 856.746C603.86 883.758 550.927 890.314 502.657 868.825C453.732 847.048 415.183 800.723 381.692 760.039C369.91 745.719 357.42 733.404 342.924 721.973C317.368 701.813 283.734 694.49 251.582 689.381C224.744 685.113 199.9 677.959 174.358 668.556C137.914 655.128 104.556 636.5 75.3457 611.073C60.6254 598.261 48.3561 584.547 36.4793 569.082C4.1505 527.003 -15.9903 461.351 16.5521 414.473C39.1849 381.863 78.0536 361.248 117.123 364.947C116.623 365.863 117.814 366.625 118.769 366.494C119.306 366.422 119.702 365.87 119.618 365.214C123.703 365.309 129.002 365.926 133.075 366.995C132.479 367.684 132.75 368.817 133.395 369.277C134.039 369.737 134.696 369.526 135.15 369.031C135.554 368.62 135.819 368.089 135.587 367.475C140.482 368.016 145.016 369.835 149.692 371.217C146.52 374.134 159.213 375.896 158.676 374.027C160.182 374.779 163.493 375.761 165.13 376.202C165.155 379.473 173.249 381.218 172.73 378.944C203.698 390.431 237.287 387.653 266.123 370.33C278.637 362.816 288.405 352.696 297.086 340.845C322.752 305.803 328.167 276.308 358.238 238.957C378.678 213.565 406.198 197.595 439.207 195.602C472.216 193.608 501.607 211.944 530.447 227.813C569.069 249.063 603.6 254.801 643.197 232.199C657.588 223.985 670.384 214.502 681.441 202.082C727.702 150.142 759.571 81.6045 811.029 39.76C850.596 7.58324 895.383 -2.70402 945.075 0.583133C945.421 1.02135 946.042 1.84912 946.53 1.54705L947.637 0.863396C949.495 1.11389 952.644 1.18081 954.326 1.99048C955.014 2.34288 954.979 4.5335 956.596 3.79617C957.234 3.49953 957.725 2.81445 957.985 2.06195L977.745 5.83778Z"
+                    d="M765.718 0.278291C792.668 1.40829 819.538 10.2683 842.158 25.1583C879.378 49.2783 897.898 94.5583 896.808 137.848C896.328 171.198 885.908 202.158 869.068 230.448C864.278 238.678 859.208 247.038 855.228 255.138C842.478 279.678 841.748 302.128 851.528 327.758C859.038 348.568 867.658 364.858 872.428 386.008C888.558 449.368 874.918 520.058 815.648 554.398C762.938 588.098 694.268 577.528 681.288 652.958C677.748 671.078 676.488 690.458 671.528 708.468C652.308 776.788 583.488 834.178 510.158 822.378C471.908 816.558 438.558 794.848 408.328 771.708C377.308 747.828 347.748 717.758 307.738 710.598C283.688 705.678 258.668 707.998 234.278 707.348C170.358 705.078 105.078 687.418 55.9281 645.158C14.6781 611.908 -18.5219 550.388 11.6981 499.838C20.0081 485.438 31.5281 473.498 45.5381 464.838C62.2681 454.418 82.9581 449.088 102.758 450.018C124.048 451.798 145.898 456.568 167.328 452.858C189.488 448.988 210.298 436.838 224.048 418.958C241.138 396.338 247.388 368.288 255.588 341.828C267.768 301.708 289.588 263.368 333.108 252.298C392.478 236.808 441.738 295.958 501.808 259.328C513.948 251.858 524.388 242.358 533.358 231.628C570.768 181.978 584.968 114.438 620.888 66.4983C653.798 19.9083 709.228 -2.76171 765.548 0.268291H765.718V0.278291Z"
                     fill="#C8251A" />
             </svg>
 
+
+
+
             <h2>ANNÉES 30</h2>
-            <p id="paragraph1">Légende du graphisme, Saul Bass débute sa carrière comme graphiste publicitaire après
-                des
-                études artistiques à Brooklyn College New York. Très vite, il se distingue par une approche nouvelle
-                qu’on qualifie d’avant-gardiste, influencée par l’école du Bahaus.</p>
-            <p id="paragraph2">À Los Angeles, coeur de l’industrie du cinéma, Saul Bass trouve son terrain idéal :
-                une
-                ville d’images et de mouvement qui forge son sens de la synthèse visuelle. Après un passage par San
-                Francisco, il affine un style plus libre et expérimental.</p>
+
+            <div id="miniAnswer" class="miniInfos">
+                <div class="miniTitle">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="20" height="20" rx="4" fill="#C8251A" />
+                    </svg>
+
+                    <h3>IL ÉTUDIE À NEW YORK</h3>
+                </div>
+
+                <p>La collaboration entre Saul Bass et Alfred Hitchcock a marqué l’histoire du cinéma grâce à leur
+                    travail innovant sur les génériques et l’identité visuelle des films. Bass, graphiste de génie, a
+                    créé des séquences d’ouverture devenues iconiques, comme celles de Psychose, Sueurs froides
+                    (Vertigo) et La Mort aux trousses.</p>
+            </div>
+            <div id="paragraph1" class="miniInfos">
+                <div class="miniTitle">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="20" height="20" rx="4" fill="#C8251A" />
+                    </svg>
+
+                    <h3>AU DÉBUT IL Y AVAIT...</h3>
+                </div>
+
+                <p>Légende du graphisme, Saul Bass débute sa carrière comme graphiste publicitaire après
+                    des
+                    études artistiques à Brooklyn College New York. Très vite, il se distingue par une approche nouvelle
+                    qu’on qualifie d’avant-gardiste, influencée par l’école du Bahaus.
+                </p>
+            </div>
+
+            <div id="paragraph2" class="miniInfos">
+                <div class="miniTitle">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="20" height="20" rx="4" fill="#C8251A" />
+                    </svg>
+
+                    <h3>UNE VIE AUX ÉTATS-UNIS</h3>
+                </div>
+
+                <p>À Los Angeles, coeur de l’industrie du cinéma, Saul Bass trouve son terrain idéal :
+                    une
+                    ville d’images et de mouvement qui forge son sens de la synthèse visuelle. Après un passage par San
+                    Francisco, il affine un style plus libre et expérimental.</p>
+            </div>
+
             <img id="map2" src="../assets/mapStyleNamed.png" alt="Carte des États Unis d'Amérique">
         </div>
 
@@ -163,7 +243,10 @@
 
 
             <div id="bubble">
-                <img src="" alt="QR CODE ICI">
+                <div id="qrcodeContainer">
+                    <div id="qrcode"></div>
+                </div>
+                
             </div>
 
         </div>
