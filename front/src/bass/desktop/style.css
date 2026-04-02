@@ -9,7 +9,15 @@ body {
 #steps {
     width: 100vw;
     height: 100vh;
-    /* padding: 50px; */
+}
+
+#step0 h1, #step0 h2 {
+    color: #FAF0E4;
+    margin-left: 70px;
+}
+
+#step0 {
+    background-color: #56A6FF;
 }
 
 #step2 {
@@ -20,6 +28,10 @@ body {
         #FAF0E4 80px,
         #FAF0E4 150px
     );
+}
+
+#step2 h2 {
+    font-size: 85px
 }
 
 .portrait {
@@ -38,13 +50,13 @@ body {
 }
 
 .portrait img {
-    height: 300px;
+    height: 400px;
     width: auto;
 }
 
 #portrait1 {
     top: 200px;
-    right: 90px;
+    right: -20px;
 }
 
 #portrait2 {
@@ -60,8 +72,8 @@ body {
 #lamp {
     position: absolute;
     top: 0;
-    left: 34%;
-    height: 400px;
+    left: 26%;
+    height: 700px;
     width: auto;
 }
 
@@ -82,12 +94,13 @@ p {
 }
 
 #step1 {
+    background-color: #FAF0E4;
     gap: 80px;
 }
 
 #step1 p {
     max-width: 500px;
-    font-size: 20px;
+    font-size: 24px;
 }
 
 #paragraph2 {
@@ -97,26 +110,68 @@ p {
 }
 
 h1, h2 {
-    font-family: "Jost", sans-serif;
+    font-family: "Anton SC", sans-serif;
     font-optical-sizing: auto;
 }
 
 h1 {
-    font-size: 80px;
+    font-size: 130px;
+    margin-top: 100px;
 }
 
 h2 {
     font-size: 55px;
 }
 
-#map, #map2 {
-    height: 400px;
+#map {
+    height: 600px;
     width: auto;
-    margin-top: 200px;
+    margin-top: 140px;
+}
+
+#map2 {
+    height: 600px;
+    width: auto;
+}
+
+#step1 h2 {
+    margin-top: 100px;
+    font-size: 85px;
+}
+
+#vector1 {
+    position: absolute;
+    height: 800px;
+    width: auto;
+    left: -170px;
+    top: 170px;
+    z-index: -1;
+}
+
+#vector2 {
+    position: absolute;
+    height: 8000px;
+    bottom: -10000px;
+}
+
+#vector3 {
+    position: absolute;
+    height: 700px;
+    right: -200px;
+    top: 0;
+    z-index: -1;
+}
+
+#gif {
+    height: 1200px;
+    position: absolute;
+    left: 280px;
+    top: 100px;
+    z-index: -1;
+    object-fit: contain;
 }
 
 #bubble {
-    background-color: red;
     border-radius: 1000px;
     height: 400px;
     width: 400px;

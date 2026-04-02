@@ -46,7 +46,8 @@ async function changeWindow() {
         if (JSON.stringify(data.tesla.step) != JSON.stringify(oldData.step)) {
             hideStep(dataStep - 1)
             showStep(dataStep)
-            changeVideo(dataStep - 1)
+            
+            changeVideo(dataStep)
 
         } else {
             console.log("Le params a changé")
