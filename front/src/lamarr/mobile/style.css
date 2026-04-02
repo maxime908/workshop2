@@ -1,16 +1,214 @@
 @import url('../../../reset.css');
 
-#name {
-  color: #2563eb;       
-  font-size: 24px;      
-  font-weight: bold;    
-  margin-bottom: 10px;  
-  text-transform: capitalize; 
+/* Layout général section frise */
+#section-step2 {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    gap: 12px;
 }
 
-.correct { background-color: green; }
-.incorrect { background-color: red; }
+/* Chips événements en haut en ligne */
+#section-step2-events {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
 
+/* Frise verticale */
+#section-step2-dates {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    border-left: 2px solid #333;
+    padding-left: 20px;
+}
+
+/* Chaque ligne date + chips */
+.timeline-row {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    position: relative;
+}
+
+/* Point sur la frise */
+.timeline-row::before {
+    content: '';
+    position: absolute;
+    left: -26px;
+    top: 6px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #333;
+}
+
+/* Label de la date */
+.date-label {
+    font-weight: bold;
+    font-size: 13px;
+}
+
+/* Zone des chips placées sous chaque date */
+.chips-zone {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    min-height: 36px;
+}
+
+/* Bouton soumettre */
+#submit {
+    padding: 14px;
+    width: 100%;
+    background: #111;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    margin-top: 8px;
+}
+
+
+/* Style de base des boutons d'événements */
+#section-step2-events button {
+    padding: 10px 20px;
+    margin: 5px;
+    border: 2px solid #333;
+    border-radius: 8px;
+    background-color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+/* Chips événements arrondies */
+.chip {
+    padding: 8px 16px;
+    border: 1.5px solid #333;
+    border-radius: 20px;
+    background: white;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+/* Fond de la section */
+#section-step2 {
+    background: white;
+    border-radius: 16px;
+    padding: 20px;
+    margin: 16px;
+}
+
+/* Titre de la section */
+#section-step2 h2 {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+#section-step2-dates button.correct {
+    background-color: #c6f6d5;
+    border-color: #38a169;
+    color: #22543d;
+}
+#section-step2-dates button.incorrect {
+    background-color: #fed7d7;
+    border-color: #e53e3e;
+    color: #742a2a;
+}
+
+
+#section-step3 {
+    background: white;
+    border-radius: 16px;
+    padding: 20px;
+    margin: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+#section-step3-questions p {
+    font-size: 15px;
+    font-weight: 500;
+    text-align: center;
+    line-height: 1.5;
+}
+
+#section-step3-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#section-step3-buttons button {
+    width: 100%;
+    padding: 14px;
+    border: 1.5px solid #333;
+    border-radius: 10px;
+    background: white;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+#section-step3-buttons button.correct {
+    background-color: #c6f6d5;
+    border-color: #38a169;
+    color: #22543d;
+}
+
+#section-step3-buttons button.incorrect {
+    background-color: #fed7d7;
+    border-color: #e53e3e;
+    color: #742a2a;
+}
+
+#section-step4 {
+    background: white;
+    border-radius: 16px;
+    padding: 20px;
+    margin: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+
+#step4-question {
+    font-size: 15px;
+    font-weight: 500;
+    text-align: center;
+    line-height: 1.5;
+}
+
+#validate {
+    padding: 14px;
+    width: 100%;
+    background: #111;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+#section-step4 button.correct {
+    background-color: #c6f6d5;
+    border-color: #38a169;
+    color: #22543d;
+}
+
+#section-step4 button.incorrect {
+    background-color: #fed7d7;
+    border-color: #e53e3e;
+    color: #742a2a;
+}
 
 .track {
   position: relative;
@@ -68,4 +266,9 @@
   justify-content: center;
 }
 
-#value-display { position: absolute; bottom: 30px; font-weight: bold; white-space: nowrap; }
+#value-display { 
+    position: absolute; 
+    bottom: 30px; 
+    font-weight: bold; 
+    white-space: nowrap; 
+}

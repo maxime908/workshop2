@@ -93,7 +93,6 @@ body {
     background-color: #ffaa00; 
     color: #fff;
     border-color: #ffaa00;
-    /* L'effet de halo lumineux : */
     box-shadow: 0px 0px 15px #ffaa00, 0px 0px 30px #ffaa00, inset 0px 0px 10px rgba(255,255,255,0.8);
     text-shadow: 0px 0px 5px #fff;
 }
