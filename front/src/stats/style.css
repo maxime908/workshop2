@@ -1,6 +1,6 @@
-section .gsap-anim {
+/* section .gsap-anim {
     transform: translateX(-100%);
-}
+} */
 
 section .card-hover {
     transition: 0.25s;
