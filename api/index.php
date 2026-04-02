@@ -96,6 +96,8 @@
         exit;
     }
 
+    $_GET['name'] = strtolower($_GET['name']);
+
     // Si il y a un paramètre name envoyer dans l'url cela récupère la personnalitée correspondante
     $selectPersonalityStatement = $mysqlClient -> prepare("SELECT * FROM pages WHERE name = :name");
     $selectPersonalityStatement -> execute([
