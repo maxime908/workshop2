@@ -18,8 +18,8 @@ allData = allData.data
 console.log(allData)
 
 // Exemple d'utilisation du contenu de allData
-document.querySelector("#title").textContent = allData.name
-document.querySelector("#desc").textContent = allData.description
+// document.querySelector("#title").textContent = allData.name
+// document.querySelector("#desc").textContent = allData.description
 
 // Le popup pour dire d'attendre car un joueur joue déjà
 const dialog = document.querySelector("#wait")
@@ -98,17 +98,19 @@ async function showStep(step) {
     if (stepContent.type === "qcm1") {
         // Ici on gère l'affichage du qcm avec 3 réponses
         newStep.innerHTML = `
-        <h1>${stepContent.question}</h1>
-        <button id="answer1" class="answer">${stepContent.answer1}</button>
-        <button id="answer2" class="answer">${stepContent.answer2}</button>
-        <button id="answer3" class="answer">${stepContent.answer3}</button>
+        <h1 id="question">${stepContent.question}</h1>
+        <div id="answers1">
+            <button id="answer1" class="answer1">${stepContent.answer1}</button>
+            <button id="answer2" class="answer1">${stepContent.answer2}</button>
+            <button id="answer3" class="answer1">${stepContent.answer3}</button>
+        </div>
         `
 
         // On ajoute le nouveau step au body
         document.querySelector("#steps").appendChild(newStep)
 
         // Quand on clique sur une réponse
-        document.querySelectorAll(".answer").forEach(element => {
+        document.querySelectorAll(".answer1").forEach(element => {
 
             element.addEventListener("click", () => {
                 console.log("Cliqué", answered);
@@ -118,65 +120,85 @@ async function showStep(step) {
 
                     console.log(element.textContent);
                     console.log(stepContent.goodAnswer);
-                    
+
+                    document.querySelectorAll(".answer1").forEach(btn => {
+                        btn.style.color = "#B0C8E8";
+                        btn.style.border = "2px solid #B0C8E8";
+                        btn.style.backgroundColor = "transparent";
+                    });
+
+                    element.style.color = "#0D0D1F";
+                    element.style.border = "none";
 
                     if (element.textContent === stepContent.goodAnswer) {
                         console.log("Bonne réponse !")
                         setParams(personnality, "goodAnswer")
                         element.style.backgroundColor = "#008610";
-                        showNextButton()
                     } else {
                         setParams(personnality, "wrongAnswer")
                         element.style.backgroundColor = "#CB0000";
-                        showNextButton()
 
-                        document.querySelectorAll(".answer").forEach(element2 => {
+                        document.querySelectorAll(".answer1").forEach(element2 => {
                             if (element2.textContent == stepContent.goodAnswer) {
                                 console.log("Mauvaise réponse !");
                                 element2.style.backgroundColor = "#008610";
+                                element2.style.color = "#0D0D1F";
+                                element2.style.border = "none";
                             }
                         });
                     }
+                    showNextButton()
                 }
             })
 
         });
+
     } else if (stepContent.type === "qcm2") {
         // Ici on gère l'affichage du qcm avec 4 réponses
         newStep.innerHTML = `
-        <h1>${stepContent.question}</h1>
-        <button id="answer1" class="answer"><img src="../assets/moteur.svg" alt="${stepContent.answer1}"></button>
-        <button id="answer2" class="answer"><img src="../assets/bobine.svg" alt="${stepContent.answer2}"></button>
-        <button id="answer3" class="answer"><img src="../assets/barrage.svg" alt="${stepContent.answer3}"></button>
-        <button id="answer4" class="answer"><img src="../assets/radio.svg" alt="${stepContent.answer4}"></button>
+        <h1 id="question">${stepContent.question}</h1>
+        <div id="answers2">
+            <button id="answer1" class="answer2"><img src="../assets/moteur.svg" alt="${stepContent.answer1}"></button>
+            <button id="answer2" class="answer2"><img src="../assets/bobine.svg" alt="${stepContent.answer2}"></button>
+            <button id="answer3" class="answer2"><img src="../assets/barrage.svg" alt="${stepContent.answer3}"></button>
+            <button id="answer4" class="answer2"><img src="../assets/radio.svg" alt="${stepContent.answer4}"></button>
+        </div>
         `
 
         // On ajoute le nouveau step au body
         document.querySelector("#steps").appendChild(newStep)
 
         // Quand on clique sur une réponse
-        document.querySelectorAll(".answer").forEach(element => {
+        document.querySelectorAll(".answer2").forEach(element => {
 
             element.addEventListener("click", () => {
                 console.log("Cliqué", answered);
 
                 if (!answered) {
                     answered = true
+
+                    document.querySelectorAll(".answer2").forEach(btn => {
+                        btn.style.border = "1px solid #B0C8E8";
+                    });
+
                     if (element.textContent === stepContent.goodAnswer) {
                         console.log("Bonne réponse !")
                         setParams(personnality, "goodAnswer")
-                        showNextButton()
+                        element.style.border = "1px solid #008610";
+                        
                     } else {
                         setParams(personnality, "wrongAnswer")
-                        showNextButton()
+                        element.style.border = "1px solid #CB0000";
 
-                        document.querySelectorAll(".answer").forEach(element2 => {
+                        document.querySelectorAll(".answer2").forEach(element2 => {
                             if (element2.textContent === stepContent.goodAnswer) {
                                 console.log("Bonne réponse !");
+                                element2.style.border = "1px solid #008610";
                             }
                         });
                     }
                 }
+                showNextButton()
             })
 
         });
