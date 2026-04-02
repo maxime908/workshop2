@@ -46,8 +46,26 @@ stats.forEach(element => {
 });
 
 
-let tl = gsap.timeline();
+// let tl = gsap.timeline();
 
-statsId.querySelectorAll(".gsap-anim").forEach((element, i) => {
-    tl.to(element, { x: 0, duration: 1, ease: "power1.in" }, 0.4 * i)
+// statsId.querySelectorAll(".gsap-anim").forEach((element, i) => {
+//     tl.to(element, { 
+//         x: 0,
+//         duration: 1, 
+//         ease: "power1.in",
+//         stagger: 0.4
+//     })
+// })
+
+gsap.fromTo(".gsap-anim", {
+    // y: -200,
+    opacity: 0,
+    scale: 1.05
+}, {
+    scale: 1,
+    // y: 0,
+    opacity: 1,
+    ease: "power4.out",
+    duration: 0.3,
+    stagger: 0.3,
 })

@@ -63,8 +63,10 @@ document.querySelector("#start").addEventListener("click", async () => {
     containerDates.addEventListener("click", (e) => {
         if (!selected) return
         const row = e.target.closest(".timeline-row")
+
         if (!row) return
         row.querySelector(".chips-zone").appendChild(selected)
+        
         answers.push({
             name: selected.textContent,
             placedDate: row.dataset.date,
@@ -79,9 +81,11 @@ document.querySelector("#start").addEventListener("click", async () => {
         const row = document.createElement("div")
         row.classList.add("timeline-row")
         row.dataset.date = date
+
         const label = document.createElement("span")
         label.classList.add("date-label")
         label.textContent = date
+
         const chipsZone = document.createElement("div")
         chipsZone.classList.add("chips-zone")
         row.appendChild(label)
@@ -134,8 +138,10 @@ document.querySelector("#step1").addEventListener("click", async () => {
 
     // Affiche le bouton suivant seulement si bonne réponse
     parsed.choices.forEach(choice => {
+
         const button = document.createElement("button");
         button.textContent = choice.label;
+
         button.addEventListener("click", () => {
             if (choice.correct) {
                 button.classList.add("correct");
@@ -163,9 +169,13 @@ document.querySelector("#step2").addEventListener("click", async () => {
 
     function updateSlider(e) {
         let ratio = (e.clientX - track.getBoundingClientRect().left) / track.offsetWidth;
+
         ratio = Math.max(0, Math.min(1, ratio));
+
         thumb.style.left = (ratio * 100) + "%";
+
         finalValue = Math.round(ratio * MAX_VALUE);
+
         display.textContent = finalValue.toLocaleString() + "$";
     }
 
@@ -207,7 +217,9 @@ document.querySelector("#step3").addEventListener("click", () => {
 })
 
 async function showStep(step) {
+
     let stepContent = await getStep(personnality, step)
+
     stepContent = stepContent.data
     if (stepContent && stepContent.name) {
         document.querySelector("#title").textContent = stepContent.name
