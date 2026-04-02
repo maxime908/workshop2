@@ -143,8 +143,13 @@ async function showStep(step) {
             });
             
             valid.addEventListener("click",()=>{
-                console.log("win")
-                TextInput.style.backgroundColor="green"
+                if (TextInput.value =="ALAN"){
+                    console.log("win")
+                    TextInput.style.backgroundColor="green"
+                }else{
+                    console.log("lose")
+                    TextInput.style.backgroundColor="red"
+                }
             })
       
             clavier.appendChild(supp)
