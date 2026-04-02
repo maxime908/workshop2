@@ -10,33 +10,30 @@ const video = [
     "../assets/137614-767056227.mp4"
 ]
 
-// Ici on récupère l'étape pour afficher la vidéo correspondante
+
 function changeVideo(step) {
     const lecteur = document.getElementById("lecteur")
-
     if (step === 0) {
         document.body.classList.add("show-bg")
         lecteur.style.display = "none"
-_
+        document.getElementById("qrcode").style.display = "block"
         console.log("Étape 0");
     } else {
-
+        document.getElementById("qrcode").style.display = "none"
         const videoIndex = step - 1
-
         if (video[videoIndex]) {
             document.body.classList.remove("show-bg")
             lecteur.style.display = "block"
-
             lecteur.src = video[videoIndex];
             console.log("Vidéo", videoIndex);
-
             lecteur.load();
             lecteur.play();
+            lecteur.loop = true
         }
     }
-}
+} 
 
-
+new QRCode(document.getElementById("qrcode"), "http://192.168.1.45/src/lamarr/mobile/")
 
 async function changeWindow() {
 

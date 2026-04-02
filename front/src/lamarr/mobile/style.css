@@ -330,3 +330,29 @@ p#desc {
     border: 1.5px solid #e53e3e;
     color: #742a2a;
 }
+
+
+/* Chip sélectionnée */
+.chip:hover {
+    border-color: #7a2a3a;
+    background: #f9f0f2;
+}
+
+.chip.selected {
+    border-color: #7a2a3a;
+    background: #f9f0f2;
+    font-weight: 700;
+}
+
+/* Zone de dépôt — montre où on peut cliquer */
+.chips-zone {
+    border: 1.5px dashed #ccc;
+    border-radius: 10px;
+    min-height: 36px;
+    padding: 4px;
+}
+
+.chips-zone:hover {
+    border-color: #7a2a3a;
+    background: #fdf5f6;
+}
