@@ -61,12 +61,34 @@ document.querySelector("#start").addEventListener("click", async () => {
 
     // Dépose la chip sur la date cliquée
     containerDates.addEventListener("click", (e) => {
+
+        if (e.target.classList.contains("chip")) {
+            // On récupère la chip cliquée
+            const chip = e.target
+
+            // On la remet dans la banque
+            containerChoices.appendChild(chip)
+
+            // On cherche son index dans le tableau answers
+            let index = -1
+            for (let i = 0; i < answers.length; i++) {
+                if (answers[i].name === chip.textContent) {
+                    index = i
+                }
+            }
+
+            // On la supprime du tableau
+            answers.splice(index, 1)
+
+            return
+        }
+
         if (!selected) return
         const row = e.target.closest(".timeline-row")
 
         if (!row) return
         row.querySelector(".chips-zone").appendChild(selected)
-        
+
         answers.push({
             name: selected.textContent,
             placedDate: row.dataset.date,
@@ -154,50 +176,72 @@ document.querySelector("#step1").addEventListener("click", async () => {
     });
 })
 
-// Navigation étape 2 → étape 3
+/// Navigation étape 2 → étape 3
 document.querySelector("#step2").addEventListener("click", async () => {
+
+    // On cache l'étape 2 et on affiche l'étape 3
     document.querySelector("#step2").style.display = "none"
     document.querySelector("#step3").style.display = "block"
     document.querySelector("#section-step3").style.display = "none"
     document.querySelector("#section-step4").style.display = "block"
 
+    // On récupère les éléments du slider
     const track = document.getElementById('track');
     const thumb = document.getElementById('thumb');
     const display = document.getElementById('value-display');
+
+    // La valeur max du slider est 30 millions
     const MAX_VALUE = 30000000;
+
+    // La valeur choisie par l'utilisateur
     let finalValue = 0;
 
+    // Quand l'utilisateur bouge le slider, on met à jour la valeur
     function updateSlider(e) {
+        // On calcule la position du curseur sur la barre (entre 0 et 1)
         let ratio = (e.clientX - track.getBoundingClientRect().left) / track.offsetWidth;
 
-        ratio = Math.max(0, Math.min(1, ratio));
+        // On s'assure que le ratio reste entre 0 et 1
+        if (ratio < 0) ratio = 0;
+        if (ratio > 1) ratio = 1;
 
+        // On déplace le bouton visuellement
         thumb.style.left = (ratio * 100) + "%";
 
+        // On calcule la valeur en dollars
         finalValue = Math.round(ratio * MAX_VALUE);
 
+        // On affiche la valeur
         display.textContent = finalValue.toLocaleString() + "$";
     }
 
+    // Quand on clique sur la barre, on active le slider
     track.addEventListener('pointerdown', (e) => {
         track.setPointerCapture(e.pointerId);
         updateSlider(e);
         track.onpointermove = updateSlider;
     });
 
+    // Quand on relâche, on arrête le slider
     track.addEventListener('pointerup', () => {
         track.onpointermove = null;
     });
 
+    // On récupère la question depuis l'API
     const stepData = await getStep(personnality, 2)
     const parsed = JSON.parse(stepData.data[0].question)
 
+    // On affiche la question
     document.querySelector("#step4-question").textContent = parsed.question
+
+    // On remet le bouton valider à son état de base
     document.querySelector("#validate").classList.remove("correct", "incorrect")
     document.querySelector("#validate").textContent = "Valider"
 
-    // Correct si slider proche de 0 (réponse = 0 dollar)
+    // Quand on clique sur Valider
     document.querySelector("#validate").addEventListener("click", () => {
+
+        // Si la valeur est en dessous de 1000 c'est correct (réponse = 0 dollar)
         if (finalValue <= 1000) {
             document.querySelector("#validate").classList.add("correct")
             document.querySelector("#validate").textContent = parsed.message
@@ -205,6 +249,8 @@ document.querySelector("#step2").addEventListener("click", async () => {
             document.querySelector("#validate").classList.add("incorrect")
             document.querySelector("#validate").textContent = "Mauvaise réponse, réessaie !"
         }
+
+        // On attend 5 secondes puis on passe à la suite
         setTimeout(() => document.querySelector("#step3").click(), 5000)
     })
 })
