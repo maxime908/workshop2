@@ -1,13 +1,25 @@
 <?php
     try {
-        $dbHost = getenv('DB_HOST') ?: 'localhost';
-        $dbPort = getenv('DB_PORT') ?: '3306';
-        $dbName = getenv('DB_NAME') ?: 'workshop2';
-        $dbUser = getenv('DB_USER') ?: 'root';
-        $dbPass = getenv('DB_PASS');
+        $envFirst = function (array $names, $default = null) {
+            foreach ($names as $name) {
+                $value = getenv($name);
+                if ($value !== false && $value !== '') {
+                    return $value;
+                }
+            }
 
-        if ($dbPass === false) {
-            $dbPass = '';
+            return $default;
+        };
+
+        $dbHost = $envFirst(['DB_HOST', 'MYSQL_HOST', 'MARIADB_HOST', 'PMA_HOST'], '127.0.0.1');
+        $dbPort = $envFirst(['DB_PORT', 'MYSQL_PORT', 'MARIADB_PORT', 'PMA_PORT'], '3306');
+        $dbName = $envFirst(['DB_NAME', 'MYSQL_DATABASE', 'MARIADB_DATABASE'], 'workshop2');
+        $dbUser = $envFirst(['DB_USER', 'MYSQL_USER', 'MARIADB_USER'], 'root');
+        $dbPass = $envFirst(['DB_PASS', 'MYSQL_PASSWORD', 'MARIADB_PASSWORD', 'MYSQL_ROOT_PASSWORD'], '');
+
+        // With PDO MySQL, host=localhost can switch to unix socket and fail in containers.
+        if ($dbHost === 'localhost') {
+            $dbHost = '127.0.0.1';
         }
 
         $dsn = sprintf('mysql:host=%s;port=%s;dbname=%s;charset=utf8mb4', $dbHost, $dbPort, $dbName);
