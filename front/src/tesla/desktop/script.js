@@ -1,20 +1,7 @@
-async function readSteps() {
-    try {
+import gsap from "gsap";
+import { readJSONFile } from "../../utils";
 
-        const response = await fetch('/steps.json');
-
-        if (!response.ok) {
-            throw new Error(`Erreur lors du chargement : ${response.status}`);
-        }
-
-        // On transforme la réponse en objet JavaScript utilisable
-        const data = await response.json();
-        return data;
-
-    } catch (error) {
-        console.error("Impossible de lire le fichier steps.json :", error);
-    }
-}
+let oldData;
 
 
 // Tableau de mes vidéos
@@ -40,32 +27,41 @@ function changeVideo(step) {
 }
 
 
-
-let oldData;
-
 async function changeWindow() {
 
-    const data = await readSteps()
-    // const dataStep = 1
+    const data = await readJSONFile('/steps.json')
     const dataStep = data.tesla.step
 
-    if (dataStep === oldData) {
-        console.log("Aucune valeur changée")
-    } else {
-        console.log("Nouvelles valeurs, changeons la window !")
-        document.querySelector("h2").textContent = "Nous sommes à l'étape " + dataStep + " !"
-        document.querySelector("p").textContent = "État de la réponse : " + data.tesla.params
-
-        changeVideo(dataStep)
-
-        oldData = dataStep // On met à jour après le changement
+    if (!oldData) {
+        oldData = ""
+        console.log("DataStep au tout début donne", dataStep)
+        hideStep(0)
+        showStep(dataStep)
     }
 
-    console.log("data :", dataStep)
+    if (JSON.stringify(data.tesla) == JSON.stringify(oldData)) {
+        console.log("Aucune valeur changée")
+    } else {
 
-    console.log("oldData :", oldData)
+        if (JSON.stringify(data.tesla.step) != JSON.stringify(oldData.step)) {
+            hideStep(dataStep - 1)
+            showStep(dataStep)
+            changeVideo(dataStep - 1)
 
-    oldData = dataStep
+        } else {
+            console.log("Le params a changé")
+            if (data.tesla.params == "goodAnswer") {
+                showAnswer(dataStep, true)
+
+                changeVideo(dataStep)
+
+            } else if (data.tesla.params == "wrongAnswer") {
+                showAnswer(dataStep, false)
+            }
+        }
+    }
+
+    oldData = data.tesla
 }
 
-setInterval(changeWindow, 1000)
+setInterval(changeWindow, 500)
