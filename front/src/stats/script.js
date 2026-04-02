@@ -24,9 +24,6 @@ stats.forEach(element => {
             <div class="p-3 card-hover card w-75 m-auto">
                 <div class="d-flex justify-content-between">
                     <div class="d-flex flex-column">
-                        <span class="text-muted">
-                            ${i}
-                        </span>
                         <span>
                             Personnalité(e) choisi : ${element.name}
                         </span>
@@ -35,7 +32,7 @@ stats.forEach(element => {
                         </span>
                     </div>
                     <span class="text-muted">
-                        ${element.device_id}
+                        ${i}
                     </span>
                 </div>
             </div>

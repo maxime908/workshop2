@@ -30,7 +30,7 @@ body {
     );
 }
 
-#step2 h2 {
+#step2 h2, #step3 h2 {
     font-size: 85px
 }
 
@@ -178,4 +178,23 @@ h2 {
     position: absolute;
     bottom: -60px;
     right: -60px;
+}
+
+#miniTitle {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    gap: 5px;
+    
+}
+
+#miniInfos {
+    margin-top: 200px;
+    margin-left: 480px;
+    max-width: 500px;
+}
+
+h3 {
+    font-size: 25px;
+    font-family: "Jost";
 }
