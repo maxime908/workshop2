@@ -127,7 +127,7 @@ INSERT INTO `steps` (`id_step`, `number`, `question`, `interaction`) VALUES
 (4, 3, '[\"discover\", \"invention\"]', '[\"end\"]'),
 (5, 0, '[\"discover\", \"invention\"]', '[\"start\"]'),
 (6, 1, 'Nikola Tesla', '{\r\n    \"question\": \"Dans quelle ville Tesla a-t-il commencé ses études avant d''intégrer l''École polytechnique de Graz ?\",\r\n    \"answer1\": \"Paris\",\r\n    \"answer2\": \"Berlin\",\r\n    \"answer3\": \"Karlovac\",\r\n    \"goodAnswer\": \"Karlovac\",\r\n    \"type\": \"qcm1\"\r\n}'),
-(7, 2, 'Nikola Tesla', '{\r\n    \"question\": \"Trouve la bobine de Tesla:\",\r\n    \"answer1\": \"illu1\",\r\n    \"answer2\": \"illu2\",\r\n    \"answer3\": \"illu3\",\r\n    \"answer4\": \"illu4\",\r\n    \"goodAnswer\": \"illu2\",\r\n    \"type\": \"qcm2\"\r\n}'),
+(7, 2, 'Nikola Tesla', '{\r\n    \"question\": \"Trouve la bobine de Tesla:\",\r\n    \"answer1\": \"illu1.svg\",\r\n    \"answer2\": \"illu2.svg\",\r\n    \"answer3\": \"illu3.svg\",\r\n    \"answer4\": \"illu4.svg\",\r\n    \"goodAnswer\": \"illu2.svg\",\r\n    \"type\": \"qcm2\"\r\n}'),
 (8, 3, 'Nikola Tesla', '{\r\n    \"question\": \"Remplis la frise chronologique\",\r\n    \"choices\": [\r\n        { \"date\": \"1856\", \"name\": \"Naissance\" },\r\n        { \"date\": \"1875\", \"name\": \"Intègre l’école polytechnique de Graz\" },\r\n        { \"date\": \"1901\", \"name\": \"Construction de la tour Wardenclyffe\" },\r\n        { \"date\": \"1917\", \"name\": \"Démolition de la tour Wardenclyffe\" },\r\n        { \"date\": \"1943\", \"name\": \"Mort\" }\r\n],\r\n    \"type\": \"frise\"\r\n}'),
 (9, 0, 'Saul Bass', '[\"start\"]'),
 (10, 1, 'Saul Bass', '{\r\n    \"question\": \"Où Saul Bass a-t-il fait ses études artistiques ?\",\r\n    \"type\": \"map\"\r\n}'),
