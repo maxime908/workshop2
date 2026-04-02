@@ -5,7 +5,9 @@ let oldData;
 
 // Mes vidéos
 const video = [
-    "../assets/4perso_mc.mp4"
+    "../assets/4en_boucle_1.mp4",
+    "../assets/76681-559745365_medium.mp4",
+    "../assets/137614-767056227.mp4"
 ]
 
 // Ici on récupère l'étape pour afficher la vidéo correspondante
@@ -15,8 +17,7 @@ function changeVideo(step) {
     if (step === 0) {
         document.body.classList.add("show-bg")
         lecteur.style.display = "none"
-        lecteur.pause()
-
+_
         console.log("Étape 0");
     } else {
 
@@ -40,27 +41,27 @@ function changeVideo(step) {
 async function changeWindow() {
 
     const data = await readJSONFile('/steps.json')
-    const dataStep = data.tesla.step
+    const dataStep = data.lamarr.step
 
     if (!oldData) {
         changeVideo(dataStep);
         console.log("DataStep au tout début donne", dataStep);
     } else {
-        if (JSON.stringify(data.tesla) == JSON.stringify(oldData)) {
+        if (JSON.stringify(data.lamarr) == JSON.stringify(oldData)) {
         } else {
-            if (data.tesla.step != oldData.step) {
+            if (data.lamarr.step != oldData.step) {
                 changeVideo(dataStep);
             } else {
                 console.log("Le params a changé");
-                if (data.tesla.params == "goodAnswer") {
+                if (data.lamarr.params == "goodAnswer") {
                     // showAnswer(dataStep, true)
-                } else if (data.tesla.params == "wrongAnswer") {
+                } else if (data.lamarr.params == "wrongAnswer") {
                     // showAnswer(dataStep, false)
                 }
             }
         }
     }
-    oldData = data.tesla
+    oldData = data.lamarr
 }
 
 

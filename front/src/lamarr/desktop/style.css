@@ -1,25 +1,26 @@
-body, html {
-    margin: 0;
-    padding: 0;
+@import url(../../../reset.css);
+
+body{
+    background-color: #2B196D;
+    min-height: 100vh;
     width: 100%;
-    height: 100%;
+    margin: 0;
     overflow: hidden;
-    background-color: black;
+}
+
+.show-bg {
+    background: url(../assets/homePage.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center top;
+    /* min-height: 100vh;
+    width: 100%;
+    overflow: hidden; */
 }
 
 #lecteur {
     width: 100vw;
     height: 100vh;
-    object-fit: cover; /* Important : remplit l'écran sans déformer */
+    object-fit: cover;
     display: none;
-}
-
-/* Si tu veux forcer un ratio 9:16 centré sur l'écran desktop */
-@media (min-aspect-ratio: 9/16) {
-    #lecteur {
-        width: auto;
-        height: 100vh;
-        aspect-ratio: 9/16;
-        margin: 0 auto;
-    }
 }
