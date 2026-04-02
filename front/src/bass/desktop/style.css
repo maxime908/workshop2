@@ -34,6 +34,20 @@ body {
     font-size: 85px
 }
 
+
+#step2 #miniInfos {
+    margin-left: 0;
+    opacity: 0;
+}
+
+#video3 {
+    position: absolute;
+    bottom: 20px;
+    height: 2000px;
+    opacity: 0;
+}
+
+
 .portrait {
     display: flex;
     flex-direction: column;
@@ -85,6 +99,7 @@ body {
     background-color: #fff;
     display: flex;
     flex-direction: column;
+    opacity: 0;
 }
 
 p {
@@ -96,6 +111,16 @@ p {
 #step1 {
     background-color: #FAF0E4;
     gap: 80px;
+}
+
+#step3 {
+    background-color: #FAF0E4;
+}
+
+#video2 {
+    position: absolute;
+    left: -40px;
+    top: -20px;
 }
 
 #step1 p {

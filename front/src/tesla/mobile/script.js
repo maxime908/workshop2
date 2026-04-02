@@ -117,17 +117,25 @@ async function showStep(step) {
 
                 if (!answered) {
                     answered = true
+
+                    console.log(element.textContent);
+                    console.log(stepContent.goodAnswer);
+                    
+
                     if (element.textContent === stepContent.goodAnswer) {
                         console.log("Bonne réponse !")
                         setParams(personnality, "goodAnswer")
+                        element.style.backgroundColor = "#008610";
                         showNextButton()
                     } else {
                         setParams(personnality, "wrongAnswer")
+                        element.style.backgroundColor = "#CB0000";
                         showNextButton()
 
                         document.querySelectorAll(".answer").forEach(element2 => {
                             if (element2.textContent == stepContent.goodAnswer) {
-                                console.log("Bonne réponse !");
+                                console.log("Mauvaise réponse !");
+                                element2.style.backgroundColor = "#008610";
                             }
                         });
                     }

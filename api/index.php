@@ -70,6 +70,22 @@
             exit;
         }
 
+        // Pour finir une game
+        if ($_SERVER['REQUEST_METHOD'] === "PATCH") {
+            $data = json_decode(file_get_contents('php://input'), true);
+
+            if (isset($data['device_id']) && isset($data["score"])) {
+                $newGameStatement = $mysqlClient -> prepare("UPDATE game SET endDate = :endDate, score = :score WHERE device_id = :device_id AND endDate IS NULL");
+                $newGameStatement -> execute([
+                    'device_id' => $data['device_id'],
+                    'endDate' => date("Y-m-d H:i:s"),
+                    'score' => $data['score'],
+                ]);
+
+                exit;
+            }
+        }
+
         // Récuper les personnalitées
         $selectPersonalityStatement = $mysqlClient -> prepare("SELECT * FROM pages");
         $selectPersonalityStatement -> execute();
@@ -123,24 +139,6 @@
         print_r(json_encode($personality));
 
         exit;
-    }
-
-
-    // Pour finir une game
-    if ($_SERVER['REQUEST_METHOD'] === "PATCH") {
-        $data = json_decode(file_get_contents('php://input'), true);
-
-        if ($data['device_id'] && $data['endDate'] && $data["score"]) {
-            $newGameStatement = $mysqlClient -> prepare("UPDATE game SET device_id = :device_id, endGame = :endDate, score = :score WHERE id_page = :id_page");
-            $newGameStatement -> execute([
-                'device_id' => $data['device_id'],
-                'endDate' => date("Y-m-d H:i:s"),
-                'score' => $data['score'],
-                'id_page' => $personality['id_page'],
-            ]);
-
-            exit;
-        }
     }
 
     // Crée une game et verifier si le dernière utilsateur qui à lancé une game sa fait plus de 5 minutes qu'il l'a lancé 
