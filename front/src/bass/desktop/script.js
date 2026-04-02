@@ -87,57 +87,57 @@ function showAnswer(step, good) {
     gsap.to("#paragraph1", {
       duration: 0.5,
       ease: "power4.out",
-      x: -600
+      x: -650
     })
 
     // On enlève le paragraphe 2
     gsap.to("#paragraph2", {
       duration: 0.5,
       ease: "power4.out",
-      x: 600,
+      x: 650,
       delay: 0.2
     })
+
+    // On fait disparaître le vecteur rouge
+    gsap.to("#vector3", {
+      duration: 0.8,
+      ease: "power4.out",
+      opacity: 0,
+    })
+
+    document.querySelector("#map2").setAttribute("src", "../assets/mapStyle2.png")
 
     // On zoom la carte
     gsap.to("#map2", {
       duration: 0.8,
       ease: "power4.out",
-      scale: 2,
-      x: -350,
-      y: -300,
-      delay: 0.6
+      scale: 3,
+      x: -800,
+      y: -100,
+      delay: 0.6,
     })
 
-    // On fait "bouncer" New York
-    gsap.to("#newYorkPoint", {
-      duration: 0.5,
-      ease: "power4.out",
-      scale: 1.3,
-      yoyo: true,
-      repeat: -1,
-      transformOrigin: "50% 50%",
-    })
   } else if (step == 2) {
 
     // On enlève le portrait de Kubrick
     gsap.to("#portrait2", {
       duration: 0.5,
       ease: "power4.out",
-      x: -600
+      x: -700
     })
 
     // On enlève le portrait de Preminger
     gsap.to("#portrait3", {
       duration: 0.5,
       ease: "power4.out",
-      x: 600
+      x: 700
     })
 
     // On met en avant le portrait de hitchcock
     gsap.to("#portrait1", {
       duration: 0.5,
       ease: "power4.out",
-      x: -180,
+      x: -320,
       y: 250,
       scale: 1.5
     })
@@ -147,6 +147,13 @@ function showAnswer(step, good) {
       duration: 0.5,
       ease: "power4.out",
       opacity: 1
+    })
+
+    // On fait disparaître le blob
+    gsap.to("#gif", {
+      duration: 0.8,
+      ease: "power4.out",
+      opacity: 0,
     })
   }
 
