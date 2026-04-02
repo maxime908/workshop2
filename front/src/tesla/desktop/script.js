@@ -6,9 +6,9 @@ let oldData;
 
 // Tableau de mes vidéos
 const video = [
-    "../../assets/step1.mp4",
-    "../../assets/step2.mp4",
-    "../../assets/step3.mp4"
+    "../assets/step1.mp4",
+    "../assets/step2.mp4",
+    "../assets/step3.mp4"
 ]
 
 // Ici on récupère l'étape pour afficher la vidéo correspondante

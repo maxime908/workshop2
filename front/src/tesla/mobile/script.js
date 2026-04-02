@@ -177,14 +177,95 @@ async function showStep(step) {
         <h1>${stepContent.question}</h1>
         <div class="track" id="track">
             <div class="line"></div>
-            <div class="dot-fixed start"></div> 
-            <div class="dot-fixed middle"></div> 
-            <div class="dot-fixed end"></div> 
+            <div class="dot-fixed start"></div>
+            <div class="dot-fixed end"></div>
+            <div id="thumb" class="thumb">
+                <span id="value-display">0$</span>
+            </div>
         </div>
         `
 
+        //==========================
+        // Crée les chips événements
+        choices.forEach(choice => {
+            const button = document.createElement("button");
+            button.textContent = choice.name;
+            button.dataset.date = choice.date;
+            button.classList.add("chip")
+            containerChoices.appendChild(button);
+        });
+
+        const uniqueDates = [...new Set(choices.map(c => c.date))];
+
+        // Dépose la chip sur la date cliquée
+        containerDates.addEventListener("click", (e) => {
+            if (!selected) return
+            const row = e.target.closest(".timeline-row")
+            if (!row) return
+            row.querySelector(".chips-zone").appendChild(selected)
+            answers.push({
+                name: selected.textContent,
+                placedDate: row.dataset.date,
+                correctDate: selected.dataset.date,
+                correct: selected.dataset.date == row.dataset.date ? 1 : 0
+            })
+            selected = null
+        })
+
+        // Crée la frise avec date + zone de dépôt
+        uniqueDates.forEach(date => {
+            const row = document.createElement("div")
+            row.classList.add("timeline-row")
+            row.dataset.date = date
+            const label = document.createElement("span")
+            label.classList.add("date-label")
+            label.textContent = date
+            const chipsZone = document.createElement("div")
+            chipsZone.classList.add("chips-zone")
+            row.appendChild(label)
+            row.appendChild(chipsZone)
+            containerDates.appendChild(row)
+        })
+
+        // Vérifie les réponses et colorie les chips
+        document.querySelector("#submit").addEventListener("click", () => {
+            if (answers.length < choices.length) {
+                console.log("Tu n'as pas placé tous les événements !")
+                return
+            }
+            answers.forEach(answer => {
+                containerDates.querySelectorAll("button").forEach(btn => {
+                    if (btn.textContent === answer.name) {
+                        btn.classList.add(answer.correct === 1 ? "correct" : "incorrect")
+                    }
+                })
+            })
+            setTimeout(() => document.querySelector("#step1").click(), 2000)
+        })
+
+        if (createGameStatus) {
+            console.log("le jeu a commencé")
+        }
+        //==========================
+
         // On ajoute le nouveau step au body
         document.querySelector("#steps").appendChild(newStep)
+
+        //On rend tous les points sur la frise
+        document.querySelectorAll(".date").forEach(element => {
+            element.addEventListener("click", () => {
+                console.log("Cliqué sur la date")
+                if (element.getAttribute("id") == "goodAnswer") {
+                    console.log("Bonne réponse !")
+                    setParams(personnality, "goodAnswer")
+                    showNextButton()
+                } else {
+                    console.log("Mauvaise réponse !")
+                    setParams(personnality, "wrongAnswer")
+                }
+            })
+
+        });
     }
 }
 
