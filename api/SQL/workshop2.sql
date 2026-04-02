@@ -121,9 +121,9 @@ CREATE TABLE `steps` (
 --
 
 INSERT INTO `steps` (`id_step`, `number`, `question`, `interaction`) VALUES
-(1, 0, '[\"discover\", \"invention\"]', '{\r\n    \"menu\": {\r\n        \"id\": \"file\",\r\n        \"value\": \"File\",\r\n        \"popup\": {\r\n            \"menuitem\": [\r\n                { \"value\": \"New\", \"onclick\": \"CreateNewDoc()\" },\r\n                { \"value\": \"Open\", \"onclick\": \"OpenDoc()\" },\r\n                { \"value\": \"Close\", \"onclick\": \"CloseDoc()\" }\r\n            ]\r\n        }\r\n    }\r\n}'),
-(2, 1, '[\"discover\", \"invention\"]', '[\"discover\", \"invention\"]'),
-(3, 2, '[\"discover\", \"invention\"]', '[\"choice\", \"player_action\"]'),
+(1, 0, '{\"choices\": [{\"date\": 1914, \"name\": \"Naissance\"}, {\"date\": 1933, \"name\": \"Grand scandale\"}, {\"date\": 1933, \"name\": \"Grand succès\"}, {\"date\": 1933, \"name\": \"Mariage\"}, {\"date\": 1937, \"name\": \"Fuite de l\'Europe\"}, {\"date\": 1937, \"name\": \"Signe avec la MGM\"}, {\"date\": 1942, \"name\": \"Nouveau système de comm\"}, {\"date\": 2000, \"name\": \"Décès\"}]}'"),
+(2, 1, '{\"choices\": [{\"text\": \"Extase\", \"label\": \"A\", \"correct\": true}, {\"text\": \"...\", \"label\": \"B\", \"correct\": false}, {\"text\": \"...\", \"label\": \"C\", \"correct\": false}], \"question\": \"Quel fut le film qui fit scandale ?\"}'),
+(3, 2, '{\"correct\": 0, \"message\": \"Pas un dollar — les brevets ayant expiré avant que l\'industrie ne s\'en empare.\", \"question\": \"Combien Hedy Lamarr a-t-elle pu toucher par les brevets de ses inventions ?\"}'),
 (4, 3, '[\"discover\", \"invention\"]', '[\"end\"]'),
 (5, 0, '[\"discover\", \"invention\"]', '[\"start\"]'),
 (6, 1, 'Nikola Tesla', '{\r\n    \"question\": \"Dans quelle ville Tesla a-t-il commencé ses études avant d''intégrer l''École polytechnique de Graz ?\",\r\n    \"answer1\": \"Paris\",\r\n    \"answer2\": \"Berlin\",\r\n    \"answer3\": \"Karlovac\",\r\n    \"goodAnswer\": \"Karlovac\",\r\n    \"type\": \"qcm1\"\r\n}'),
