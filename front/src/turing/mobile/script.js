@@ -26,11 +26,7 @@ document.querySelector("#start").addEventListener("click", () => {
     document.querySelector("#title").textContent = allData.name
     document.querySelector("#step1").style.display="block"
     document.querySelector("#start").style.display="none"
-    if (createGameStatus) {
-        console.log("le jeu a commencée")
-    } else {
-        // Ici afficher l'info que quelqu'un joue déjà et qu'il faut attendre encore quelques instants
-    }
+
 })
 
 document.querySelector("#step1").addEventListener("click", ()=>{
@@ -38,6 +34,7 @@ document.querySelector("#step1").addEventListener("click", ()=>{
     document.querySelector("#step2").style.display ="block"
     document.querySelector("#step1").style.display ="none"
     document.querySelector("#start").style.display ="none"
+    
 })
 
 document.querySelector("#step2").addEventListener("click", ()=>{
@@ -68,6 +65,8 @@ async function showStep(step) {
     let stepContent = await getStep(personnality, step)
     stepContent = stepContent.data
     let questionName = stepContent[0].question
+    let awnserName = stepContent[0].interaction
+    awnserName = JSON.parse(awnserName)
     questionName = JSON.parse(questionName)
     console.log(questionName)
     document.querySelector("#title").textContent = questionName.name
@@ -185,74 +184,91 @@ async function showStep(step) {
         qcmContainer = document.createElement("div");
         
         const questionElement = document.createElement("h3");
-        questionElement.textContent = "question";
         qcmContainer.appendChild(questionElement);
 
-        const awnsers = ["reponsse A", "reponsse B", "reponsse C", "reponsse D"];
-        const gooodAwnser = "reponsse B"; 
+        console.log(questionName)
+        console.log(awnserName)
+
+        const awnsers = awnserName.answers;
+        const gooodAwnser = awnserName.goodAnswer; 
         
-        const buttonStep2 = [];
 
         awnsers.forEach(awnser => {
             const btnAw = document.createElement("button");
             btnAw.textContent = awnser;
             btnAw.style.display = "block"; 
-            btnAw.style.margin = "10px 0"; 
+            btnAw.style.margin = "10px 0";
+            btnAw.value = awnser
+            btnAw.classList.add("btn")
+            qcmContainer.appendChild(btnAw); 
+        })
             
-            
-            buttonStep2.push(btnAw);
-            
-            btnAw.addEventListener("click", () => {
-                buttonStep2.forEach(btn => btn.disabled = true);
+        
+        qcmContainer.querySelectorAll("button").forEach((element) => {
 
-                if (awnser === gooodAwnser) {
+        
+            element.addEventListener("click", () => {
+                qcmContainer.querySelectorAll("button").forEach(btn => btn.disabled = true);
+                
+
+                if (element.value === gooodAwnser) {
                     console.log("Bonne réponse !");
-                    btnAw.style.backgroundColor = "green";
+                    element.style.backgroundColor = "green";
+
                 } else {
                     console.log("Mauvaise réponse !");
-                    btnAw.style.backgroundColor = "red";
+                    element.style.backgroundColor = "red";
+                    element.textContent == gooodAwnser
+                    document.getElementById(goodAwnser).style.backgroundColor="green"
                 }
             });
             
-            qcmContainer.appendChild(btnAw);
+           
         });
 
         document.querySelector("body").appendChild(qcmContainer);
         
     } else if (step == 3) {
+
         console.log("harry potter3")
         if (qcmContainer) qcmContainer.remove()
     
         qcmIa = document.createElement("div")
 
-        const awnsers = ["personne A", "personne B"]
-        const goodAnwser = "personne A"
+        const awnsers = awnserName.answers;
+        const goodAwnser = awnserName.goodAnswer; 
 
        
-        const buttonStep3 = [];
 
         awnsers.forEach(awnser => {
             const btnAw = document.createElement("button");
             btnAw.textContent = awnser;
             btnAw.style.display = "block"; 
-            btnAw.style.margin = "10px 0"; 
-            
-   
-            buttonStep3.push(btnAw);
-            
-            btnAw.addEventListener("click", () => {
-                buttonStep3.forEach(btn => btn.disabled = true);
+            btnAw.style.margin = "10px 0";
+            btnAw.value = awnser
+            btnAw.classList.add("btn")
+            btnAw.setAttribute("id",awnser)
+            qcmIa.appendChild(btnAw);
+        })
 
-                if (awnser === goodAnwser) {
+        qcmIa.querySelectorAll("button").forEach((element) => {
+
+            element.addEventListener("click", () => {
+                qcmIa.querySelectorAll("button").forEach(btn => btn.disabled = true);
+                
+
+                if (element.value === goodAwnser) {
                     console.log("Bonne réponse !");
-                    btnAw.style.backgroundColor = "green";
+                    element.style.backgroundColor = "green";
                 } else {
                     console.log("Mauvaise réponse !");
-                    btnAw.style.backgroundColor = "red";
+                    element.style.backgroundColor = "red";
+                    document.getElementById(goodAwnser).style.backgroundColor="green"
+                    
                 }
             });
             
-            qcmIa.appendChild(btnAw);
+            
         });
 
         document.querySelector("body").appendChild(qcmIa)
