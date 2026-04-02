@@ -1,17 +1,26 @@
 import { getAPI, createGame, getStep, getPersonnality } from "../../utils.js";
 import { setParams } from "../../utils";
 
+<<<<<<< HEAD
 
 const personnality = "turing"
 
+=======
+// Ici modifier avec le nom de votre personnalité
+const personnality = "turing"
+>>>>>>> ec6ba06d3506dae57203d80201ed7d2119f2be97
 
 let allData = await getPersonnality(personnality)
 
 allData = allData.data
+<<<<<<< HEAD
 
 console.log("poule : " ,allData)
 
+=======
+>>>>>>> ec6ba06d3506dae57203d80201ed7d2119f2be97
 
+console.log(allData)
 
 // Exemple d'utilisation du contenu de allData
 document.querySelector("#title").textContent = allData.name
@@ -30,7 +39,11 @@ document.querySelector("#start").addEventListener("click", () => {
     document.querySelector("#title").textContent = allData.name
     document.querySelector("#step1").style.display="block"
     document.querySelector("#start").style.display="none"
-
+    if (createGameStatus) {
+        console.log("le jeu a commencée")
+    } else {
+        // Ici afficher l'info que quelqu'un joue déjà et qu'il faut attendre encore quelques instants
+    }
 })
 
 document.querySelector("#step1").addEventListener("click", ()=>{
@@ -38,7 +51,6 @@ document.querySelector("#step1").addEventListener("click", ()=>{
     document.querySelector("#step2").style.display ="block"
     document.querySelector("#step1").style.display ="none"
     document.querySelector("#start").style.display ="none"
-    
 })
 
 document.querySelector("#step2").addEventListener("click", ()=>{
@@ -55,6 +67,7 @@ document.querySelector("#step3").addEventListener("click", ()=>{
 
 
 
+<<<<<<< HEAD
 let clavier;
 let cryptedText;
 let qcmContainer;
@@ -69,6 +82,19 @@ async function showStep(step) {
     let awnserName = stepContent[0].interaction;
     awnserName = JSON.parse(awnserName);
     questionName = JSON.parse(questionName);
+=======
+let letterShow
+let clavier
+let TextInput
+let cryptedText
+let qcmContainer
+let qcmIa
+
+
+async function showStep(step) {
+    let stepContent = await getStep(personnality, step)
+    stepContent = stepContent.data
+>>>>>>> ec6ba06d3506dae57203d80201ed7d2119f2be97
     
     document.querySelector("#title").textContent = questionName.name;
     document.querySelector("#desc").textContent = questionName.question;
@@ -92,7 +118,16 @@ async function showStep(step) {
             ];
 
             const supp = document.createElement("button");
+<<<<<<< HEAD
             supp.innerText = "supprimer";
+=======
+            supp.innerText="supprimer"
+
+            const valid = document.createElement("button")
+            valid.innerText="Valider"
+            
+
+>>>>>>> ec6ba06d3506dae57203d80201ed7d2119f2be97
 
             touchesEnigma.forEach(lettre => {
                 const touche = document.createElement("button");
@@ -142,102 +177,97 @@ async function showStep(step) {
         }
     } else if (step == 2) {
         console.log("Etape 2 chargée")
+        document.querySelector("#title").textContent = stepContent.name
         
         if (clavier) clavier.remove()
         if (TextInput) TextInput.remove()
+<<<<<<< HEAD
         if (cryptedText) cryptedText.remove()
         if (valid) valid.remove()
         
         
+=======
+        if (letterShow) letterShow.remove()
+>>>>>>> ec6ba06d3506dae57203d80201ed7d2119f2be97
 
         qcmContainer = document.createElement("div");
         
         const questionElement = document.createElement("h3");
+        questionElement.textContent = "question";
         qcmContainer.appendChild(questionElement);
 
-        console.log(questionName)
-        console.log(awnserName)
-
-        const awnsers = awnserName.answers;
-        const gooodAwnser = awnserName.goodAnswer; 
+        const awnsers = ["reponsse A", "reponsse B", "reponsse C", "reponsse D"];
+        const gooodAwnser = "reponsse B"; 
         
+        const buttonStep2 = [];
 
         awnsers.forEach(awnser => {
             const btnAw = document.createElement("button");
             btnAw.textContent = awnser;
             btnAw.style.display = "block"; 
-            btnAw.style.margin = "10px 0";
-            btnAw.value = awnser
-            btnAw.classList.add("btn")
-            qcmContainer.appendChild(btnAw); 
-        })
+            btnAw.style.margin = "10px 0"; 
             
-        
-        qcmContainer.querySelectorAll("button").forEach((element) => {
+            
+            buttonStep2.push(btnAw);
+            
+            btnAw.addEventListener("click", () => {
+                buttonStep2.forEach(btn => btn.disabled = true);
 
-        
-            element.addEventListener("click", () => {
-                qcmContainer.querySelectorAll("button").forEach(btn => btn.disabled = true);
-                
-
-                if (element.value === gooodAwnser) {
+                if (awnser === gooodAwnser) {
                     console.log("Bonne réponse !");
-                    element.style.backgroundColor = "green";
-
+                    btnAw.style.backgroundColor = "green";
                 } else {
                     console.log("Mauvaise réponse !");
+<<<<<<< HEAD
                     element.style.backgroundColor = "red";
                     element.textContent == gooodAwnser
                     document.getElementById(gooodAwnser).style.backgroundColor="green"
+=======
+                    btnAw.style.backgroundColor = "red";
+>>>>>>> ec6ba06d3506dae57203d80201ed7d2119f2be97
                 }
             });
             
-           
+            qcmContainer.appendChild(btnAw);
         });
 
         document.querySelector("body").appendChild(qcmContainer);
         
     } else if (step == 3) {
-
         console.log("harry potter3")
+        document.querySelector("#title").textContent = stepContent.name
         if (qcmContainer) qcmContainer.remove()
     
         qcmIa = document.createElement("div")
 
-        const awnsers = awnserName.answers;
-        const goodAwnser = awnserName.goodAnswer; 
+        const awnsers = ["personne A", "personne B"]
+        const goodAnwser = "personne A"
 
        
+        const buttonStep3 = [];
 
         awnsers.forEach(awnser => {
             const btnAw = document.createElement("button");
             btnAw.textContent = awnser;
             btnAw.style.display = "block"; 
-            btnAw.style.margin = "10px 0";
-            btnAw.value = awnser
-            btnAw.classList.add("btn")
-            btnAw.setAttribute("id",awnser)
-            qcmIa.appendChild(btnAw);
-        })
+            btnAw.style.margin = "10px 0"; 
+            
+   
+            buttonStep3.push(btnAw);
+            
+            btnAw.addEventListener("click", () => {
+                buttonStep3.forEach(btn => btn.disabled = true);
 
-        qcmIa.querySelectorAll("button").forEach((element) => {
-
-            element.addEventListener("click", () => {
-                qcmIa.querySelectorAll("button").forEach(btn => btn.disabled = true);
-                
-
-                if (element.value === goodAwnser) {
+                if (awnser === goodAnwser) {
                     console.log("Bonne réponse !");
-                    element.style.backgroundColor = "green";
+                    btnAw.style.backgroundColor = "green";
                 } else {
                     console.log("Mauvaise réponse !");
-                    element.style.backgroundColor = "red";
-                    document.getElementById(goodAwnser).style.backgroundColor="green"
-                    
+                    btnAw.style.backgroundColor = "red";
                 }
             });
             
-            
+            qcmIa.appendChild(btnAw);
         });
 
         document.querySelector("body").appendChild(qcmIa)
