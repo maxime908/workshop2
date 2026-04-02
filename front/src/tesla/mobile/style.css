@@ -1,8 +1,6 @@
 @import url(../../../reset.css);
 
 
-@import url('../../../reset.css');
-
 /* Layout général section frise */
 #section-step2 {
     display: flex;
