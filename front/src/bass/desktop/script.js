@@ -137,7 +137,7 @@ function showAnswer(step, good) {
     gsap.to("#portrait1", {
       duration: 0.5,
       ease: "power4.out",
-      x: -320,
+      x: -270,
       y: 250,
       scale: 1.5
     })

@@ -1,5 +1,9 @@
 @import url(../../../reset.css);
 
+body {
+    color: #38C8D8;
+    background-image: url("../assets/bg-phone.svg");
+}
 
 /* Layout général section frise */
 #section-step2 {
@@ -116,6 +120,7 @@
     border-color: #38a169;
     color: #22543d;
 }
+
 #section-step2-dates button.incorrect {
     background-color: #fed7d7;
     border-color: #e53e3e;
@@ -212,83 +217,87 @@
 }
 
 .track {
-  position: relative;
-  /* On fixe une largeur raisonnable pour un mobile */
-  width: 80%; 
-  max-width: 300px; 
-  
-  /* On la centre horizontalement */
-  margin: 40px auto; 
-  
-  height: 40px;
-  display: flex;
-  align-items: center;
-  touch-action: none;
-  cursor: pointer;
-  /* debug: background: rgba(0,0,0,0.05); // active ça pour voir la zone de clic */
+    position: relative;
+    /* On fixe une largeur raisonnable pour un mobile */
+    width: 80%;
+    max-width: 300px;
+
+    /* On la centre horizontalement */
+    margin: 40px auto;
+
+    height: 40px;
+    display: flex;
+    align-items: center;
+    touch-action: none;
+    cursor: pointer;
+    /* debug: background: rgba(0,0,0,0.05); // active ça pour voir la zone de clic */
 }
 
-.line { 
-  width: 100%; 
-  height: 2px; 
-  background: black; 
+.line {
+    width: 100%;
+    height: 2px;
+    background: black;
 }
 
-.dot-fixed { 
-  position: absolute; 
-  background: black; 
-  border-radius: 50%; 
-  top: 50%; 
-  transform: translateY(-50%); 
+.dot-fixed {
+    position: absolute;
+    background: black;
+    border-radius: 50%;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
-.start { 
-  left: 0; 
-  width: 16px; 
-  height: 16px; 
-} /* Ton gros point */
+.start {
+    left: 0;
+    width: 16px;
+    height: 16px;
+}
 
-.end { 
-  right: 0; 
-  width: 8px; 
-  height: 8px; 
-}   /* Ton petit point */
+/* Ton gros point */
+
+.end {
+    right: 0;
+    width: 8px;
+    height: 8px;
+}
+
+/* Ton petit point */
 
 .thumb {
-  position: absolute;
-  left: 0;
-  width: 24px;
-  height: 24px;
-  background: black;
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-  top: 50%;
-  display: flex;
-  justify-content: center;
+    position: absolute;
+    left: 0;
+    width: 24px;
+    height: 24px;
+    background: black;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    display: flex;
+    justify-content: center;
 }
 
-#value-display { 
-    position: absolute; 
-    bottom: 30px; 
-    font-weight: bold; 
-    white-space: nowrap; 
+#value-display {
+    position: absolute;
+    bottom: 30px;
+    font-weight: bold;
+    white-space: nowrap;
 }
 
 
 
 dialog {
-  height: fit-content;
-  width: fit-content;
-  color: #000000;
-  background-color: #758cdf;
-  border-radius: 26px;
-  padding: 40px;
-  opacity: 1;
-  /* scale: 1.5; */
-  margin: auto;
-  overflow: hidden;
-  border: none;
-  max-width: 80%;
+    height: fit-content;
+    width: fit-content;
+    color: #000000;
+    background-color: #758cdf;
+    border-radius: 26px;
+    padding: 40px;
+    opacity: 1;
+    /* scale: 1.5; */
+    margin: auto;
+    overflow: hidden;
+    border: none;
+    max-width: 80%;
 }
 
 dialog p {
@@ -297,13 +306,13 @@ dialog p {
 
 
 dialog h3 {
-  margin-top: 20px;
-  font-size: 14px;
+    margin-top: 20px;
+    font-size: 14px;
 }
 
 
 dialog::backdrop {
-  background-color: #00000084;
+    background-color: #00000084;
 }
 
 .step {

@@ -2,13 +2,18 @@
 
 /* ── PAGE GÉNÉRALE ── */
 body {
-    background: #e8d5c0;
+    background: url(../assets/iPhone\ 17\ -\ 19.svg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center top;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 20px;
+    padding: 60px 20px 20px;
     font-family: sans-serif;
+    max-width: 402px;
+    margin: 0 auto;
 }
 
 h1#title {
@@ -279,4 +284,28 @@ p#desc {
     bottom: 30px;
     font-weight: bold;
     white-space: nowrap;
+}
+
+#validate {
+    padding: 14px;
+    width: 100%;
+    background: #7a2a3a;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+#validate.correct {
+    background-color: #c6f6d5;
+    border: 1.5px solid #38a169;
+    color: #22543d;
+}
+
+#validate.incorrect {
+    background-color: #fed7d7;
+    border: 1.5px solid #e53e3e;
+    color: #742a2a;
 }
