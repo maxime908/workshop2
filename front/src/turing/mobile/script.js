@@ -1,24 +1,16 @@
 import { getAPI, createGame, getStep, getPersonnality } from "../../utils.js";
 import { setParams } from "../../utils";
 
-<<<<<<< HEAD
 
 const personnality = "turing"
 
-=======
-// Ici modifier avec le nom de votre personnalité
-const personnality = "turing"
->>>>>>> ec6ba06d3506dae57203d80201ed7d2119f2be97
 
 let allData = await getPersonnality(personnality)
 
 allData = allData.data
-<<<<<<< HEAD
 
 console.log("poule : " ,allData)
 
-=======
->>>>>>> ec6ba06d3506dae57203d80201ed7d2119f2be97
 
 console.log(allData)
 
@@ -67,7 +59,6 @@ document.querySelector("#step3").addEventListener("click", ()=>{
 
 
 
-<<<<<<< HEAD
 let clavier;
 let cryptedText;
 let qcmContainer;
@@ -82,19 +73,6 @@ async function showStep(step) {
     let awnserName = stepContent[0].interaction;
     awnserName = JSON.parse(awnserName);
     questionName = JSON.parse(questionName);
-=======
-let letterShow
-let clavier
-let TextInput
-let cryptedText
-let qcmContainer
-let qcmIa
-
-
-async function showStep(step) {
-    let stepContent = await getStep(personnality, step)
-    stepContent = stepContent.data
->>>>>>> ec6ba06d3506dae57203d80201ed7d2119f2be97
     
     document.querySelector("#title").textContent = questionName.name;
     document.querySelector("#desc").textContent = questionName.question;
@@ -118,16 +96,7 @@ async function showStep(step) {
             ];
 
             const supp = document.createElement("button");
-<<<<<<< HEAD
             supp.innerText = "supprimer";
-=======
-            supp.innerText="supprimer"
-
-            const valid = document.createElement("button")
-            valid.innerText="Valider"
-            
-
->>>>>>> ec6ba06d3506dae57203d80201ed7d2119f2be97
 
             touchesEnigma.forEach(lettre => {
                 const touche = document.createElement("button");
@@ -181,14 +150,10 @@ async function showStep(step) {
         
         if (clavier) clavier.remove()
         if (TextInput) TextInput.remove()
-<<<<<<< HEAD
         if (cryptedText) cryptedText.remove()
         if (valid) valid.remove()
         
         
-=======
-        if (letterShow) letterShow.remove()
->>>>>>> ec6ba06d3506dae57203d80201ed7d2119f2be97
 
         qcmContainer = document.createElement("div");
         
@@ -218,13 +183,9 @@ async function showStep(step) {
                     btnAw.style.backgroundColor = "green";
                 } else {
                     console.log("Mauvaise réponse !");
-<<<<<<< HEAD
                     element.style.backgroundColor = "red";
                     element.textContent == gooodAwnser
                     document.getElementById(gooodAwnser).style.backgroundColor="green"
-=======
-                    btnAw.style.backgroundColor = "red";
->>>>>>> ec6ba06d3506dae57203d80201ed7d2119f2be97
                 }
             });
             
