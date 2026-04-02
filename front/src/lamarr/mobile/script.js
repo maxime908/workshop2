@@ -25,7 +25,6 @@ createGameStatus = createGameStatus.data
 
 document.querySelector("#start").addEventListener("click", async () => {
     document.querySelector("#start").style.display = "none"
-    document.querySelector("#step1").style.display = "block"
     document.querySelector("#section-step2").style.display = "block"
 
     const result = await getStep("lamarr", 0);
@@ -165,12 +164,12 @@ document.querySelector("#step1").addEventListener("click", async () => {
         button.textContent = choice.label;
 
         button.addEventListener("click", () => {
-            if (choice.correct) {
+           if (choice.correct) {
                 button.classList.add("correct");
-                document.querySelector("#step2").style.display = "block";
             } else {
                 button.classList.add("incorrect");
             }
+            document.querySelector("#step2").style.display = "block";
         });
         containerChoicesQuestion.appendChild(button);
     });
@@ -181,7 +180,7 @@ document.querySelector("#step2").addEventListener("click", async () => {
 
     // On cache l'étape 2 et on affiche l'étape 3
     document.querySelector("#step2").style.display = "none"
-    document.querySelector("#step3").style.display = "block"
+    
     document.querySelector("#section-step3").style.display = "none"
     document.querySelector("#section-step4").style.display = "block"
 
@@ -247,7 +246,7 @@ document.querySelector("#step2").addEventListener("click", async () => {
             document.querySelector("#validate").textContent = parsed.message
         } else {
             document.querySelector("#validate").classList.add("incorrect")
-            document.querySelector("#validate").textContent = "Mauvaise réponse, réessaie !"
+            document.querySelector("#validate").textContent = "Mauvaise réponse!"
         }
 
         // On attend 5 secondes puis on passe à la suite
