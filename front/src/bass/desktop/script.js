@@ -26,7 +26,13 @@ async function changeWindow() {
     } else {
       console.log("Le params a changé")
       if (data.bass.params == "goodAnswer") {
-        showAnswer(dataStep, true)
+        if (dataStep == 3) {
+          hideStep(dataStep)
+          showStep(4)
+        } else {
+          showAnswer(dataStep, true)
+        }
+        
       } else if (data.bass.params == "wrongAnswer") {
         showAnswer(dataStep, false)
       } else if (data.bass.params == "refresh") {
@@ -51,8 +57,11 @@ async function changeWindow() {
   oldData = data.bass
 }
 
+
 setInterval(changeWindow, 500)
 
+const qrcodeContainer = document.querySelector("#qrcode");
+new QRCode(qrcodeContainer, "https://b1-2026-workshop2.gobelinsannecy.fr/front/src/bass/mobile/index.html");
 
 function showStep(step) {
   gsap.fromTo(document.querySelector("#step" + step), {
@@ -121,6 +130,13 @@ function showAnswer(step, good) {
       delay: 0.6,
     })
 
+    // On affiche le miniInfos answer
+    gsap.to("#miniAnswer", {
+      duration: 0.8,
+      ease: "power4.out",
+      opacity: 1,
+    })
+
   } else if (step == 2) {
 
     // On enlève le portrait de Kubrick
@@ -152,13 +168,13 @@ function showAnswer(step, good) {
     })
 
     // On affiche le miniInfos
-    gsap.to("#step2 #miniInfos", {
+    gsap.to("#step2 .miniInfos", {
       duration: 0.8,
       ease: "power4.out",
       opacity: 1,
     })
 
-    // On affiche le miniInfos
+    // On affiche la petite vidéo avec l'oiseau et Hitchcock
     gsap.to("#video3", {
       duration: 0.8,
       ease: "power4.out",
