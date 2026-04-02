@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const url = "http://localhost/workshop2/api/"
+const url = "/api/"
 
 //Communications avec l'API
 
