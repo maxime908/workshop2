@@ -3,7 +3,7 @@ import { readJSONFile } from "../../utils";
 
 let oldData;
 
-// Tableau de mes vidéos
+// Mes vidéos
 const video = [
     "../assets/step1.mp4",
     "../assets/step2.mp4",
@@ -15,53 +15,63 @@ const video = [
 function changeVideo(step) {
     const lecteur = document.getElementById("lecteur")
 
-    const videoIndex = step - 1
+    if (step === 0) {
+        document.body.classList.add("show-bg")
+        lecteur.style.display = "none"
+        lecteur.pause()
 
-    if (video[videoIndex]) {
-        lecteur.src = video[videoIndex]
-        console.log("Vidéo", videoIndex);
+        console.log("Étape 0");
+    } else {
 
-        lecteur.load();
-        lecteur.play();
+        const videoIndex = step - 1
+
+        if (video[videoIndex]) {
+            document.body.classList.remove("show-bg")
+            lecteur.style.display = "block"
+
+            lecteur.src = video[videoIndex];
+            console.log("Vidéo", videoIndex);
+
+            lecteur.load();
+            lecteur.play();
+        }
     }
 }
-
-// changeVideo(dataStep)
 
 
 
 async function changeWindow() {
 
     const data = await readJSONFile('/steps.json')
-    const dataStep = data.bass.step
+    const dataStep = data.tesla.step
 
     if (!oldData) {
-        oldData = ""
-        console.log("DataStep au tout début donne", dataStep)
-        // hideStep(0)
-        // showStep(dataStep)
-    }
-
-    if (JSON.stringify(data.bass) == JSON.stringify(oldData)) {
-        console.log("Aucune valeur changée")
+        changeVideo(dataStep);
+        console.log("DataStep au tout début donne", dataStep);
     } else {
-
-        if (JSON.stringify(data.bass.step) != JSON.stringify(oldData.step)) {
-            // hideStep(dataStep - 1)
-            // showStep(dataStep)
-
-            changeVideo(dataStep)
+        if (JSON.stringify(data.tesla) == JSON.stringify(oldData)) {
         } else {
-            console.log("Le params a changé")
-            if (data.bass.params == "goodAnswer") {
-                showAnswer(dataStep, true)
-            } else if (data.bass.params == "wrongAnswer") {
-                showAnswer(dataStep, false)
+            if (data.tesla.step != oldData.step) {
+                changeVideo(dataStep);
+            } else {
+                console.log("Le params a changé");
+                if (data.tesla.params == "goodAnswer") {
+                    // showAnswer(dataStep, true)
+                } else if (data.tesla.params == "wrongAnswer") {
+                    // showAnswer(dataStep, false)
+                }
             }
         }
     }
-
-    oldData = data.bass
+    oldData = data.tesla
 }
 
+
+
+
+
 setInterval(changeWindow, 500)
+
+
+// - Enlever le qr code
+// - Mettre la vidéo en portrait

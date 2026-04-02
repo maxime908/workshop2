@@ -2,7 +2,11 @@
 
 body {
     color: #38C8D8;
-    background-image: url("../assets/bg-phone.svg");
+    background-image: url(../assets/bg-phone.svg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center top;
+    min-height: 100vh;
 }
 
 /* Layout général section frise */

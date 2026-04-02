@@ -1,71 +1,74 @@
-async function readSteps() {
-    try {
+import gsap from "gsap";
+import { readJSONFile } from "../../utils";
 
-        const response = await fetch('/steps.json');
+let oldData;
 
-        if (!response.ok) {
-            throw new Error(`Erreur lors du chargement : ${response.status}`);
-        }
-
-        // On transforme la réponse en objet JavaScript utilisable
-        const data = await response.json();
-        return data;
-
-    } catch (error) {
-        console.error("Impossible de lire le fichier steps.json :", error);
-    }
-}
-
-
-// Tableau de mes vidéos
+// Mes vidéos
 const video = [
-    "../../assets/step1.mp4",
-    "../../assets/step2.mp4",
-    "../../assets/step3.mp4"
+    "../assets/4perso_mc.mp4"
 ]
 
 // Ici on récupère l'étape pour afficher la vidéo correspondante
 function changeVideo(step) {
     const lecteur = document.getElementById("lecteur")
 
-    const videoIndex = step - 1
+    if (step === 0) {
+        document.body.classList.add("show-bg")
+        lecteur.style.display = "none"
+        lecteur.pause()
 
-    if (video[videoIndex]) {
-        lecteur.src = video[videoIndex]
-        console.log("Vidéo", videoIndex);
+        console.log("Étape 0");
+    } else {
 
-        lecteur.load();
-        lecteur.play();
+        const videoIndex = step - 1
+
+        if (video[videoIndex]) {
+            document.body.classList.remove("show-bg")
+            lecteur.style.display = "block"
+
+            lecteur.src = video[videoIndex];
+            console.log("Vidéo", videoIndex);
+
+            lecteur.load();
+            lecteur.play();
+        }
     }
 }
 
 
-
-let oldData;
 
 async function changeWindow() {
 
-    const data = await readSteps()
-    // const dataStep = 1
-    const dataStep = data.lamarr.step
+    const data = await readJSONFile('/steps.json')
+    const dataStep = data.tesla.step
 
-    if (dataStep === oldData) {
-        console.log("Aucune valeur changée")
+    if (!oldData) {
+        changeVideo(dataStep);
+        console.log("DataStep au tout début donne", dataStep);
     } else {
-        console.log("Nouvelles valeurs, changeons la window !")
-        document.querySelector("h2").textContent = "Nous sommes à l'étape " + dataStep + " !"
-        document.querySelector("p").textContent = "État de la réponse : " + data.lamarr.params
-
-        changeVideo(dataStep)
-
-        oldData = dataStep // On met à jour après le changement
+        if (JSON.stringify(data.tesla) == JSON.stringify(oldData)) {
+        } else {
+            if (data.tesla.step != oldData.step) {
+                changeVideo(dataStep);
+            } else {
+                console.log("Le params a changé");
+                if (data.tesla.params == "goodAnswer") {
+                    // showAnswer(dataStep, true)
+                } else if (data.tesla.params == "wrongAnswer") {
+                    // showAnswer(dataStep, false)
+                }
+            }
+        }
     }
-
-    console.log("data :", dataStep)
-
-    console.log("oldData :", oldData)
-
-    oldData = dataStep
+    oldData = data.tesla
 }
 
-setInterval(changeWindow, 1000)
+
+
+
+
+setInterval(changeWindow, 500)
+
+
+// - Enlever le qr code
+// - Mettre la vidéo en portrait
