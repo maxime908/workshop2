@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : jeu. 02 avr. 2026 à 09:09
+-- Généré le : jeu. 02 avr. 2026 à 13:45
 -- Version du serveur : 10.4.32-MariaDB
 -- Version de PHP : 8.2.12
 
@@ -41,11 +41,12 @@ CREATE TABLE `game` (
 --
 
 INSERT INTO `game` (`id_game`, `device_id`, `startDate`, `endDate`, `id_page`, `score`) VALUES
-(55, 'TESTTESTTEST2456789', '2026-04-01 12:38:05', '2026-04-02 06:36:25', 4, 0),
-(56, 'TESTTESTTEST2456789', '2026-04-01 17:34:52', '2026-04-02 06:36:25', 4, 0),
-(57, 'TESTTESTTEST2456789', '2026-04-01 20:21:27', '2026-04-02 06:36:25', 4, 0),
-(58, 'TESTTESTTEST2456789', '2026-04-01 20:37:54', '2026-04-02 06:36:25', 4, 0),
-(59, 'TESTTESTTEST2456789', '2026-04-02 06:36:25', NULL, 4, 0);
+(55, 'TESTTESTTEST2456789', '2026-04-01 12:38:05', '2026-04-02 09:07:13', 4, 0),
+(56, 'TESTTESTTEST2456789', '2026-04-01 17:34:52', '2026-04-02 09:07:13', 4, 0),
+(57, 'TESTTESTTEST2456789', '2026-04-01 20:21:27', '2026-04-02 09:07:13', 4, 0),
+(58, 'TESTTESTTEST2456789', '2026-04-01 20:37:54', '2026-04-02 09:07:13', 4, 0),
+(59, 'TESTTESTTEST2456789', '2026-04-02 06:36:25', '2026-04-02 09:07:13', 4, 0),
+(60, 'TESTTESTTEST2456789', '2026-04-02 09:07:13', '2026-04-02 11:44:51', 4, 5);
 
 -- --------------------------------------------------------
 
@@ -121,22 +122,22 @@ CREATE TABLE `steps` (
 --
 
 INSERT INTO `steps` (`id_step`, `number`, `question`, `interaction`) VALUES
-(1, 0, '{\"choices\": [{\"date\": 1914, \"name\": \"Naissance\"}, {\"date\": 1933, \"name\": \"Grand scandale\"}, {\"date\": 1933, \"name\": \"Grand succès\"}, {\"date\": 1933, \"name\": \"Mariage\"}, {\"date\": 1937, \"name\": \"Fuite de l\'Europe\"}, {\"date\": 1937, \"name\": \"Signe avec la MGM\"}, {\"date\": 1942, \"name\": \"Nouveau système de comm\"}, {\"date\": 2000, \"name\": \"Décès\"}]}'"),
-(2, 1, '{\"choices\": [{\"text\": \"Extase\", \"label\": \"A\", \"correct\": true}, {\"text\": \"...\", \"label\": \"B\", \"correct\": false}, {\"text\": \"...\", \"label\": \"C\", \"correct\": false}], \"question\": \"Quel fut le film qui fit scandale ?\"}'),
-(3, 2, '{\"correct\": 0, \"message\": \"Pas un dollar — les brevets ayant expiré avant que l\'industrie ne s\'en empare.\", \"question\": \"Combien Hedy Lamarr a-t-elle pu toucher par les brevets de ses inventions ?\"}'),
-(4, 3, '[\"discover\", \"invention\"]', '[\"end\"]'),
-(5, 0, '[\"discover\", \"invention\"]', '[\"start\"]'),
-(6, 1, 'Nikola Tesla', '{\r\n    \"question\": \"Dans quelle ville Tesla a-t-il commencé ses études avant d''intégrer l''École polytechnique de Graz ?\",\r\n    \"answer1\": \"Paris\",\r\n    \"answer2\": \"Berlin\",\r\n    \"answer3\": \"Karlovac\",\r\n    \"goodAnswer\": \"Karlovac\",\r\n    \"type\": \"qcm1\"\r\n}'),
-(7, 2, 'Nikola Tesla', '{\r\n    \"question\": \"Trouve la bobine de Tesla:\",\r\n    \"answer1\": \"illu1.svg\",\r\n    \"answer2\": \"illu2.svg\",\r\n    \"answer3\": \"illu3.svg\",\r\n    \"answer4\": \"illu4.svg\",\r\n    \"goodAnswer\": \"illu2.svg\",\r\n    \"type\": \"qcm2\"\r\n}'),
-(8, 3, 'Nikola Tesla', '{\r\n    \"question\": \"Remplis la frise chronologique\",\r\n    \"choices\": [\r\n        { \"date\": \"1856\", \"name\": \"Naissance\" },\r\n        { \"date\": \"1875\", \"name\": \"Intègre l’école polytechnique de Graz\" },\r\n        { \"date\": \"1901\", \"name\": \"Construction de la tour Wardenclyffe\" },\r\n        { \"date\": \"1917\", \"name\": \"Démolition de la tour Wardenclyffe\" },\r\n        { \"date\": \"1943\", \"name\": \"Mort\" }\r\n],\r\n    \"type\": \"frise\"\r\n}'),
+(1, 0, '{\r\n  \"choices\": [\r\n    { \"date\": 1914, \"name\": \"Naissance\" },\r\n    { \"date\": 1933, \"name\": \"Grand scandale\" },\r\n    { \"date\": 1933, \"name\": \"Grand succès\" },\r\n    { \"date\": 1933, \"name\": \"Mariage\" },\r\n    { \"date\": 1937, \"name\": \"Fuite de l\'Europe\" },\r\n    { \"date\": 1937, \"name\": \"Signe avec la MGM\" },\r\n    { \"date\": 1942, \"name\": \"Nouveau système de comm\" },\r\n    { \"date\": 2000, \"name\": \"Décès\" }\r\n  ]\r\n}', '[\"start\"]'),
+(2, 1, '{\r\n  \"choices\": [\r\n    { \"text\": \"Extase\", \"label\": \"A\", \"correct\": true },\r\n    { \"text\": \"...\", \"label\": \"B\", \"correct\": false },\r\n    { \"text\": \"...\", \"label\": \"C\", \"correct\": false }\r\n  ],\r\n  \"question\": \"Quel fut le film qui fit scandale ?\"\r\n}', '[\"discover\", \"invention\"]'),
+(3, 2, '{\r\n  \"correct\": 0,\r\n  \"message\": \"Pas un dollar — les brevets ayant expiré avant que l\'industrie ne s\'en empare.\",\r\n  \"question\": \"Combien Hedy Lamarr a-t-elle pu toucher par les brevets de ses inventions ?\"\r\n}', '[\"choice\", \"player_action\"]'),
+(4, 3, 'Hedy Lamarr', '[\"end\"]'),
+(5, 0, 'Nikola Tesla', '[\"start\"]'),
+(6, 1, 'Nikola Tesla', '[\"discover\", \"electricity\"]'),
+(7, 2, 'Nikola Tesla', '[\"choice\", \"player_action\"]'),
+(8, 3, 'Nikola Tesla', '[\"end\"]'),
 (9, 0, 'Saul Bass', '[\"start\"]'),
 (10, 1, 'Saul Bass', '{\r\n    \"question\": \"Où Saul Bass a-t-il fait ses études artistiques ?\",\r\n    \"type\": \"map\"\r\n}'),
 (11, 2, 'Saul Bass', '{\r\n    \"question\": \"Pour quel réalisateur Bass a-t-il réalisé le générique de Psychose ?\",\r\n    \"answer1\": \"Otto Preminger\",\r\n    \"answer2\": \"Stanley Kubrick\",\r\n    \"answer3\": \"Alfred Hitchcock\",\r\n    \"goodAnswer\": \"Alfred Hitchcock\",\r\n    \"type\": \"qcm\"\r\n}'),
 (12, 3, 'Saul Bass', '{\r\n    \"question\": \"Quel est le mantra de Bass ?\",\r\n    \"answer1\": \"Symbolize and empasize\",\r\n    \"answer2\": \"Symbolize and summarize\",\r\n    \"answer3\": \"Symbolise and summarize\",\r\n    \"goodAnswer\": \"Symbolize and summarize\",\r\n    \"type\": \"qcm\"\r\n}'),
-(13, 0, '[\"discover\", \"invention\"]', '[\"start\"]'),
-(14, 1, '[\"discover\", \"invention\"]', '[\"discover\", \"machine\"]'),
-(15, 2, '[\"discover\", \"invention\"]', '[\"choice\", \"player_action\"]'),
-(16, 3, '[\"discover\", \"invention\"]', '[\"end\"]');
+(13, 0, 'Alan Turing', '[\"start\"]'),
+(14, 1, '{\r\n  \"name\": \"La Machine Enigma\",\r\n  \"question\": \"Déchiffrez le code secret à l\'aide de la machine.\"\r\n}', '{\r\n  \"cryptedText\": \"XIXK\",\r\n  \"goodAnswer\": \"ALAN\"\r\n}'),
+(15, 2, '{\r\n  \"name\": \"Test de connaissances\",\r\n  \"question\": \"Pendant quel conflit majeur Alan Turing a-t-il joué un rôle décisif en décryptant les messages de la machine Enigma ?\"\r\n}', '{\r\n  \"answers\": [\r\n    \"La Première Guerre mondiale\",\r\n    \"La Seconde Guerre mondiale\",\r\n    \"La Guerre de Sécession\",\r\n    \"La Guerre Froide\"\r\n  ],\r\n  \"goodAnswer\": \"La Seconde Guerre mondiale\"\r\n}'),
+(16, 3, '{\r\n  \"name\": \"Le Test de Turing\",\r\n  \"question\": \"Lequel de ces deux est véritable être humain ?\"\r\n}', '{\r\n  \"answers\": [\r\n    \"Personne A\",\r\n    \"Personne B\"\r\n  ],\r\n  \"goodAnswer\": \"Personne B\"\r\n}');
 
 --
 -- Index pour les tables déchargées
@@ -177,7 +178,7 @@ ALTER TABLE `steps`
 -- AUTO_INCREMENT pour la table `game`
 --
 ALTER TABLE `game`
-  MODIFY `id_game` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
+  MODIFY `id_game` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
 
 --
 -- AUTO_INCREMENT pour la table `pages`
@@ -211,7 +212,8 @@ ALTER TABLE `game`
 -- Contraintes pour la table `pages_steps`
 --
 ALTER TABLE `pages_steps`
-  ADD CONSTRAINT `pages_steps_ibfk_1` FOREIGN KEY (`id_page`) REFERENCES `pages` (`id_page`);
+  ADD CONSTRAINT `pages_steps_ibfk_1` FOREIGN KEY (`id_page`) REFERENCES `pages` (`id_page`),
+  ADD CONSTRAINT `pages_steps_ibfk_2` FOREIGN KEY (`id_step`) REFERENCES `steps` (`id_step`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
