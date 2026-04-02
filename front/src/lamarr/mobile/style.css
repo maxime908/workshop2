@@ -30,6 +30,26 @@ p#desc {
     margin-bottom: 16px;
 }
 
+#Logo {
+    display: block;
+    margin: 0 auto 40px;
+}
+
+.info-cache {
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 25px;
+}
+
+#info {
+    font-family: 'Billie James', sans-serif;
+    font-size: 45px;
+    text-transform: none;
+    margin-bottom: 80px;
+}
+
+
 #start {
     padding: 14px 32px;
     background: #7a2a3a;
@@ -39,7 +59,8 @@ p#desc {
     font-size: 15px;
     font-weight: 600;
     cursor: pointer;
-    margin-top: 16px;
+    display: block;
+    margin: 100px auto 0;
 }
 
 /* ── SECTION FRISE (étape 0) ── */

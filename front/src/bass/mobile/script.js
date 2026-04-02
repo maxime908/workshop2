@@ -72,9 +72,13 @@ async function showStep(step) {
     console.log(stepContent);
 
     if (stepContent.data.length === 0) {
+        document.querySelector("#next").style.display = "none"
+        console.log("Je vais refresh")
         getStep(personnality, 0)
-        setParams(personnality, "")
-        window.location.href = "../../stats/index.html";
+        setParams(personnality, "refresh")
+        setTimeout(() => {
+            window.open("../../stats/index.html", "_self");
+        }, 1000);
         return;
     }
 

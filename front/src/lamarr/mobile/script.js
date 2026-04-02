@@ -16,8 +16,8 @@ document.querySelector("#step1").style.display = "none"
 document.querySelector("#step2").style.display = "none"
 document.querySelector("#step3").style.display = "none"
 
-document.querySelector("#title").textContent = allData.name
-document.querySelector("#desc").textContent = allData.description
+// document.querySelector("#title").textContent = allData.name
+// document.querySelector("#desc").textContent = allData.description
 
 // Crée une partie — true si OK, false si quelqu'un joue déjà
 let createGameStatus = await createGame("lamarr")
@@ -26,6 +26,7 @@ createGameStatus = createGameStatus.data
 document.querySelector("#start").addEventListener("click", async () => {
     document.querySelector("#start").style.display = "none"
     document.querySelector("#section-step2").style.display = "block"
+     document.querySelector("#Logo").style.display = "none"
 
     const result = await getStep("lamarr", 0);
     let choices = result.data[0].question;
@@ -169,7 +170,7 @@ document.querySelector("#step1").addEventListener("click", async () => {
             } else {
                 button.classList.add("incorrect");
             }
-            document.querySelector("#step2").style.display = "block";
+            setTimeout(() => document.querySelector("#step2").click(), 2000)
         });
         containerChoicesQuestion.appendChild(button);
     });
@@ -259,6 +260,7 @@ document.querySelector("#step3").addEventListener("click", () => {
     document.querySelector("#step3").style.display = "none"
     document.querySelector("#start").style.display = "block"
     document.querySelector("#section-step4").style.display = "none"
+    document.querySelector("#Logo").style.display = "block"
 })
 
 async function showStep(step) {

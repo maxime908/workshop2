@@ -1,5 +1,5 @@
 import gsap from "gsap";
-import { readJSONFile } from "../../utils";
+import { readJSONFile, getStep } from "../../utils";
 
 let oldData;
 
@@ -22,13 +22,17 @@ async function changeWindow() {
     if (JSON.stringify(data.bass.step) != JSON.stringify(oldData.step)) {
       hideStep(dataStep - 1)
       showStep(dataStep)
+      
     } else {
       console.log("Le params a changé")
       if (data.bass.params == "goodAnswer") {
         showAnswer(dataStep, true)
       } else if (data.bass.params == "wrongAnswer") {
         showAnswer(dataStep, false)
-      }
+      } else if (data.bass.params == "refresh") {
+        getStep(0)
+        window.location.reload();
+      } 
     }
     // console.log("Nouvelles valeurs, changeons la window !")
     // document.querySelector("h2").textContent = "Nous sommes à l'étape " + dataStep + " !"
@@ -133,20 +137,11 @@ function showAnswer(step, good) {
       x: 700
     })
 
-    // On met en avant le portrait de hitchcock
+    // On enlève le portrait de hitchcock
     gsap.to("#portrait1", {
       duration: 0.5,
       ease: "power4.out",
-      x: -270,
-      y: 250,
-      scale: 1.5
-    })
-
-    // On affiche la longue description de hitchcock
-    gsap.to("#longDesc", {
-      duration: 0.5,
-      ease: "power4.out",
-      opacity: 1
+      x: 700,
     })
 
     // On fait disparaître le blob
@@ -154,6 +149,20 @@ function showAnswer(step, good) {
       duration: 0.8,
       ease: "power4.out",
       opacity: 0,
+    })
+
+    // On affiche le miniInfos
+    gsap.to("#step2 #miniInfos", {
+      duration: 0.8,
+      ease: "power4.out",
+      opacity: 1,
+    })
+
+    // On affiche le miniInfos
+    gsap.to("#video3", {
+      duration: 0.8,
+      ease: "power4.out",
+      opacity: 1,
     })
   }
 
