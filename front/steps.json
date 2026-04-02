@@ -1,5 +1,1 @@
-<<<<<<< HEAD
-{"tesla":{"step":0,"params":""},"lamarr":{"step":2,"params":""},"bass":{"step":3,"params":"goodAnswer"},"turing":{"step":0,"params":""}}
-=======
-{"tesla":{"step":0,"params":""},"lamarr":{"step":0,"params":""},"bass":{"step":3,"params":"goodAnswer"},"turing":{"step":0,"params":""}}
->>>>>>> 2da28c0991c081b06d16542c033fc85588039af8
+{"tesla":{"step":0,"params":""},"lamarr":{"step":0,"params":""},"bass":{"step":3,"params":"wrongAnswer"},"turing":{"step":0,"params":""}}
