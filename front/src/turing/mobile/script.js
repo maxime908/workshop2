@@ -1,12 +1,13 @@
 import { getAPI, createGame, getStep, getPersonnality } from "../../utils.js";
 
 // Ici modifier avec le nom de votre personnalité
-const personnality = "turing"
+const personnality = "Turing"
+
 
 let allData = await getPersonnality(personnality)
 allData = allData.data
-
 console.log(allData)
+
 
 // Exemple d'utilisation du contenu de allData
 document.querySelector("#title").textContent = allData.name
@@ -59,11 +60,18 @@ let TextInput
 let cryptedText
 let qcmContainer
 let qcmIa
+let valid = document.createElement("button")
+valid.innerText="Valider"
 
 
 async function showStep(step) {
     let stepContent = await getStep(personnality, step)
     stepContent = stepContent.data
+    let questionName = stepContent[0].question
+    questionName = JSON.parse(questionName)
+    console.log(questionName)
+    document.querySelector("#title").textContent = questionName.name
+    document.querySelector("#desc").textContent = questionName.question
     
 
     if (step == 1) {
@@ -96,8 +104,7 @@ async function showStep(step) {
             const supp = document.createElement("button");
             supp.innerText="supprimer"
 
-            const valid = document.createElement("button")
-            valid.innerText="Valider"
+          
             
 
 
@@ -166,11 +173,14 @@ async function showStep(step) {
     }
     else if (step == 2) {
         console.log("Etape 2 chargée")
-        document.querySelector("#title").textContent = stepContent.name
         
         if (clavier) clavier.remove()
         if (TextInput) TextInput.remove()
         if (letterShow) letterShow.remove()
+        if (cryptedText) cryptedText.remove()
+        if (valid) valid.remove()
+        
+        
 
         qcmContainer = document.createElement("div");
         
@@ -211,7 +221,6 @@ async function showStep(step) {
         
     } else if (step == 3) {
         console.log("harry potter3")
-        document.querySelector("#title").textContent = stepContent.name
         if (qcmContainer) qcmContainer.remove()
     
         qcmIa = document.createElement("div")

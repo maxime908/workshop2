@@ -139,10 +139,10 @@ async function showStep(step) {
         // Ici on gère l'affichage du qcm avec 4 réponses
         newStep.innerHTML = `
         <h1>${stepContent.question}</h1>
-        <button id="answer1" class="answer">${stepContent.answer1}</button>
-        <button id="answer2" class="answer">${stepContent.answer2}</button>
-        <button id="answer3" class="answer">${stepContent.answer3}</button>
-        <button id="answer4" class="answer">${stepContent.answer4}</button>
+        <button id="answer1" class="answer"><img src="../assets/moteur.svg" alt="${stepContent.answer1}"></button>
+        <button id="answer2" class="answer"><img src="../assets/bobine.svg" alt="${stepContent.answer2}"></button>
+        <button id="answer3" class="answer"><img src="../assets/barrage.svg" alt="${stepContent.answer3}"></button>
+        <button id="answer4" class="answer"><img src="../assets/radio.svg" alt="${stepContent.answer4}"></button>
         `
 
         // On ajoute le nouveau step au body
@@ -297,71 +297,6 @@ async function showStep(step) {
         });
     }
 
-
-
-
-    //========================== Version actuel plus compliquer
-    // Crée les chips événements
-    // choices.forEach(choice => {
-    //     const button = document.createElement("button");
-    //     button.textContent = choice.name;
-    //     button.dataset.date = choice.date;
-    //     button.classList.add("chip")
-    //     containerChoices.appendChild(button);
-    // });
-
-    // const uniqueDates = [...new Set(choices.map(c => c.date))];
-
-    // // Dépose la chip sur la date cliquée
-    // containerDates.addEventListener("click", (e) => {
-    //     if (!selected) return
-    //     const row = e.target.closest(".timeline-row")
-    //     if (!row) return
-    //     row.querySelector(".chips-zone").appendChild(selected)
-    //     answers.push({
-    //         name: selected.textContent,
-    //         placedDate: row.dataset.date,
-    //         correctDate: selected.dataset.date,
-    //         correct: selected.dataset.date == row.dataset.date ? 1 : 0
-    //     })
-    //     selected = null
-    // })
-
-    // // Crée la frise avec date + zone de dépôt
-    // uniqueDates.forEach(date => {
-    //     const row = document.createElement("div")
-    //     row.classList.add("timeline-row")
-    //     row.dataset.date = date
-    //     const label = document.createElement("span")
-    //     label.classList.add("date-label")
-    //     label.textContent = date
-    //     const chipsZone = document.createElement("div")
-    //     chipsZone.classList.add("chips-zone")
-    //     row.appendChild(label)
-    //     row.appendChild(chipsZone)
-    //     containerDates.appendChild(row)
-    // })
-
-    // // Vérifie les réponses et colorie les chips
-    // document.querySelector("#submit").addEventListener("click", () => {
-    //     if (answers.length < choices.length) {
-    //         console.log("Tu n'as pas placé tous les événements !")
-    //         return
-    //     }
-    //     answers.forEach(answer => {
-    //         containerDates.querySelectorAll("button").forEach(btn => {
-    //             if (btn.textContent === answer.name) {
-    //                 btn.classList.add(answer.correct === 1 ? "correct" : "incorrect")
-    //             }
-    //         })
-    //     })
-    //     setTimeout(() => document.querySelector("#step1").click(), 2000)
-    // })
-
-    // if (createGameStatus) {
-    //     console.log("le jeu a commencé")
-    // }
-    //==========================
 
     // On ajoute le nouveau step au body
     document.querySelector("#steps").appendChild(newStep)
