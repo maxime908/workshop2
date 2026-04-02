@@ -52,128 +52,196 @@ document.querySelector("#step3").addEventListener("click", ()=>{
 })
 
 
-const Alphabet = [
-    'A','B','C','D','E','F','G','H','I','J',
-    'K','L','M','N','O','P','Q','R','S','T','U','V',
-    'W','X','Y','Z'
-];
 
-const touchesEnigma = [
-    'A', 'Z', 'E', 'R', 'T', 'Y', 'U', 'I', 'O','P', 
-    'Q', 'S', 'D', 'F', 'G', 'H', 'J','K', 'L', 'M',
-    'W', 'X', 'C', 'V', 'B', 'N'
-];
+let letterShow
+let clavier
+let TextInput
+let cryptedText
+let qcmContainer
+let qcmIa
 
-// Génère le champ de texte
-function generateTextInput() {
-    const input = document.createElement("input");
-    input.classList.add("secret-input");
-    // Ajout d'un attribut readonly si tu veux forcer l'utilisateur à utiliser le clavier virtuel
-    // input.setAttribute("readonly", true); 
-    return input;
-}
-
-// Génère le panneau des lumières (les lettres qui s'allument)
-function generateLetterShow(touches) {
-    const board = document.createElement("div");
-    board.classList.add("lamp-board");
-
-    touches.forEach(lettre => {
-        const toucheLum = document.createElement("div");
-        toucheLum.textContent = lettre;
-        toucheLum.classList.add("lamp");
-        toucheLum.dataset.lettre = lettre;
-        board.appendChild(toucheLum);
-    });
-
-    return board;
-}
-
-// Génère le clavier cliquable et gère la logique de chiffrement
-function generateClavier(touches, alphabet, textInputElement, lampBoardElement) {
-    const keyboard = document.createElement("div");
-    keyboard.classList.add("keyboard-container");
-
-    const supp = document.createElement("button");
-    supp.innerText = "supprimer";
-    
-    // Logique du bouton supprimer
-    supp.addEventListener("click", () => {
-        textInputElement.value = "";
-    });
-
-    touches.forEach(lettre => {
-        const touche = document.createElement("button");
-        touche.textContent = lettre;
-        touche.classList.add("key");
-
-        // Logique de chiffrement César (+3)
-        touche.addEventListener("click", () => {
-            let indexActuel = alphabet.indexOf(lettre);
-            let nouvelIndex = (indexActuel + 3) % alphabet.length; 
-            let lettreChiffree = alphabet[nouvelIndex];
-            
-            textInputElement.value += lettreChiffree;
-
-            // Allumer la lampe correspondante
-            const lampeAAllumer = lampBoardElement.querySelector(`[data-lettre="${lettreChiffree}"]`);
-            if (lampeAAllumer) {
-                lampeAAllumer.classList.add("lit");
-                setTimeout(() => {
-                    lampeAAllumer.classList.remove("lit");
-                }, 500);
-            }
-        });
-
-        keyboard.appendChild(touche);
-    });
-
-    keyboard.appendChild(supp);
-    return keyboard;
-}
-
-let letterShow;
-let clavier;
-let TextInput;
 
 async function showStep(step) {
-    let stepContent = await getStep(personnality, step);
-    stepContent = stepContent.data;
+    let stepContent = await getStep(personnality, step)
+    stepContent = stepContent.data
+    
 
     if (step == 1) {
-        // On vérifie si les éléments n'ont pas déjà été créés pour éviter les doublons
-        if (!clavier) { 
-            TextInput = generateTextInput();
-            letterShow = generateLetterShow(touchesEnigma);
-            clavier = generateClavier(touchesEnigma, Alphabet, TextInput, letterShow);
-            
-            document.body.appendChild(TextInput);
-            document.body.appendChild(letterShow);
-            document.body.appendChild(clavier); 
-        }
-    } 
-    else if (step == 2) {
-        console.log("harry potter2");
-        
-        const titleElement = document.querySelector("#title");
-        if (titleElement) {
-            titleElement.textContent = stepContent.name;
-        }
 
-        // On supprime les éléments du DOM s'ils existent
-        if (clavier) clavier.remove();
-        if (TextInput) TextInput.remove();
-        if (letterShow) letterShow.remove();
         
-        // Optionnel : on réinitialise les variables
-        clavier = null;
-        TextInput = null;
-        letterShow = null;
+        letterShow = document.createElement("div");
+        clavier = document.createElement("div");
+        TextInput = document.createElement("input");
+        cryptedText = document.createElement("h2")
+        cryptedText.innerText="XIXK"
+       
+        clavier.classList.add("keyboard-container");
+        letterShow.classList.add("lamp-board"); 
+        TextInput.classList.add("secret-input");
+        TextInput.disabled=true
+
+
+        if (clavier.children.length === 0) {
+            
+            const Alphabet = ['A','B','C','D','E','F','G','H','I','J',
+                'K','L','M','N','O','P','Q','R','S','T','U','V',
+                'W','X','Y','Z'];
+
+            const touchesEnigma = [
+                'A', 'Z', 'E', 'R', 'T', 'Y', 'U', 'I', 'O','P', 
+                'Q', 'S', 'D', 'F', 'G', 'H', 'J','K', 'L', 'M',
+                'W', 'X', 'C', 'V', 'B', 'N'
+            ];
+
+            const supp = document.createElement("button");
+            supp.innerText="supprimer"
+
+            const valid = document.createElement("button")
+            valid.innerText="Valider"
+            
+
+
+            touchesEnigma.forEach(lettre => {
+                const toucheLum = document.createElement("div");
+                const touche = document.createElement("button");
+                
+                
+                
+                toucheLum.textContent = lettre;
+                touche.textContent = lettre;
+                
+                touche.classList.add("key");
+                toucheLum.classList.add("lamp");
+                
+                
+                toucheLum.dataset.lettre = lettre; 
+
+                touche.addEventListener("click", () => {
+                    let indexActuel = Alphabet.indexOf(lettre);
+                    let nouvelIndex = (indexActuel + 3) % Alphabet.length; 
+                    let lettreChiffree = Alphabet[nouvelIndex];
+                    TextInput.value += lettreChiffree;
+                    const lampeAAllumer = letterShow.querySelector(`[data-lettre="${lettreChiffree}"]`);
+                    
+                    if (lampeAAllumer) {
+                        
+                        lampeAAllumer.classList.add("lit");
+                        
+                
+                        setTimeout(() => {
+                            lampeAAllumer.classList.remove("lit");
+                        }, 500);
+                    }
+                });
+
+                supp.addEventListener("click",() => {
+                    TextInput.value =""
+                })
+
+                letterShow.appendChild(toucheLum);
+                clavier.appendChild(touche);
+            });
+            
+            valid.addEventListener("click",()=>{
+                console.log("win")
+                TextInput.style.backgroundColor="green"
+            })
+      
+            clavier.appendChild(supp)
+
+
+
+            document.querySelector("body").appendChild(cryptedText)
+            document.querySelector("body").appendChild(TextInput);
+            document.querySelector("body").appendChild(letterShow);
+            document.querySelector("body").appendChild(valid)
+            document.querySelector("body").appendChild(clavier);
+            
+        }
     }
-    else if (step == 3) {
+    else if (step == 2) {
+        console.log("Etape 2 chargée")
+        document.querySelector("#title").textContent = stepContent.name
+        
+        if (clavier) clavier.remove()
+        if (TextInput) TextInput.remove()
+        if (letterShow) letterShow.remove()
+
+        qcmContainer = document.createElement("div");
+        
+        const questionElement = document.createElement("h3");
+        questionElement.textContent = "question";
+        qcmContainer.appendChild(questionElement);
+
+        const awnsers = ["reponsse A", "reponsse B", "reponsse C", "reponsse D"];
+        const gooodAwnser = "reponsse B"; 
+        
+        const buttonStep2 = [];
+
+        awnsers.forEach(awnser => {
+            const btnAw = document.createElement("button");
+            btnAw.textContent = awnser;
+            btnAw.style.display = "block"; 
+            btnAw.style.margin = "10px 0"; 
+            
+            
+            buttonStep2.push(btnAw);
+            
+            btnAw.addEventListener("click", () => {
+                buttonStep2.forEach(btn => btn.disabled = true);
+
+                if (awnser === gooodAwnser) {
+                    console.log("Bonne réponse !");
+                    btnAw.style.backgroundColor = "green";
+                } else {
+                    console.log("Mauvaise réponse !");
+                    btnAw.style.backgroundColor = "red";
+                }
+            });
+            
+            qcmContainer.appendChild(btnAw);
+        });
+
+        document.querySelector("body").appendChild(qcmContainer);
+        
+    } else if (step == 3) {
         console.log("harry potter3")
         document.querySelector("#title").textContent = stepContent.name
-    } // ... et ainsi de suite si on souhaite ajouter des intéractions
+        if (qcmContainer) qcmContainer.remove()
+    
+        qcmIa = document.createElement("div")
 
-} 
+        const awnsers = ["personne A", "personne B"]
+        const goodAnwser = "personne A"
 
+       
+        const buttonStep3 = [];
+
+        awnsers.forEach(awnser => {
+            const btnAw = document.createElement("button");
+            btnAw.textContent = awnser;
+            btnAw.style.display = "block"; 
+            btnAw.style.margin = "10px 0"; 
+            
+   
+            buttonStep3.push(btnAw);
+            
+            btnAw.addEventListener("click", () => {
+                buttonStep3.forEach(btn => btn.disabled = true);
+
+                if (awnser === goodAnwser) {
+                    console.log("Bonne réponse !");
+                    btnAw.style.backgroundColor = "green";
+                } else {
+                    console.log("Mauvaise réponse !");
+                    btnAw.style.backgroundColor = "red";
+                }
+            });
+            
+            qcmIa.appendChild(btnAw);
+        });
+
+        document.querySelector("body").appendChild(qcmIa)
+
+    } 
+}
