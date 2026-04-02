@@ -3,21 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
     <title>Hedy lamarr</title>
 </head>
 <body>
-    <h1>Hedy Lamarr</h1>
-    <p class="desc"></p>
-    <div id="steps">
-        <button id="step0" value="0">Commencer l'expérience</button>
-        <button id="step1" value="1">Etape 1</button>
-        <button id="step2" value="2">Etape 2</button>
-        <button id="step3" value="3">Etape 3</button>
+    <h1 id="title">Hedy lamarr</h1>
+    <p id="desc">description</p>
+
+    <div>
+        <button id="start">Commencer l'expérience</button>
+        <button id="step1" style="display:none">etape1</button>
+        <button id="step2">etape2</button>
+        <button id="step3">etape3</button>
     </div>
+    <p class="step1"></p>
+
+    <section style="display: none;" id="section-step2">
+        <h2>Événements</h2>
+        <div id="section-step2-events"></div>
+        <h2>Dates</h2>
+        <div id="section-step2-dates"></div>
+        <button id="submit">Soumettre</button>  
+    </section>
     
-    <p class="step"></p>
-    
-   
-<script type="module" src="script.js"></script>
+    <section style="display: none;" id="section-step3">
+        <div id="section-step3-questions"></div>
+        <div id="section-step3-buttons"></div>
+    </section>
+
+    <section style="display: none;" id="section-step4">
+        <p id="step4-question"></p>
+        <div class="track" id="track">
+            <div class="line"></div>
+            <div class="dot-fixed start"></div>
+            <div class="dot-fixed end"></div>
+            <div id="thumb" class="thumb">
+                <span id="value-display">0$</span>
+            </div>
+        </div>
+        <button id="validate">Valider</button>
+    </section>
+
+    <script type="module" src="script.js"></script>
 </body>
 </html>
