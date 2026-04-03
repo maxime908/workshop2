@@ -2,7 +2,7 @@ import gsap from "gsap";
 import { readJSONFile } from "../../utils";
 
 const qrcodeContainer = document.querySelector("#qrcode");
-new QRCode(qrcodeContainer, `${window.location.origin}/front/src/tesla/mobile/index.html`);
+new QRCode(qrcodeContainer, `https://b1-workshop.online/src/tesla/mobile/index.html`);
 
 let oldData;
 
@@ -17,69 +17,78 @@ const videoSegments = [
 
 // Ici on récupère l'étape pour afficher la vidéo correspondante
 function changeVideo(step) {
-    const lecteur = document.getElementById("lecteur")
+    const lecteur = document.getElementById("lecteur");
 
-    if (!lecteur.src.includes(video)) {
+    if (!lecteur.src.includes("animTesla.mp4")) {
         lecteur.src = video;
     }
 
     if (step === 0) {
-        lecteur.style.display = "block"
-        qrcodeContainer.style.display = "block"
-        lecteur.pause()
-        lecteur.currentTime = 0
+        lecteur.style.display = "block";
+        lecteur.pause();
+        lecteur.currentTime = 0;
+
+        // Réapparition du qr code
+        gsap.to(qrcodeContainer, {
+            opacity: 1,
+            scale: 1,
+            duration: 0.5,
+            display: "block",
+            ease: "power2.out"
+        });
 
         console.log("Étape 0");
     } else {
-        qrcodeContainer.style.display = "none"
-
-        const segmentIndex = step - 1
+        const segmentIndex = step - 1;
         const segment = videoSegments[segmentIndex];
 
-        if (segment) {
+        // Disparition du qr code
+        gsap.to(qrcodeContainer, {
+            opacity: 0,
+            scale: 0.8,
+            duration: 0.4,
+            ease: "power2.in",
+            onComplete: () => { qrcodeContainer.style.display = "none"; }
+        });
 
-            lecteur.style.display = "block"
+        if (segment) {
+            lecteur.style.display = "block";
+            lecteur.ontimeupdate = null;
             lecteur.currentTime = segment.start;
 
-            lecteur.play();
+            lecteur.play().catch(e => console.log("Lecture bloquée :", e));
+
             lecteur.ontimeupdate = function () {
                 if (lecteur.currentTime >= segment.end) {
                     lecteur.pause();
                     lecteur.ontimeupdate = null;
                 }
-            }
+            };
         }
     }
 }
 
 async function changeWindow() {
+    const data = await readJSONFile('/steps.json');
+    if (!data || !data.tesla) return;
 
-    const data = await readJSONFile('/steps.json')
-    const dataStep = data.tesla.step
+    const dataStep = data.tesla.step;
 
     if (!oldData) {
         changeVideo(dataStep);
-        console.log("DataStep au tout début donne", dataStep);
     } else {
-        if (JSON.stringify(data.tesla) == JSON.stringify(oldData)) {
+        if (dataStep !== oldData.step) {
+            changeVideo(dataStep);
         } else {
-            // AJOUT ICI : On écoute si le mobile a envoyé "reset"
-            if (data.tesla.params == "reset") {
-                changeVideo(0);
-            } 
-            else if (data.tesla.step != oldData.step) {
-                changeVideo(dataStep);
-            } else {
+            if (data.tesla.params !== oldData.params) {
                 console.log("Le params a changé");
-                if (data.tesla.params == "goodAnswer") {
-                    // showAnswer(dataStep, true)
-                } else if (data.tesla.params == "wrongAnswer") {
-                    // showAnswer(dataStep, false)
+                if (data.tesla.params == "reset") {
+                    changeVideo(0);
                 }
             }
         }
     }
-    oldData = data.tesla
+    oldData = { ...data.tesla };
 }
 
-setInterval(changeWindow, 500)
+setInterval(changeWindow, 500);

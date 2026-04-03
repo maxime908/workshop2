@@ -77,10 +77,12 @@ async function showStep(step) {
         document.querySelector("#steps").innerHTML = ""
         document.querySelector("#steps").appendChild(endStep)
 
-        // AJOUT ICI : async et await setParams "reset"
+        // On reset le grand écran et on retourne au step 0 pour boucler
         document.querySelector("#finalNext").addEventListener("click", async () => {
             await setParams(personnality, "reset");
-            window.location.href = "../../stats/index.html";
+            document.querySelector("#steps").innerHTML = ""
+            document.querySelector("#steps").appendChild(document.createElement("div"))
+            showStep0()
         })
 
         return;
@@ -420,6 +422,35 @@ async function showStep(step) {
         })
 
     });
+}
+
+function showStep0() {
+    document.querySelector("#steps").innerHTML = `
+        <div id="step0" class="step transparent-step">
+            <div id="div-logo">
+                <img src="../assets/logoCortexia.svg" alt="" id="logo">
+            </div>
+            <p id="info"> Prêt(e) à relever le défi <br> et découvrir nikola Tesla ? </p>
+            <button id="start">Commencer</button>
+        </div>
+    `
+
+    currentStep = 0
+
+    document.querySelector("#start").addEventListener("click", async () => {
+        dialog.close()
+
+        let createGameStatus = await createGame("tesla")
+        createGameStatus = true
+
+        if (createGameStatus) {
+            console.log("J'ai pu créer une game")
+            showStep(1)
+        } else {
+            dialog.showModal()
+            console.log("Je n'ai pas pu créer une game")
+        }
+    })
 }
 
 function hideStep(step) {
