@@ -1,25 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nikola Tesla - Desktop</title>
     <link rel="stylesheet" href="style.css">
+    <!-- QR Code -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 </head>
+
 <body id="bg">
-    <!-- <h1>Nikola Tesla GRAND ÉCRAN</h1>
-
-
-    <h2>Nous sommes à l'étape</h2>
-    <p>État de la réponse :</p> -->
-
-    <video id="lecteur" autoplay muted playsinline>
-        <!-- <source id="source" src="video1.mp4" type="video/mp4"> -->
+    
+    <video id="lecteur" preload="auto" muted playsinline>
+        <source src="../assets/animTesla.mp4" type="video/mp4">
     </video>
 
-   
-<script type="module" src="script.js"></script>
+    <div id="qrcode"></div>
+
+
+    <script type="module" src="script.js"></script>
 </body>
+
 </html>
 
 
