@@ -16,7 +16,7 @@ async function changeWindow() {
   }
 
   if (JSON.stringify(data.bass) == JSON.stringify(oldData)) {
-    console.log("Aucune valeur changée")
+    // console.log("Aucune valeur changée")
   } else {
 
     if (JSON.stringify(data.bass.step) != JSON.stringify(oldData.step)) {
@@ -27,17 +27,27 @@ async function changeWindow() {
       console.log("Le params a changé")
       if (data.bass.params == "goodAnswer") {
         if (dataStep == 3) {
+          launchParty()
           hideStep(dataStep)
           showStep(4)
+          animEnd()
         } else {
           showAnswer(dataStep, true)
         }
         
       } else if (data.bass.params == "wrongAnswer") {
-        showAnswer(dataStep, false)
+        if (dataStep == 3) {
+          hideStep(dataStep)
+          showStep(4)
+          animEnd()
+        } else {
+          showAnswer(dataStep, false)
+        }
       } else if (data.bass.params == "refresh") {
-        getStep(0)
-        window.location.reload();
+        getStep("bass",0)
+        setTimeout(() => {
+            window.location.reload();
+        }, 500);
       } 
     }
     // console.log("Nouvelles valeurs, changeons la window !")
@@ -219,3 +229,53 @@ function launchParty(dure = 1000) {
     );
   }, 250);
 }
+
+// L'animation du dégradé
+gsap.to("#step4", {
+  "--angle": "360deg",
+  duration: 10,
+  repeat: -1,
+  ease: "none",  
+  yoyo: true
+});
+
+function animEnd() {
+
+  // On fait apparaître la tête de Bass
+  gsap.fromTo("#pp", {
+    y: 200,
+    opacity: 0
+  }, {
+    opacity: 1,
+    y: 0,
+    duration: 1,
+    ease: "power3.in",
+    delay: 0.5
+  });
+
+  const tl = gsap.timeline({ repeat: -1, yoyo: true });
+
+  tl.to("#fondBass", {
+    y: -25,
+    x: 12,
+    rotation: 2,
+    duration: 2,
+    ease: "sine.inOut"
+  })
+  .to("#fondBass", {
+    y: -10,
+    x: -8,
+    rotation: -1,
+    duration: 2.5,
+    ease: "sine.inOut"
+  })
+  .to("#fondBass", {
+    y: -20,
+    x: 5,
+    rotation: 1,
+    duration: 2,
+    ease: "sine.inOut"
+  });
+}
+
+animEnd()

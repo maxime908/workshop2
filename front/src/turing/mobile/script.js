@@ -15,8 +15,8 @@ console.log("poule : " ,allData)
 console.log(allData)
 
 // Exemple d'utilisation du contenu de allData
-document.querySelector("#title").textContent = allData.name
-document.querySelector("#desc").textContent = allData.description
+// document.querySelector("#title").textContent = allData.name
+// document.querySelector("#desc").textContent = allData.description
 
 
 
@@ -27,8 +27,8 @@ createGameStatus = createGameStatus.data
 
 // Quand on clique sur le bouton "Commencer l'expérience"
 document.querySelector("#start").addEventListener("click", () => {
-    showStep(0)
-    document.querySelector("#title").textContent = allData.name
+    showStep(1)
+    // document.querySelector("#title").textContent = allData.name
     document.querySelector("#step1").style.display="block"
     document.querySelector("#start").style.display="none"
     if (createGameStatus) {
@@ -39,23 +39,38 @@ document.querySelector("#start").addEventListener("click", () => {
 })
 
 document.querySelector("#step1").addEventListener("click", ()=>{
-    showStep(1)
+    showStep(2)
+    // document.querySelector("#step2").style.display ="block"
     document.querySelector("#step2").style.display ="block"
     document.querySelector("#step1").style.display ="none"
     document.querySelector("#start").style.display ="none"
 })
 
 document.querySelector("#step2").addEventListener("click", ()=>{
-    showStep(2)
+    showStep(3)
     document.querySelector("#step2").style.display = "none"
     document.querySelector("#step3").style.display = "block"
+    // document.querySelector("#start").style.display = "block"
 })
 
 document.querySelector("#step3").addEventListener("click", ()=>{
-    showStep(3)
+    showStep(0)
+    // document.querySelector("#step2").style.display = "none"
     document.querySelector("#step3").style.display = "none"
-    document.querySelector("#start").style.display = "block"
+    document.querySelector(".step3").style.display = "none"
+    document.querySelector("#start").style.display ="block"
+    document.getElementById("step-btn circle").forEach((element) => {
+        element.style.fill = "#F8FCF9";
+    })
 })
+
+
+
+// document.querySelector("#step3").addEventListener("click", ()=>{
+//     showStep(3)
+//     document.querySelector("#step3").style.display = "none"
+//     document.querySelector("#start").style.display = "block"
+// })
 
 
 
@@ -65,6 +80,7 @@ let qcmContainer;
 let qcmIa;
 let valid = document.createElement("button");
 valid.innerText = "Valider";
+valid.classList.add("main-btn")
 
 async function showStep(step) {
     let stepContent = await getStep(personnality, step);
@@ -74,13 +90,13 @@ async function showStep(step) {
     awnserName = JSON.parse(awnserName);
     questionName = JSON.parse(questionName);
     
-    document.querySelector("#title").textContent = questionName.name;
-    document.querySelector("#desc").textContent = questionName.question;
+    // document.querySelector("#title").textContent = questionName.name;
+    // document.querySelector("#desc").textContent = questionName.question;
 
     if (step == 1) {
         clavier = document.createElement("div");
-        cryptedText = document.createElement("h2");
-        cryptedText.innerText = "XIXK";
+
+        document.querySelector("#step-btn1 circle").style.fill = "#C88010";
         
         clavier.classList.add("keyboard-container"); 
 
@@ -97,6 +113,13 @@ async function showStep(step) {
 
             const supp = document.createElement("button");
             supp.innerText = "supprimer";
+            supp.classList.add("main-btn")
+
+            const h1 = document.createElement("h1");
+            h1.innerHTML = "Décrypte ce message : <br> XIXK";
+            clavier.appendChild(h1)  
+
+            const div = document.createElement("div");
 
             touchesEnigma.forEach(lettre => {
                 const touche = document.createElement("button");
@@ -117,8 +140,10 @@ async function showStep(step) {
                     }
                 });
                 
-                clavier.appendChild(touche);
+                div.appendChild(touche);
             });
+
+            clavier.appendChild(div)
             
             // Send DELETE command to desktop
             supp.addEventListener("click", async () => {
@@ -140,20 +165,19 @@ async function showStep(step) {
       
             clavier.appendChild(supp);
 
-            document.querySelector("body").appendChild(cryptedText);
-            document.querySelector("body").appendChild(valid);
-            document.querySelector("body").appendChild(clavier);
+            document.querySelector("#sect-step1").appendChild(clavier);
+            document.querySelector("#sect-step1").appendChild(valid);
         }
     } else if (step == 2) {
         console.log("Etape 2 chargée")
-        document.querySelector("#title").textContent = stepContent.name
+        // document.querySelector("#title").textContent = stepContent.name
         
         if (clavier) clavier.remove()
-        if (TextInput) TextInput.remove()
+        // if (TextInput) TextInput.remove()
         if (cryptedText) cryptedText.remove()
         if (valid) valid.remove()
         
-        
+        document.querySelector("#step-btn2 circle").style.fill = "#C88010";
 
         qcmContainer = document.createElement("div");
         
@@ -166,13 +190,16 @@ async function showStep(step) {
         
         const buttonStep2 = [];
 
+        const div = document.createElement("div")
+
+        div.classList.add("btnGroup")
+
         awnsers.forEach(awnser => {
             const btnAw = document.createElement("button");
             btnAw.textContent = awnser;
             btnAw.style.display = "block"; 
             btnAw.style.margin = "10px 0"; 
-            
-            
+                        
             buttonStep2.push(btnAw);
             
             btnAw.addEventListener("click", () => {
@@ -183,23 +210,35 @@ async function showStep(step) {
                     btnAw.style.backgroundColor = "green";
                 } else {
                     console.log("Mauvaise réponse !");
-                    element.style.backgroundColor = "red";
-                    element.textContent == gooodAwnser
+                    btnAw.style.backgroundColor = "red";
+                    btnAw.textContent == gooodAwnser
+
+                    qcmContainer.querySelectorAll("button").forEach((element) => {
+                        if (element.textContent === gooodAwnser) {
+                            element.style.backgroundColor = "green";
+                        }
+                    })
+                    
                     document.getElementById(gooodAwnser).style.backgroundColor="green"
                 }
             });
+
+            div.appendChild(btnAw)
             
-            qcmContainer.appendChild(btnAw);
+            qcmContainer.appendChild(div);
         });
 
-        document.querySelector("body").appendChild(qcmContainer);
+        document.querySelector("#sect-step2").appendChild(qcmContainer);
         
     } else if (step == 3) {
         console.log("harry potter3")
-        document.querySelector("#title").textContent = stepContent.name
+        // document.querySelector("#title").textContent = stepContent.name
         if (qcmContainer) qcmContainer.remove()
     
         qcmIa = document.createElement("div")
+        qcmIa.classList.add("step3")
+
+        document.querySelector("#step-btn3 circle").style.fill = "#C88010";
 
         const awnsers = ["personne A", "personne B"]
         const goodAnwser = "personne A"

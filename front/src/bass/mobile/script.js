@@ -1,4 +1,4 @@
-import { getAPI, createGame, getStep, getPersonnality, setParams } from "../../utils";
+import { getAPI, createGame, getStep, getPersonnality, setParams, closeGame } from "../../utils";
 import gsap from "gsap";
 
 // Ici modifier avec le nom de votre personnalité
@@ -6,6 +6,7 @@ const personnality = "bass"
 
 // Step en cours
 let currentStep = 0
+let score = 0
 
 // A répondu à la question ?
 let answered = false
@@ -72,9 +73,9 @@ async function showStep(step) {
     console.log(stepContent);
 
     if (stepContent.data.length === 0) {
+        closeGame(score)
         document.querySelector("#next").style.display = "none"
         console.log("Je vais refresh")
-        getStep(personnality, 0)
         setParams(personnality, "refresh")
         setTimeout(() => {
             window.open("../../stats/index.html", "_self");
@@ -127,6 +128,7 @@ async function showStep(step) {
                         console.log("Bonne réponse !")
                         setParams(personnality, "goodAnswer")
                         showNextButton()
+                        score ++
                     } else {
                         animWrongAnswer(element)
                         setParams(personnality, "wrongAnswer")
@@ -322,6 +324,7 @@ async function showStep(step) {
         element.addEventListener("click", () => {
             console.log("Cliqué sur un point de la carte !")
             if (element.getAttribute("id") == "goodAnswer") {
+                score ++
                 gsap.to(element, {
                     scale: 1.1,
                     duration: 0.2,
