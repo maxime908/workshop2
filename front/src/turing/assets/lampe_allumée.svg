@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Calque_2" data-name="Calque 2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 178.43 154.43">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: url(#Nouvelle_nuance_de_dégradé_2);
+        opacity: .93;
+      }
+    </style>
+    <radialGradient id="Nouvelle_nuance_de_dégradé_2" data-name="Nouvelle nuance de dégradé 2" cx="63.06" cy="70.12" fx="63.06" fy="70.12" r="49.07" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fff"/>
+      <stop offset="1" stop-color="#ffef94"/>
+    </radialGradient>
+  </defs>
+  <circle class="cls-1" cx="88.81" cy="79.57" r="66.28"/>
+</svg>
