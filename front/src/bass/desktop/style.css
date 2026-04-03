@@ -211,6 +211,14 @@ h2 {
     left: -400px;
 }
 
+#redd {
+    z-index: -1;
+    position: absolute;
+    height: 800px;
+    bottom: 200px;
+    right: -300px;
+}
+
 #step4, #step0 {
     /* On définit la variable avec l'angle de départ */
     --angle: 180deg;

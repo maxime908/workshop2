@@ -2,7 +2,7 @@ import gsap from "gsap";
 import { readJSONFile } from "../../utils";
 
 const qrcodeContainer = document.querySelector("#qrcode");
-new QRCode(qrcodeContainer, `${window.location.origin}/front/src/tesla/mobile/index.html`);
+new QRCode(qrcodeContainer, `https://b1-workshop.online/src/tesla/mobile/index.html`);
 
 let oldData;
 
