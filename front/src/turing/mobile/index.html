@@ -1,22 +1,66 @@
-html:
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.min.js" integrity="sha384-G/EV+4j2dNv+tEPo3++6LCgdCROaejBqfUeNjuKAiuXbjrxilcCdDz6ZAVfHWe1Y" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    
     <link rel="stylesheet" href="style.css">
     <title>Turing</title>
 </head>
 <body data-role="mobile">
-    
-    <h1 id="title"></h1>
-    <p id="desc"></p>
 
-    <button id="start">Commencer l'expérience</button>
-    <button id="step1">etape1</button>
-    <button id="step2">etape2</button>
-    <button id="step3">etape3</button>
-    <p class="step1"></p>
+    <img src="../assets/bck.png" class="min-vh-100 w-100 position-fixed top-0 z-n1" alt="">
+
+    <div class="d-flex gap-3" id="step-btn">
+        <svg id="step-btn1" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="10" cy="10" r="10" fill="#F8FCF9"/>
+        </svg>
+        <svg id="step-btn2" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="10" cy="10" r="10" fill="#F8FCF9"/>
+        </svg>
+        <svg id="step-btn3" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="10" cy="10" r="10" fill="#F8FCF9"/>
+        </svg>
+    </div>
+    
+    <!-- <h1 id="title"></h1> -->
+    <!-- <p id="desc"></p> -->
+
+    <div class="d-flex justify-content-center align-items-center flex-column h-100">
+      <div class="text-center inter">
+        <h1 class="hidd">cortexia</h1>
+        <p class="hidd">Prêt(e) à relever le défi et découvrir saul bass ?</p>
+      </div>
+
+      <button id="start" class="main-btn jost mt-200px">Commencer</button>
+    </div>
+
+    <section id="sect-step1" class="jost text-center d-flex align-items-center m-auto flex-column gap-100px">
+      
+    </section>
+
+    <section id="sect-step2">
+
+    </section>
+
+    <section id="sect-step3">
+
+    </section>
+
+    <div class="min-px-200">
+      <button id="step1" class="main-btn jost">Suivant</button>
+      <button id="step2" class="main-btn">Suivant</button>
+      <button id="step3" class="main-btn">Suivant</button>
+    </div>
 
     
 
