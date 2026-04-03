@@ -71,7 +71,7 @@ async function changeWindow() {
 setInterval(changeWindow, 500)
 
 const qrcodeContainer = document.querySelector("#qrcode");
-new QRCode(qrcodeContainer, "https://b1-2026-workshop2.gobelinsannecy.fr/front/src/bass/mobile/index.html");
+new QRCode(qrcodeContainer, `${window.location.origin}/front/src/bass/mobile/index.html`);
 
 function showStep(step) {
   gsap.fromTo(document.querySelector("#step" + step), {
