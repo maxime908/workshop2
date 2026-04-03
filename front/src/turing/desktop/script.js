@@ -3,6 +3,10 @@ import { readJSONFile } from "../../utils";
 
 let oldDataStep = null;
 let oldDataLettre = null;
+
+
+let step0Container = null;
+
 let letterShow = null; 
 let TextInput = null;
 
@@ -14,16 +18,25 @@ async function checkUpdates() {
     
     if (dataStep !== oldDataStep) {
       console.log("Nouvelles valeurs, changeons la window ! Étape :", dataStep);
-      document.querySelector("h2").textContent = "Nous sommes à l'étape " + dataStep;
       
-      // Cleanup previous step elements
+  
+      if (dataStep !== 0 && step0Container) {
+          step0Container.remove();
+          step0Container = null;
+      }
+
+      
       if (dataStep !== 1) {
-          if (letterShow) { letterShow.remove(); letterShow = null; }
-          if (TextInput) { TextInput.remove(); TextInput = null; }
+        const step1Container = document.getElementById("step-1-container");
+        if (step1Container) {
+          step1Container.remove();
+          letterShow = null;
+          TextInput = null;
+        } 
       }
 
       // Initialize the specific step
-      if (dataStep === 0) console.log("harrypotter step 0");
+      if (dataStep === 0) initStep0();
       if (dataStep === 1) initLampBoard();
       if (dataStep === 2) console.log("harrypotter step 2");
       if (dataStep === 3) console.log("harrypotter step 3");
@@ -31,30 +44,28 @@ async function checkUpdates() {
       oldDataStep = dataStep;
     }
 
-    // Handle incoming letters and commands
+    // Handle incoming letters and commands for STEP 1
     if (dataStep === 1 && dataLettre !== oldDataLettre && dataLettre !== "") {
       
       if (dataLettre === "DELETE") {
-          // Remove the last character
-          if (TextInput.value.length > 0) {
-              TextInput.value = TextInput.value.slice(0, -1);
-              TextInput.style.backgroundColor = ""; // Reset color
-          }
+        if (TextInput.value.length > 0) {
+          TextInput.value = TextInput.value.slice(0, -1);
+          TextInput.style.backgroundColor = ""; 
+        }
       } 
       else if (dataLettre === "VALIDATE") {
           if (TextInput.value === "ALAN") {
-              console.log("win");
-              TextInput.style.backgroundColor = "green";
+            console.log("win");
+            TextInput.style.backgroundColor = "green";
           } else {
-              console.log("lose");
-              TextInput.style.backgroundColor = "red";
+            console.log("lose");
+            TextInput.style.backgroundColor = "red";
           }
       } 
       else {
-          // It's a normal letter: light it up and write it
           lightUpLetter(dataLettre);
           write(dataLettre);
-          TextInput.style.backgroundColor = ""; // Reset color in case they type after an error
+          TextInput.style.backgroundColor = ""; 
       }
 
       oldDataLettre = dataLettre;
@@ -67,16 +78,45 @@ async function checkUpdates() {
 
 setInterval(checkUpdates, 200);
 
-function initLampBoard() {
-  if (letterShow) return;
+// --- STEP 0 FUNCTION ---
+function initStep0() {
+  if (step0Container) return;
 
+  step0Container = document.createElement("div");
+  step0Container.id = "step-0-container";
+
+  // Build the layout matching the mockups
+  step0Container.innerHTML = `
+      <img src="../assets/Vector.svg" id="vector-bg" class="step0-asset" alt="Background Vector">
+      <img src="../assets/Title.svg" id="title-img" class="step0-asset" alt="Alan Turing Title">
+      <img src="../assets/head.svg" id="turing-head" class="step0-asset" alt="Alan Turing Head">
+      <img src="../assets/decoration.svg" id="decor-1" class="step0-asset" alt="Decoration Top Left">
+      <img src="../assets/decoration1.svg" id="decor-2" class="step0-asset" alt="Decoration Bottom Right">
+      <div id="qr-placeholder" class="step0-asset"></div>
+  `;
+
+  document.body.appendChild(step0Container);
+}
+
+
+function initLampBoard() {
+  if (document.getElementById("step-1-container")) return;
+
+  // Création du conteneur principal de l'étape 1
+  const step1Container = document.createElement("div");
+  step1Container.id = "step-1-container";
+
+  // Ajout de la ligne verte en fond
+  const vectorBg = document.createElement("img");
+  vectorBg.src = "../assets/vector2.svg";
+  vectorBg.id = "step1-vector-bg";
+  step1Container.appendChild(vectorBg);
+
+
+  
   letterShow = document.createElement("div");
   letterShow.classList.add("lamp-board");
   
-  TextInput = document.createElement("input");
-  TextInput.classList.add("secret-input");
-  TextInput.disabled = true;
-
   const Alphabet = [
     'A','B','C','D','E','F','G','H','I','J',
     'K','L','M','N','O','P','Q','R','S','T','U','V',
@@ -90,10 +130,31 @@ function initLampBoard() {
     toucheLum.dataset.lettre = lettre; 
     letterShow.appendChild(toucheLum);
   });
+  
+  step1Container.appendChild(letterShow);
 
-  // Append BOTH the board and the input to the DOM
-  document.querySelector("body").appendChild(letterShow);
-  document.querySelector("body").appendChild(TextInput); 
+
+  const tvContainer = document.createElement("div");
+  tvContainer.id = "tv-container";
+
+  const tvImg = document.createElement("img");
+  tvImg.src = "../assets/televerte.svg";
+  tvImg.id = "tv-img";
+  tvContainer.appendChild(tvImg);
+
+
+  const tvScreen = document.createElement("div");
+  tvScreen.id = "tv-screen";
+
+  TextInput = document.createElement("input");
+  TextInput.classList.add("secret-input");
+  TextInput.disabled = true;
+  tvScreen.appendChild(TextInput);
+
+  tvContainer.appendChild(tvScreen);
+  step1Container.appendChild(tvContainer);
+
+  document.body.appendChild(step1Container);
 }
 
 function lightUpLetter(lettre) {
