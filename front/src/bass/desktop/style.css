@@ -11,14 +11,14 @@ body {
     height: 100vh;
 }
 
-#step0 h1, #step0 h2 {
+#step0 h2 {
     color: #FAF0E4;
     margin-left: 70px;
 }
 
-#step0 {
+/* #step0 {
     background-color: #56A6FF;
-}
+} */
 
 #step2 {
     background: repeating-linear-gradient(
@@ -211,7 +211,7 @@ h2 {
     left: -400px;
 }
 
-#step4 {
+#step4, #step0 {
     /* On définit la variable avec l'angle de départ */
     --angle: 180deg;
     
@@ -263,7 +263,7 @@ h2 {
     height: 9000px;
 }
 
-#step4 h1 {
+#step4 h1, #step0 h1 {
     width: 300px;
     line-height: 1;
 }

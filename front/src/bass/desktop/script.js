@@ -231,7 +231,7 @@ function launchParty(dure = 1000) {
 }
 
 // L'animation du dégradé
-gsap.to("#step4", {
+gsap.to("#step4, #step0", {
   "--angle": "360deg",
   duration: 10,
   repeat: -1,
