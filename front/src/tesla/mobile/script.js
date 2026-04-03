@@ -39,8 +39,8 @@ buttonsStart.forEach(element => {
 
         // On essaie de créer une partie. True = la partie a été créée / False = la partie n'a pas pu être créée (quelq'un est déjà en train de jouer)
         let createGameStatus = await createGame("tesla")
-        // createGameStatus = true
-        createGameStatus = createGameStatus.data
+        createGameStatus = true
+        // createGameStatus = createGameStatus.data
 
         if (createGameStatus) {
             console.log("J'ai pu créer une game")
