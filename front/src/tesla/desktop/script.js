@@ -2,12 +2,14 @@ import gsap from "gsap";
 import { readJSONFile } from "../../utils";
 
 const qrcodeContainer = document.querySelector("#qrcode");
-if (qrcodeContainer) {
+if(qrcodeContainer) {
     new QRCode(qrcodeContainer, `${window.location.origin}/front/src/tesla/mobile/index.html`);
 }
 
-let oldData = null;
-const videoPath = "../assets/animTesla.mp4";
+let oldData;
+
+// Mes vidéos
+const video = "../assets/animTesla.mp4"
 
 const videoSegments = [
     { start: 0, end: 4 },
@@ -15,78 +17,78 @@ const videoSegments = [
     { start: 7, end: 15 }
 ];
 
+// Ici on récupère l'étape pour afficher la vidéo correspondante
 function changeVideo(step) {
-    const lecteur = document.getElementById("lecteur");
-    if (!lecteur) return;
+    const lecteur = document.getElementById("lecteur")
+    if(!lecteur) return;
 
-    if (!lecteur.getAttribute('src')) {
-        lecteur.setAttribute('src', videoPath);
-        lecteur.load();
+    if (!lecteur.src.includes("animTesla.mp4")) {
+        lecteur.src = video;
     }
 
     if (step === 0) {
-        console.log("▶ ÉTAPE 0 : Affichage QR Code");
-        gsap.to(qrcodeContainer, { opacity: 1, scale: 1, duration: 0.5, display: "block" });
-        lecteur.style.display = "block";
-        lecteur.pause();
-        lecteur.currentTime = 0;
-    } else {
-        console.log("▶ ÉTAPE " + step + " : Lecture vidéo");
-        gsap.to(qrcodeContainer, { 
-            opacity: 0, 
-            scale: 0.8, 
-            duration: 0.4, 
-            onComplete: () => { qrcodeContainer.style.display = "none"; } 
-        });
+        lecteur.style.display = "block"
+        if(qrcodeContainer) qrcodeContainer.style.display = "block"
+        lecteur.pause()
+        lecteur.currentTime = 0
 
-        const segmentIndex = step - 1;
+        console.log("Étape 0");
+    } else {
+        if(qrcodeContainer) qrcodeContainer.style.display = "none"
+
+        const segmentIndex = step - 1
         const segment = videoSegments[segmentIndex];
 
         if (segment) {
-            lecteur.ontimeupdate = null;
+            lecteur.style.display = "block"
             lecteur.currentTime = segment.start;
-            
-            lecteur.play().catch(e => console.log("Lecture auto bloquée"));
+
+            // FIX: Séparer le play() du ontimeupdate
+            let playPromise = lecteur.play();
+            if (playPromise !== undefined) {
+                playPromise.catch(e => console.log("Attente d'interaction :", e));
+            }
 
             lecteur.ontimeupdate = function () {
                 if (lecteur.currentTime >= segment.end) {
                     lecteur.pause();
                     lecteur.ontimeupdate = null;
                 }
-            };
+            }
         }
     }
 }
 
 async function changeWindow() {
-    try {
-        const data = await readJSONFile('/steps.json');
-        if (!data || !data.tesla) return;
+    const data = await readJSONFile('/steps.json')
+    if (!data || !data.tesla) return;
+    
+    const dataStep = data.tesla.step
 
-        const currentStep = data.tesla.step;
-        const currentParams = data.tesla.params;
-
-        // 1. Détection du retour à zéro (soit step = 0, soit params = reset)
-        if (currentStep === 0 || currentParams === "reset") {
-            if (!oldData || oldData.step !== 0) {
+    if (!oldData) {
+        changeVideo(dataStep);
+        console.log("DataStep au tout début donne", dataStep);
+    } else {
+        if (JSON.stringify(data.tesla) == JSON.stringify(oldData)) {
+            // Rien n'a changé
+        } else {
+            // === CHANGEMENT ICI : Détection du Reset ===
+            if (data.tesla.params === "reset" || data.tesla.step === 0) {
                 changeVideo(0);
-                // On force oldData à 0 pour éviter que ça boucle
-                oldData = { step: 0, params: currentParams };
+            } 
+            else if (data.tesla.step != oldData.step) {
+                changeVideo(dataStep);
+            } else {
+                console.log("Le params a changé");
+                if (data.tesla.params == "goodAnswer") {
+                    // showAnswer(dataStep, true)
+                } else if (data.tesla.params == "wrongAnswer") {
+                    // showAnswer(dataStep, false)
+                }
             }
-        } 
-        // 2. Détection d'un changement d'étape classique
-        else if (!oldData || currentStep !== oldData.step) {
-            changeVideo(currentStep);
-            oldData = { step: currentStep, params: currentParams };
-        } 
-        // 3. Détection d'un changement de paramètres
-        else if (currentParams !== oldData.params) {
-            console.log("Le params a changé :", currentParams);
-            oldData.params = currentParams;
         }
-    } catch (e) {
-        console.error("Erreur lecture JSON :", e);
     }
+    oldData = data.tesla
 }
 
-setInterval(changeWindow, 500);
+setInterval(changeWindow, 500)
