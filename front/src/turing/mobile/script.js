@@ -1,10 +1,16 @@
 import { getAPI, createGame, getStep, getPersonnality } from "../../utils.js";
+import { setParams } from "../../utils";
 
-// Ici modifier avec le nom de votre personnalité
+
 const personnality = "turing"
 
+
 let allData = await getPersonnality(personnality)
+
 allData = allData.data
+
+console.log("poule : " ,allData)
+
 
 console.log(allData)
 
@@ -53,36 +59,32 @@ document.querySelector("#step3").addEventListener("click", ()=>{
 
 
 
-let letterShow
-let clavier
-let TextInput
-let cryptedText
-let qcmContainer
-let qcmIa
-
+let clavier;
+let cryptedText;
+let qcmContainer;
+let qcmIa;
+let valid = document.createElement("button");
+valid.innerText = "Valider";
 
 async function showStep(step) {
-    let stepContent = await getStep(personnality, step)
-    stepContent = stepContent.data
+    let stepContent = await getStep(personnality, step);
+    stepContent = stepContent.data;
+    let questionName = stepContent[0].question;
+    let awnserName = stepContent[0].interaction;
+    awnserName = JSON.parse(awnserName);
+    questionName = JSON.parse(questionName);
     
+    document.querySelector("#title").textContent = questionName.name;
+    document.querySelector("#desc").textContent = questionName.question;
 
     if (step == 1) {
-
-        
-        letterShow = document.createElement("div");
         clavier = document.createElement("div");
-        TextInput = document.createElement("input");
-        cryptedText = document.createElement("h2")
-        cryptedText.innerText="XIXK"
-       
-        clavier.classList.add("keyboard-container");
-        letterShow.classList.add("lamp-board"); 
-        TextInput.classList.add("secret-input");
-        TextInput.disabled=true
-
+        cryptedText = document.createElement("h2");
+        cryptedText.innerText = "XIXK";
+        
+        clavier.classList.add("keyboard-container"); 
 
         if (clavier.children.length === 0) {
-            
             const Alphabet = ['A','B','C','D','E','F','G','H','I','J',
                 'K','L','M','N','O','P','Q','R','S','T','U','V',
                 'W','X','Y','Z'];
@@ -94,83 +96,64 @@ async function showStep(step) {
             ];
 
             const supp = document.createElement("button");
-            supp.innerText="supprimer"
-
-            const valid = document.createElement("button")
-            valid.innerText="Valider"
-            
-
+            supp.innerText = "supprimer";
 
             touchesEnigma.forEach(lettre => {
-                const toucheLum = document.createElement("div");
                 const touche = document.createElement("button");
-                
-                
-                
-                toucheLum.textContent = lettre;
                 touche.textContent = lettre;
-                
                 touche.classList.add("key");
-                toucheLum.classList.add("lamp");
-                
-                
-                toucheLum.dataset.lettre = lettre; 
 
-                touche.addEventListener("click", () => {
+                touche.addEventListener("click", async () => {
                     let indexActuel = Alphabet.indexOf(lettre);
+                    // Caesar shift + 3
                     let nouvelIndex = (indexActuel + 3) % Alphabet.length; 
                     let lettreChiffree = Alphabet[nouvelIndex];
-                    TextInput.value += lettreChiffree;
-                    const lampeAAllumer = letterShow.querySelector(`[data-lettre="${lettreChiffree}"]`);
                     
-                    if (lampeAAllumer) {
-                        
-                        lampeAAllumer.classList.add("lit");
-                        
-                
-                        setTimeout(() => {
-                            lampeAAllumer.classList.remove("lit");
-                        }, 500);
+                    try {
+                        await setParams("turing", lettreChiffree);
+                        console.log(`Lettre envoyée : ${lettreChiffree}`);
+                    } catch (e) {
+                        console.error("Erreur lors de l'envoi de la lettre", e);
                     }
                 });
-
-                supp.addEventListener("click",() => {
-                    TextInput.value =""
-                })
-
-                letterShow.appendChild(toucheLum);
+                
                 clavier.appendChild(touche);
             });
             
-            valid.addEventListener("click",()=>{
-                if (TextInput.value =="ALAN"){
-                    console.log("win")
-                    TextInput.style.backgroundColor="green"
-                }else{
-                    console.log("lose")
-                    TextInput.style.backgroundColor="red"
+            // Send DELETE command to desktop
+            supp.addEventListener("click", async () => {
+                try {
+                    await setParams("turing", "DELETE");
+                } catch (e) {
+                    console.error(e);
                 }
-            })
+            });
+
+            // Send VALIDATE command to desktop
+            valid.addEventListener("click", async () => {
+                try {
+                    await setParams("turing", "VALIDATE");
+                } catch (e) {
+                    console.error(e);
+                }
+            });
       
-            clavier.appendChild(supp)
+            clavier.appendChild(supp);
 
-
-
-            document.querySelector("body").appendChild(cryptedText)
-            document.querySelector("body").appendChild(TextInput);
-            document.querySelector("body").appendChild(letterShow);
-            document.querySelector("body").appendChild(valid)
+            document.querySelector("body").appendChild(cryptedText);
+            document.querySelector("body").appendChild(valid);
             document.querySelector("body").appendChild(clavier);
-            
         }
-    }
-    else if (step == 2) {
+    } else if (step == 2) {
         console.log("Etape 2 chargée")
         document.querySelector("#title").textContent = stepContent.name
         
         if (clavier) clavier.remove()
         if (TextInput) TextInput.remove()
-        if (letterShow) letterShow.remove()
+        if (cryptedText) cryptedText.remove()
+        if (valid) valid.remove()
+        
+        
 
         qcmContainer = document.createElement("div");
         
@@ -200,7 +183,9 @@ async function showStep(step) {
                     btnAw.style.backgroundColor = "green";
                 } else {
                     console.log("Mauvaise réponse !");
-                    btnAw.style.backgroundColor = "red";
+                    element.style.backgroundColor = "red";
+                    element.textContent == gooodAwnser
+                    document.getElementById(gooodAwnser).style.backgroundColor="green"
                 }
             });
             
