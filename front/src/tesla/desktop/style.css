@@ -28,6 +28,6 @@ body{
 #qrcode {
     display: none;
     position: absolute;
-    top: 85px;
+    top: 160px;
     right: 550px;
 }

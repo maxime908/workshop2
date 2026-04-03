@@ -13,9 +13,6 @@ body {
     color: #000000;
 }
 
-/* =========================================
-   STEP 0 STYLES (Landing Page)
-   ========================================= */
 #step-0-container {
     position: relative;
     width: 100%;
@@ -71,13 +68,14 @@ body {
 }
 
 
-#qr-placeholder {
-    bottom: 3%;
-    left: 1%;
+#qrcode {
+    bottom: 5%;
+    left: 4%;
     width: 200px;
     height: 200px;
     background-color: #d1d1d1;
     z-index: 3;
+    position: absolute;
 }
 
 
@@ -241,8 +239,122 @@ body {
 }
 
 
+#step-2-container {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 5;
+}
+
+.step2-asset {
+    position: absolute;
+}
+
+/* Ligne verte de l'étape 2 */
+#step2-vector-bg {
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+    object-position: center;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+
+/* Titre "La Machine de Turing" */
+#step2-title {
+    top: 8%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50%;
+    max-width: 600px;
+    z-index: 2;
+}
+
+/* Animation / Machine SVG au centre */
+#step2-machine {
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    max-width: 800px;
+    z-index: 2;
+}
+
+/* Boîte vide en dessous */
+#step2-box {
+    top: 68%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 350px;
+    height: 120px;
+    background-color: #f3f7f4; /* Couleur gris-vert très clair de la maquette */
+    border: 8px solid #6c7885; /* Bordure gris-bleu foncée */
+    z-index: 2;
+}
+
+/* Décoration en bas à gauche */
+#step2-decor {
+    bottom: 10%;
+    left: 20px;
+    transform: translateX(-50%); /* Pour coller au bord, comme à l'étape 0 */
+    width: 120px;
+    z-index: 3;
+}
+
+#step-3-container {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 5;
+}
+
+.step3-asset {
+    position: absolute;
+}
 
 
+#step3-vector-bg {
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+    object-position: center;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+
+#step3-title {
+    top: 8%;
+    left: 5%;
+    width: 35%;
+    max-width: 400px;
+    z-index: 2;
+}
+
+#step3-animation {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 70%;
+    max-width: 800px;
+    z-index: 2;
+}
 
 
+#step3-decor {
+    bottom: 0;
+    right: 0;
+    transform: translate(25%, 25%); 
+    width: 250px;
+    z-index: 3;
+}
 
