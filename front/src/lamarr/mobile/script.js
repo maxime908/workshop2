@@ -1,4 +1,5 @@
-import { getAPI, createGame, getStep, getPersonnality, setParams, updateScore } from "../../utils";
+import { getAPI, createGame, getStep, getPersonnality, setParams, getDeviceId } from "../../utils";
+import axios from 'axios'
 
 const personnality = "lamarr"
 const containerChoices = document.querySelector("#section-step2-events");
@@ -18,12 +19,10 @@ document.querySelector("#step3").style.display = "none"
 let createGameStatus = await createGame("lamarr")
 createGameStatus = createGameStatus.data
 
-// Précharge toutes les données au départ sans changer le step desktop
 const preloadStep0 = await getStep("lamarr", 0)
 const preloadStep1 = await getStep("lamarr", 1)
 const preloadStep2 = await getStep("lamarr", 2)
 
-// Remet le desktop à 0 après les préchargements
 getStep("lamarr", 0)
 
 document.querySelector("#start").addEventListener("click", () => {
@@ -31,7 +30,6 @@ document.querySelector("#start").addEventListener("click", () => {
     document.querySelector("#section-step2").style.display = "block"
     document.querySelector("#Logo").style.display = "none"
 
-    // Change le desktop à l'étape 1
     getStep("lamarr", 1)
 
     let choices = preloadStep0.data[0].question
@@ -118,7 +116,6 @@ document.querySelector("#start").addEventListener("click", () => {
                 }
             })
         })
-        // Change le desktop à l'étape 2
         getStep("lamarr", 2)
         setTimeout(() => document.querySelector("#step1").click(), 2000)
     })
@@ -167,7 +164,6 @@ document.querySelector("#step2").addEventListener("click", () => {
     document.querySelector("#section-step3").style.display = "none"
     document.querySelector("#section-step4").style.display = "block"
 
-    // Change le desktop à l'étape 3
     getStep("lamarr", 3)
 
     const track = document.getElementById('track');
@@ -214,16 +210,26 @@ document.querySelector("#step2").addEventListener("click", () => {
     })
 })
 
-document.querySelector("#step3").addEventListener("click", () => {
+document.querySelector("#step3").addEventListener("click", async () => {
     document.querySelector("#step3").style.display = "none"
     document.querySelector("#start").style.display = "block"
     document.querySelector("#section-step4").style.display = "none"
     document.querySelector("#Logo").style.display = "block"
 
-    // Enregistre le score final
-    updateScore("lamarr", score)
+    // Enregistre le score
+    const deviceId = getDeviceId()
     console.log("Score final :", score)
+    console.log("Device ID :", deviceId)
 
-    // Remet le desktop à 0
+    const result = await axios.patch("http://localhost/workshop2/api/", {
+        device_id: deviceId,
+        score: score
+    })
+    console.log("Résultat updateScore :", result)
+
     getStep("lamarr", 0)
+
+    setTimeout(() => {
+        window.location.href = "../../stats/index.html"
+    }, 2000)
 })
