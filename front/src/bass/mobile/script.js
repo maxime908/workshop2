@@ -74,7 +74,6 @@ async function showStep(step) {
     if (stepContent.data.length === 0) {
         document.querySelector("#next").style.display = "none"
         console.log("Je vais refresh")
-        getStep(personnality, 0)
         setParams(personnality, "refresh")
         setTimeout(() => {
             window.open("../../stats/index.html", "_self");
