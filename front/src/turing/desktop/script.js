@@ -4,9 +4,7 @@ import { readJSONFile } from "../../utils";
 let oldDataStep = null;
 let oldDataLettre = null;
 
-
 let step0Container = null;
-
 let letterShow = null;
 let TextInput = null;
 
@@ -16,29 +14,29 @@ async function checkUpdates() {
     const dataStep = data.turing.step;
     const dataLettre = data.turing.params;
 
-
     if (dataStep !== oldDataStep) {
       console.log("Nouvelles valeurs, changeons la window ! Étape :", dataStep);
-      if (dataStep !== 0) {
-        const qrcodeContainer = document.querySelector("#qrcode");
-        if (qrcodeContainer) {
-          console.log("supp qrcode")
-          qrcodeContainer.innerHTML = ""
+      
+      // --- GESTION DU QR CODE ---
+      const qrcodeContainer = document.querySelector("#qrcode");
+      if (qrcodeContainer) {
+        if (dataStep !== 0) {
+          console.log("supp qrcode");
+          qrcodeContainer.style.display = "none"; // Cache complètement la div
+          qrcodeContainer.innerHTML = "";         // Vide le QR code
+        } else {
+          console.log("gn qrcode");
+          qrcodeContainer.style.display = "block"; // Réaffiche la div
+          qrcodeContainer.innerHTML = "";          // S'assure qu'elle est vide
+          new QRCode(qrcodeContainer, `${window.location.origin}/src/turing/mobile/index.html`);
         }
-      } else {
-        console.log("gn qrcode")
-        const qrcodeContainer = document.querySelector("#qrcode");
-        if (qrcodeContainer)qrcodeContainer.innerHTML = ""
-        new QRCode(qrcodeContainer, `${window.location.origin}/src/turing/mobile/index.html`);
-       
       }
 
+      // --- NETTOYAGE DES ÉTAPES ---
       if (dataStep !== 0 && step0Container) {
         step0Container.remove();
         step0Container = null;
-
       }
-
 
       if (dataStep !== 1) {
         const step1Container = document.getElementById("step-1-container");
@@ -55,6 +53,7 @@ async function checkUpdates() {
           step2Container.remove();
         }
       }
+      
       if (dataStep !== 3) {
         const step3Container = document.getElementById("step-3-container");
         if (step3Container) {
@@ -62,7 +61,7 @@ async function checkUpdates() {
         }
       }
 
-      // Initialize the specific step
+      // --- INITIALISATION DE LA NOUVELLE ÉTAPE ---
       if (dataStep === 0) initStep0();
       if (dataStep === 1) initLampBoard();
       if (dataStep === 2) initStep2();
@@ -71,9 +70,8 @@ async function checkUpdates() {
       oldDataStep = dataStep;
     }
 
-    // Handle incoming letters and commands for STEP 1
+    // --- GESTION DES TOUCHES (ÉTAPE 1) ---
     if (dataStep === 1 && dataLettre !== oldDataLettre && dataLettre !== "") {
-
       if (dataLettre === "DELETE") {
         if (TextInput.value.length > 0) {
           TextInput.value = "";
@@ -94,7 +92,6 @@ async function checkUpdates() {
         write(dataLettre);
         TextInput.style.backgroundColor = "";
       }
-
       oldDataLettre = dataLettre;
     }
 
@@ -103,19 +100,14 @@ async function checkUpdates() {
   }
 }
 
-
-
 setInterval(checkUpdates, 200);
 
-// --- STEP 0 FUNCTION ---
 function initStep0() {
   if (step0Container) return;
-
 
   step0Container = document.createElement("div");
   step0Container.id = "step-0-container";
 
-  // Build the layout matching the mockups
   step0Container.innerHTML = `
       <img src="../assets/Vector.svg" id="vector-bg" class="step0-asset" alt="Background Vector">
       <img src="../assets/Title.svg" id="title-img" class="step0-asset" alt="Alan Turing Title">
@@ -127,18 +119,12 @@ function initStep0() {
   document.body.appendChild(step0Container);
 }
 
-
 function initLampBoard() {
   if (document.getElementById("step-1-container")) return;
 
-
-
-
-  // Création du conteneur principal de l'étape 1
   const step1Container = document.createElement("div");
   step1Container.id = "step-1-container";
 
-  // Ajout de la ligne verte en fond
   const vectorBg = document.createElement("img");
   vectorBg.src = "../assets/vector2.svg";
   vectorBg.id = "step1-vector-bg";
@@ -150,8 +136,7 @@ function initLampBoard() {
   const titre = document.createElement("div")
   titre.appendChild(enigma)
   titre.classList.add("titre")
-
-  document.body.appendChild(titre)
+  step1Container.appendChild(titre); // Modifié ici pour qu'il soit bien supprimé quand on change d'étape
 
   letterShow = document.createElement("div");
   letterShow.classList.add("lamp-board");
@@ -181,7 +166,6 @@ function initLampBoard() {
 
   step1Container.appendChild(letterShow);
 
-
   const tvContainer = document.createElement("div");
   tvContainer.id = "tv-container";
 
@@ -189,7 +173,6 @@ function initLampBoard() {
   tvImg.src = "../assets/televerte.svg";
   tvImg.id = "tv-img";
   tvContainer.appendChild(tvImg);
-
 
   const tvScreen = document.createElement("div");
   tvScreen.id = "tv-screen";
@@ -200,7 +183,6 @@ function initLampBoard() {
   tvScreen.appendChild(TextInput);
 
   tvContainer.appendChild(tvScreen);
-
   step1Container.appendChild(tvContainer);
 
   document.body.appendChild(step1Container);
@@ -208,12 +190,9 @@ function initLampBoard() {
 
 function lightUpLetter(lettre) {
   if (!letterShow) return;
-
   const lampeAAllumer = letterShow.querySelector(`[data-lettre="${lettre}"]`);
-
   if (lampeAAllumer) {
     lampeAAllumer.classList.add("lit");
-
     setTimeout(() => {
       lampeAAllumer.classList.remove("lit");
     }, 500);
@@ -226,35 +205,30 @@ function write(value) {
   }
 }
 
-
 function initStep2() {
   if (document.getElementById("step-2-container")) return;
 
   const step2Container = document.createElement("div");
   step2Container.id = "step-2-container";
 
-  // Ligne verte en fond
   const vectorBg = document.createElement("img");
   vectorBg.src = "../assets/Vector3.svg";
   vectorBg.id = "step2-vector-bg";
   vectorBg.classList.add("step2-asset");
   step2Container.appendChild(vectorBg);
 
-  // Titre en haut
   const title = document.createElement("img");
   title.src = "../assets/machinedeturingtxt.svg";
   title.id = "step2-title";
   title.classList.add("step2-asset");
   step2Container.appendChild(title);
 
-
+  // --- CHANGEMENT ICI : machine.gif ---
   const machine = document.createElement("img");
-  machine.src = "../assets/machineTuring.svg";
+  machine.src = "../assets/machine.gif"; 
   machine.id = "step2-machine";
   machine.classList.add("step2-asset");
   step2Container.appendChild(machine);
-
-
 
   const decor = document.createElement("img");
   decor.src = "../assets/decoration2.svg";
@@ -264,35 +238,31 @@ function initStep2() {
 
   document.body.appendChild(step2Container);
 }
-
 function initStep3() {
   if (document.getElementById("step-3-container")) return;
 
   const step3Container = document.createElement("div");
   step3Container.id = "step-3-container";
 
-  // Ligne verte en fond
   const vectorBg = document.createElement("img");
   vectorBg.src = "../assets/vector4.svg";
   vectorBg.id = "step3-vector-bg";
   vectorBg.classList.add("step3-asset");
   step3Container.appendChild(vectorBg);
 
-  // Titre en haut à gauche
   const title = document.createElement("img");
   title.src = "../assets/title2.svg";
   title.id = "step3-title";
   title.classList.add("step3-asset");
   step3Container.appendChild(title);
 
-  // L'animation (Robot / Humains / Texte) au centre
+  // --- CHANGEMENT ICI : animeIA.gif ---
   const animation = document.createElement("img");
-  animation.src = "../assets/animationIa.svg";
+  animation.src = "../assets/animeIA.gif"; 
   animation.id = "step3-animation";
   animation.classList.add("step3-asset");
   step3Container.appendChild(animation);
 
-  // La décoration (roue/cadran) en bas à droite
   const decor = document.createElement("img");
   decor.src = "../assets/decoration3.svg";
   decor.id = "step3-decor";
