@@ -24,3 +24,43 @@ body{
     object-fit: cover;
     display: none;
 }
+
+#qrcode {
+    position: fixed;
+    bottom: 200px;
+    left: 70%;
+    transform: translateX(-50%);
+    width: 200px;
+}
+
+#vector {
+    position: fixed;
+    bottom: 0px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 320px;
+}
+
+#vector2 {
+    position: fixed;
+    top: 0px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 320px;
+}
+
+#vector3 {
+    position: fixed;
+    top: 0px;
+    right: -100px;
+    transform: translateX(-50%);
+    width: 175px;
+}
+
+#vector4 {
+    position: fixed;
+    bottom: 0px;
+    left: 100px;
+    transform: translateX(-50%);
+    width: 250px;
+}
