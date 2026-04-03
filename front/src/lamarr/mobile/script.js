@@ -1,10 +1,13 @@
-import { getAPI, createGame, getStep, getPersonnality, setParams } from "../../utils";
+import { getAPI, createGame, getStep, getPersonnality, setParams, getDeviceId } from "../../utils";
+import axios from 'axios'
 
 const personnality = "lamarr"
 const containerChoices = document.querySelector("#section-step2-events");
 const containerDates = document.querySelector("#section-step2-dates");
 const containerChoicesQuestion = document.querySelector("#section-step3-buttons");
 const containerQuestion = document.querySelector("#section-step3-questions");
+
+let score = 0
 
 let allData = await getPersonnality(personnality)
 allData = allData.data
@@ -16,12 +19,10 @@ document.querySelector("#step3").style.display = "none"
 let createGameStatus = await createGame("lamarr")
 createGameStatus = createGameStatus.data
 
-// Précharge toutes les données au départ sans changer le step desktop
 const preloadStep0 = await getStep("lamarr", 0)
 const preloadStep1 = await getStep("lamarr", 1)
 const preloadStep2 = await getStep("lamarr", 2)
 
-// Remet le desktop à 0 après les préchargements
 getStep("lamarr", 0)
 
 document.querySelector("#start").addEventListener("click", () => {
@@ -29,7 +30,6 @@ document.querySelector("#start").addEventListener("click", () => {
     document.querySelector("#section-step2").style.display = "block"
     document.querySelector("#Logo").style.display = "none"
 
-    // Change le desktop à l'étape 1
     getStep("lamarr", 1)
 
     let choices = preloadStep0.data[0].question
@@ -47,7 +47,9 @@ document.querySelector("#start").addEventListener("click", () => {
     let selected = null
 
     containerChoices.addEventListener("click", (e) => {
+        document.querySelectorAll(".chip").forEach(c => c.classList.remove("selected"))
         selected = e.target
+        selected.classList.add("selected")
     })
 
     choices.forEach(choice => {
@@ -64,6 +66,7 @@ document.querySelector("#start").addEventListener("click", () => {
         if (e.target.classList.contains("chip")) {
             const chip = e.target
             containerChoices.appendChild(chip)
+            chip.classList.remove("selected")
             let index = -1
             for (let i = 0; i < answers.length; i++) {
                 if (answers[i].name === chip.textContent) index = i
@@ -71,10 +74,12 @@ document.querySelector("#start").addEventListener("click", () => {
             answers.splice(index, 1)
             return
         }
+
         if (!selected) return
         const row = e.target.closest(".timeline-row")
         if (!row) return
         row.querySelector(".chips-zone").appendChild(selected)
+        selected.classList.remove("selected")
         answers.push({
             name: selected.textContent,
             placedDate: row.dataset.date,
@@ -107,10 +112,10 @@ document.querySelector("#start").addEventListener("click", () => {
             containerDates.querySelectorAll("button").forEach(btn => {
                 if (btn.textContent === answer.name) {
                     btn.classList.add(answer.correct === 1 ? "correct" : "incorrect")
+                    if (answer.correct === 1) score++
                 }
             })
         })
-        // Change le desktop à l'étape 2
         getStep("lamarr", 2)
         setTimeout(() => document.querySelector("#step1").click(), 2000)
     })
@@ -122,7 +127,6 @@ document.querySelector("#step1").addEventListener("click", () => {
     document.querySelector("#section-step3").style.display = "block";
     document.querySelector("#step2").style.display = "none";
 
-    // Utilise les données préchargées de l'étape 1
     let parsed = JSON.parse(preloadStep1.data[0].question);
 
     if (!parsed.choices) {
@@ -144,6 +148,7 @@ document.querySelector("#step1").addEventListener("click", () => {
             if (choice.correct) {
                 button.classList.add("correct");
                 setParams("lamarr", "goodAnswer")
+                score++
             } else {
                 button.classList.add("incorrect");
                 setParams("lamarr", "wrongAnswer")
@@ -159,7 +164,6 @@ document.querySelector("#step2").addEventListener("click", () => {
     document.querySelector("#section-step3").style.display = "none"
     document.querySelector("#section-step4").style.display = "block"
 
-    // Change le desktop à l'étape 3
     getStep("lamarr", 3)
 
     const track = document.getElementById('track');
@@ -187,7 +191,6 @@ document.querySelector("#step2").addEventListener("click", () => {
         track.onpointermove = null;
     });
 
-    // Utilise les données préchargées de l'étape 2
     const parsed = JSON.parse(preloadStep2.data[0].question)
 
     document.querySelector("#step4-question").textContent = parsed.question
@@ -198,6 +201,7 @@ document.querySelector("#step2").addEventListener("click", () => {
         if (finalValue <= 1000) {
             document.querySelector("#validate").classList.add("correct")
             document.querySelector("#validate").textContent = parsed.message
+            score++
         } else {
             document.querySelector("#validate").classList.add("incorrect")
             document.querySelector("#validate").textContent = "Mauvaise réponse!"
@@ -206,10 +210,26 @@ document.querySelector("#step2").addEventListener("click", () => {
     })
 })
 
-document.querySelector("#step3").addEventListener("click", () => {
+document.querySelector("#step3").addEventListener("click", async () => {
     document.querySelector("#step3").style.display = "none"
     document.querySelector("#start").style.display = "block"
     document.querySelector("#section-step4").style.display = "none"
     document.querySelector("#Logo").style.display = "block"
+
+    // Enregistre le score
+    const deviceId = getDeviceId()
+    console.log("Score final :", score)
+    console.log("Device ID :", deviceId)
+
+    const result = await axios.patch("http://localhost/workshop2/api/", {
+        device_id: deviceId,
+        score: score
+    })
+    console.log("Résultat updateScore :", result)
+
     getStep("lamarr", 0)
+
+    setTimeout(() => {
+        window.location.href = "../../stats/index.html"
+    }, 2000)
 })

@@ -146,7 +146,7 @@ h2 {
 }
 
 #map {
-    height: 600px;
+    height: 630px;
     width: auto;
     margin-top: 140px;
 }
@@ -172,8 +172,10 @@ h2 {
 
 #vector2 {
     position: absolute;
-    height: 8000px;
-    bottom: -10000px;
+    height: 8428px;
+    top: -2462px;
+    rotate: -3deg;
+    right: -244px;
 }
 
 #vector3 {
@@ -210,7 +212,36 @@ h2 {
 }
 
 #step4 {
-    background: linear-gradient(180deg, #F2C0C0 0.96%, #E40000 53.37%, #70140D 100%);
+    /* On définit la variable avec l'angle de départ */
+    --angle: 180deg;
+    
+    /* On utilise la variable dans le gradient */
+    background: linear-gradient(var(--angle), #F2C0C0 0.96%, #E40000 53.37%, #70140D 100%);
+    
+    /* Optionnel : assure-toi que l'élément a une taille */
+    min-height: 300px; 
+    width: 100%;
+}
+
+#pathPath {
+    z-index: -1;
+    position: absolute;
+    height: 2000px;
+    left: 200px;
+    top: -45px;
+}
+
+#fondBass {
+    position: absolute;
+    top: 330px;
+    right: 180px;
+    height: 1000px;
+
+    
+  display: block;
+  margin: 0 auto;
+  transform-origin: center center;
+
 }
 
 #pp {
@@ -223,6 +254,7 @@ h2 {
     padding: 25px;
     border-radius: 26px;
     width: fit-content;
+    scale: 0.85;
 }
 
 #backgroundPath {

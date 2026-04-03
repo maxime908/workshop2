@@ -60,6 +60,22 @@ export async function updateGame(personality,deviceId, endDate, score) {
     })
 }
 
+export async function closeGame(score) {
+    let deviceId = getDeviceId()
+    
+    if (!deviceId) {
+        console.log("Pas de device id trouvé je vais en générer un")
+        deviceId = createDeviceId()
+        console.log("Nouveau device id :", deviceId)
+    }
+
+    return axios.patch(url, {
+        device_id: deviceId,
+        score: score
+    })
+
+}
+
 
 export async function updateScore(personality,score) {
     return axios.patch(url + "/" + personality, {

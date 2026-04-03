@@ -1,41 +1,60 @@
 import gsap from "gsap";
 import { readJSONFile } from "../../utils";
 
+const qrcodeContainer = document.querySelector("#qrcode");
+new QRCode(qrcodeContainer, `${window.location.origin}/front/src/bass/mobile/index.html`);
+
 let oldData;
 
 // Mes vidéos
 const video = [
-    "../assets/step1.mp4",
-    "../assets/step2.mp4",
-    "../assets/step3.mp4"
+    "../assets/animTesla.mp4"
 ]
+
+const videoSegments = [
+    { start: 0, end: 4 },
+    { start: 4, end: 7 },
+    { start: 7, end: 15 }
+];
 
 // Ici on récupère l'étape pour afficher la vidéo correspondante
 function changeVideo(step) {
     const lecteur = document.getElementById("lecteur")
 
+    if (!lecteur.src.includes(video)) {
+        lecteur.src = video;
+    }
+
     if (step === 0) {
-        document.body.classList.add("show-bg")
-        lecteur.style.display = "none"
+        // document.body.classList.add("show-bg")
+        // lecteur.style.display = "none"
+        lecteur.style.display = "block"
+        qrcodeContainer.style.display = "block"
         lecteur.pause()
+        lecteur.currentTime = 0
 
         console.log("Étape 0");
     } else {
+        qrcodeContainer.style.display = "none"
 
-        const videoIndex = step - 1
+        const segmentIndex = step - 1
+        const segment = videoSegments[segmentIndex];
 
-        if (video[videoIndex]) {
-            document.body.classList.remove("show-bg")
+        if (segment) {
+
             lecteur.style.display = "block"
+            lecteur.currentTime = segment.start;
 
-            lecteur.src = video[videoIndex];
-            console.log("Vidéo", videoIndex);
-
-            lecteur.load();
-            lecteur.play();
+            lecteur.play().ontimeupdate = function () {
+                if (lecteur.currentTime >= segment.end) {
+                    lecteur.pause();
+                    lecteur.ontimeupdate = null;
+                }
+            }
         }
     }
 }
+
 
 
 
@@ -68,9 +87,5 @@ async function changeWindow() {
 
 
 
-
 setInterval(changeWindow, 500)
 
-
-// - Enlever le qr code
-// - Mettre la vidéo en portrait
