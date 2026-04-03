@@ -15,6 +15,7 @@ async function checkUpdates() {
     const data = await readJSONFile("../../../steps.json");
     const dataStep = data.turing.step;
     const dataLettre = data.turing.params;
+  
     
     if (dataStep !== oldDataStep) {
       console.log("Nouvelles valeurs, changeons la window ! Étape :", dataStep);
@@ -38,7 +39,7 @@ async function checkUpdates() {
       // Initialize the specific step
       if (dataStep === 0) initStep0();
       if (dataStep === 1) initLampBoard();
-      if (dataStep === 2) console.log("harrypotter step 2");
+      if (dataStep === 2) initStep2;
       if (dataStep === 3) console.log("harrypotter step 3");
       
       oldDataStep = dataStep;
@@ -49,7 +50,7 @@ async function checkUpdates() {
       
       if (dataLettre === "DELETE") {
         if (TextInput.value.length > 0) {
-          TextInput.value = TextInput.value.slice(0, -1);
+          TextInput.value = "";
           TextInput.style.backgroundColor = ""; 
         }
       } 
@@ -112,7 +113,14 @@ function initLampBoard() {
   vectorBg.id = "step1-vector-bg";
   step1Container.appendChild(vectorBg);
 
+  const enigma = document.createElement("img")
+  enigma.src="../assets/Enigma.svg"
 
+  const titre = document.createElement("div")
+  titre.appendChild(enigma)
+  titre.classList.add("titre")
+
+  document.body.appendChild(titre)
   
   letterShow = document.createElement("div");
   letterShow.classList.add("lamp-board");
@@ -124,11 +132,20 @@ function initLampBoard() {
   ];
 
   Alphabet.forEach(lettre => {
+    const wrapper = document.createElement("div");
+    wrapper.classList.add("lamp-wrapper");
+
     const toucheLum = document.createElement("div");
-    toucheLum.textContent = lettre;
     toucheLum.classList.add("lamp");          
-    toucheLum.dataset.lettre = lettre; 
-    letterShow.appendChild(toucheLum);
+    toucheLum.dataset.lettre = lettre;
+    
+    const etiquette = document.createElement("div");
+    etiquette.classList.add("lamp-label");
+    etiquette.textContent = lettre;
+    
+    wrapper.appendChild(toucheLum);
+    wrapper.appendChild(etiquette);
+    letterShow.appendChild(wrapper);
   });
   
   step1Container.appendChild(letterShow);
@@ -152,6 +169,7 @@ function initLampBoard() {
   tvScreen.appendChild(TextInput);
 
   tvContainer.appendChild(tvScreen);
+
   step1Container.appendChild(tvContainer);
 
   document.body.appendChild(step1Container);
@@ -176,3 +194,4 @@ function write(value){
       TextInput.value += value;
   }
 }
+

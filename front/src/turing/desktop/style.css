@@ -29,10 +29,9 @@ body {
 /* Background squiggly line */
 #vector-bg {
     width: 100vw;
-    height: 100vh;
-    object-fit: cover;
+    height: 1550px;
     object-position: center center; /* Keeps the split horizontally centered */
-    top: 12%;
+    top: 14%;
     left: 0;
     z-index: 1;
 }
@@ -49,10 +48,10 @@ body {
 
 /* Center Head Portrait */
 #turing-head {
-    top: 45%; 
+    top: 46%; 
     left: 50%;
     transform: translate(-50%, -50%);
-    max-height: 600px;
+    max-height: 1000px;
     z-index: 2;
 }
 #decor-1 {
@@ -74,9 +73,9 @@ body {
 
 #qr-placeholder {
     bottom: 3%;
-    left: 5%;
-    width: 150px;
-    height: 150px;
+    left: 1%;
+    width: 200px;
+    height: 200px;
     background-color: #d1d1d1;
     z-index: 3;
 }
@@ -101,7 +100,10 @@ body {
 }
 
 
-
+.titre{
+    position:absolute;
+    top: 5%;
+}
 
 #step-1-container {
     position: relative;
@@ -111,8 +113,7 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    justify-content: space-around;
-    gap: 30px;
+    gap: 300px;
     z-index: 5;
 }
 
@@ -130,7 +131,7 @@ body {
 
 #tv-container {
     position: relative;
-    width: 450px; 
+    width: 600px; 
     display: flex;
     justify-content: center;
     align-items: center;
@@ -161,7 +162,7 @@ body {
     border: none;
     border-bottom: 3px solid #000;
     border-radius: 0;
-    font-size: 24px;
+    font-size: 35px;
     font-weight: bold;
     text-align: center;
     color: #000;
@@ -173,20 +174,21 @@ body {
     box-shadow: none;
 }
 
-.lamp-board, .keyboard-container {
+.lamp-board {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    max-width: 750px;
-    height:300px ;
+    max-width: 758px;
     gap: 12px;
-    background-color: #2a2a2a;
-    padding: 25px;
-    border-radius: 10px;
-    box-shadow: inset 0px 0px 15px rgba(0,0,0,0.8), 0px 5px 15px rgba(0,0,0,0.5);
-    border: 2px solid #111;
+    background-image: url(/src/turing/assets/planche.svg);
+    background-size: 100% 100%;
+    background-position: center;
+    background-color: transparent;
+    padding: 60px;
+    border: none;
+    box-shadow: none;
     z-index: 10;
-   
+    
 }
 
 .key {
@@ -207,27 +209,40 @@ body {
     box-shadow: 0px 0px 0px #888;
     transform: translateY(4px);
 }
+.lamp-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px; /* Espace entre l'ampoule et la lettre en dessous */
+}
 
 .lamp {
     width: 60px;
     height: 60px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 50%;
-    background-color: #333;
-    color: #555;
-    border: 2px solid #111;
-    font-weight: bold;
-    font-size: 30px;
-    box-shadow: inset 0px 2px 5px rgba(0,0,0,0.8);
+    
+    background-image: url('../assets/lampe_éteinte.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    
     transition: all 0.05s ease;
 }
 
 .lamp.lit {
-    background-color: #ffaa00; 
-    color: #fff;
-    border-color: #ffaa00;
-    box-shadow: 0px 0px 15px #ffaa00, 0px 0px 30px #ffaa00, inset 0px 0px 10px rgba(255,255,255,0.8);
-    text-shadow: 0px 0px 5px #fff;
+    background-image: url('../assets/lampe_allumée.svg');
 }
+
+
+.lamp-label {
+    color: #000000; /* Couleur du texte sur la planche en bois */
+    font-weight: bolder;
+    font-size: 33px;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+
+
+
+
+
+
