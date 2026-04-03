@@ -69,7 +69,23 @@ async function showStep(step) {
     stepContent = await getStep(personnality, step)
 
     if (stepContent.data.length === 0) {
-        window.location.href = "../../stats/index.html";
+        const endStep = document.createElement("div");
+        endStep.classList.add("step", "transparent-step");
+        endStep.innerHTML = `
+            <div id="div-logo">
+                <img src="../assets/logoCortexia.svg" alt="" id="logo">
+            </div>
+            <p id="info" style="margin-top: 20px;">FÉLICITATIONS ! <br><br> TU AS TERMINÉ LE QUIZ SUR <br> <strong>NIKOLA TESLA</strong> <br><br> <span style="text-transform: none; font-size: 18px;">Test les autres quiz !</span></p>
+            <button id="finalNext">CONTINUER</button>
+        `
+
+        document.querySelector("#steps").innerHTML = ""
+        document.querySelector("#steps").appendChild(endStep)
+
+        document.querySelector("#finalNext").addEventListener("click", () => {
+            window.location.href = "../../stats/index.html";
+        })
+
         return;
     }
 
@@ -139,6 +155,7 @@ async function showStep(step) {
                         element.style.backgroundColor = "#CB0000";
 
                         document.querySelectorAll(".answer1").forEach(element2 => {
+
                             if (element2.textContent == stepContent.goodAnswer) {
                                 console.log("Mauvaise réponse !");
                                 element2.style.backgroundColor = "#008610";
@@ -171,29 +188,40 @@ async function showStep(step) {
         // Quand on clique sur une réponse
         document.querySelectorAll(".answer2").forEach(element => {
 
+            const imgElement = element.querySelector("img")
+
             element.addEventListener("click", () => {
                 console.log("Cliqué", answered);
 
                 if (!answered) {
                     answered = true
 
+                    const answerSelected = imgElement.alt
+
+                    console.log(answerSelected);
+                    console.log(stepContent.goodAnswer);
+
                     document.querySelectorAll(".answer2").forEach(btn => {
-                        btn.style.border = "1px solid #B0C8E8";
+                        btn.style.border = "3px solid #B0C8E8";
                     });
 
-                    if (element.textContent === stepContent.goodAnswer) {
+                    if (answerSelected === stepContent.goodAnswer) {
                         console.log("Bonne réponse !")
                         setParams(personnality, "goodAnswer")
-                        element.style.border = "1px solid #008610";
-                        
+                        element.style.border = "3px solid #008610";
+
                     } else {
                         setParams(personnality, "wrongAnswer")
-                        element.style.border = "1px solid #CB0000";
+                        element.style.border = "3px solid #CB0000";
 
                         document.querySelectorAll(".answer2").forEach(element2 => {
-                            if (element2.textContent === stepContent.goodAnswer) {
+
+                            const imgElement = element2.querySelector("img")
+                            const answerSelected = imgElement.alt
+
+                            if (answerSelected === stepContent.goodAnswer) {
                                 console.log("Bonne réponse !");
-                                element2.style.border = "1px solid #008610";
+                                element2.style.border = "3px solid #008610";
                             }
                         });
                     }
@@ -205,10 +233,10 @@ async function showStep(step) {
     } else if (stepContent.type === "frise") {
         // Ici on gère l'affichage de la frise chronologique
         newStep.innerHTML = `
-            <h1>${stepContent.question}</h1>
+            <h1 id="question">${stepContent.question}</h1>
             <div id="choices-container" class="choices-container"></div>
             <div id="dates-container" class="dates-container"></div>
-            <button id="submitFrise" style="margin-top: 20px;">Valider ma frise</button>
+            <button id="submitFrise" class="action-button" style="margin-top: 20px;">Valider</button>
         `;
 
         // On ajoute le nouveau step au body
@@ -222,7 +250,7 @@ async function showStep(step) {
         const choices = stepContent.choices;
         let answers = []; // Stockera les réponses actuelles du joueur
 
-        // On crée les boutons pour chaque événement (à piocher)
+        // On crée les boutons pour chaque événement
         choices.forEach(choice => {
             const button = document.createElement("button");
             button.textContent = choice.name;
@@ -234,7 +262,7 @@ async function showStep(step) {
 
         // Sélection d'un événement au clic
         containerChoices.addEventListener("click", (e) => {
-            if (e.target.tagName === "BUTTON") {
+            if (e.target.classList.contains("chip")) {
                 selected = e.target;
                 console.log("Sélectionné :", selected.textContent);
             }
@@ -259,18 +287,54 @@ async function showStep(step) {
             containerDates.appendChild(row);
         });
 
-        // Dépôt de l'événement sur une date
+        // Dépôt ET Retrait de l'événement sur la frise
         containerDates.addEventListener("click", (e) => {
+
+            // Retirer une chip
+            if (e.target.classList.contains("chip")) {
+                const chip = e.target;
+
+                if (chip.classList.contains("locked")) {
+                    console.log("Événement bien placé");
+                    return;
+                }
+
+                chip.style.backgroundColor = "";
+                chip.style.color = "";
+                chip.style.border = "";
+
+                containerChoices.appendChild(chip);
+
+                answers = answers.filter(ans => ans.name !== chip.textContent);
+
+                console.log("Événement retiré !");
+                return;
+            }
+
+            // Déposer une chip
             if (!selected) return;
 
             const row = e.target.closest(".timeline-row");
             if (!row) return;
 
-            // On déplace le bouton visuellement
+            // Déplacement visuel de la chip
             const chipsZone = row.querySelector(".chips-zone");
+            const existingChip = chipsZone.querySelector(".chip");
+
+            if (existingChip) {
+                if (existingChip.classList.contains("locked")) return;
+
+                existingChip.style.backgroundColor = "";
+                existingChip.style.color = "";
+                existingChip.style.border = "";
+
+                containerChoices.appendChild(existingChip);
+                answers = answers.filter(ans => ans.name !== existingChip.textContent);
+            }
+
             chipsZone.appendChild(selected);
 
-            // Si cet événement avait déjà été placé avant on l'enlève de la mémoire
+            // Si l'événement est déjà placé, on l'enlève de la mémoire
             answers = answers.filter(ans => ans.name !== selected.textContent);
 
             // On enregistre la nouvelle position
@@ -281,12 +345,13 @@ async function showStep(step) {
                 correct: selected.dataset.date === row.dataset.date ? 1 : 0
             });
 
-            selected = null; // On désélectionne le bouton
+            selected = null;
         });
 
-        // Vérification quand on clique sur "Valider ma frise"
-        submitBtn.addEventListener("click", () => {
 
+        let scoreSent = false;
+
+        submitBtn.addEventListener("click", () => {
             // On vérifie que tout a été placé
             if (answers.length < choices.length) {
                 console.log("Tu n'as pas placé tous les événements !");
@@ -294,17 +359,22 @@ async function showStep(step) {
             }
 
             if (!answered) {
-                answered = true;
                 let allCorrect = true;
 
-                // On vérifie chaque réponse et on ajoute le style
                 answers.forEach(answer => {
                     containerDates.querySelectorAll("button").forEach(btn => {
+
                         if (btn.textContent === answer.name) {
+                            // btn.style.color = "#FFF";
+                            // btn.style.border = "none";
+
                             if (answer.correct === 1) {
-                                btn.classList.add("correct");
+                                setParams(personnality, "goodAnswer")
+                                btn.style.border = "3px solid #008610";
+                                btn.classList.add("locked");
                             } else {
-                                btn.classList.add("incorrect");
+                                setParams(personnality, "wrongAnswer")
+                                btn.style.border = "3px solid #CB0000";
                                 allCorrect = false;
                             }
                         }
@@ -312,15 +382,24 @@ async function showStep(step) {
                 });
 
                 if (allCorrect) {
+                    answered = true;
+
+                    if (!scoreSent) {
+                        setParams(personnality, "goodAnswer");
+                    }
+
+                    submitBtn.style.display = "none";
+                    showNextButton();
                     console.log("Frise parfaite !");
-                    setParams(personnality, "goodAnswer");
+
                 } else {
                     console.log("Il y a des erreurs dans la frise.");
-                    setParams(personnality, "wrongAnswer");
-                }
 
-                submitBtn.style.display = "none";
-                showNextButton();
+                    if (!scoreSent) {
+                        setParams(personnality, "wrongAnswer");
+                        scoreSent = true;
+                    }
+                }
             }
         });
     }

@@ -7,7 +7,6 @@ let oldData;
 const video = [
     "../assets/step1.mp4",
     "../assets/step2.mp4",
-    "../assets/336603.mp4",
     "../assets/step3.mp4"
 ]
 
