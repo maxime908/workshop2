@@ -1,6 +1,7 @@
 import gsap from "gsap";
 import { readJSONFile } from "../../utils";
-
+import { updateScore } from "../../utils"
+updateScore("lamarr", score)
 let oldData;
 
 // Mes vidéos
