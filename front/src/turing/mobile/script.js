@@ -149,7 +149,7 @@ async function showStep(step) {
         document.querySelector("#title").textContent = stepContent.name
         
         if (clavier) clavier.remove()
-        if (TextInput) TextInput.remove()
+        // if (TextInput) TextInput.remove()
         if (cryptedText) cryptedText.remove()
         if (valid) valid.remove()
         
@@ -183,8 +183,15 @@ async function showStep(step) {
                     btnAw.style.backgroundColor = "green";
                 } else {
                     console.log("Mauvaise réponse !");
-                    element.style.backgroundColor = "red";
-                    element.textContent == gooodAwnser
+                    btnAw.style.backgroundColor = "red";
+                    btnAw.textContent == gooodAwnser
+
+                    qcmContainer.querySelectorAll("button").forEach((element) => {
+                        if (element.textContent === gooodAwnser) {
+                            element.style.backgroundColor = "green";
+                        }
+                    })
+                    
                     document.getElementById(gooodAwnser).style.backgroundColor="green"
                 }
             });
