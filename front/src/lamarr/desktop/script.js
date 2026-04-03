@@ -49,7 +49,8 @@ function changeVideo(step) {
     }
 }
 
-new QRCode(document.getElementById("qrcode"), "http://192.168.1.45/src/lamarr/mobile/")
+const qrcodeContainer = document.querySelector("#qrcode");
+new QRCode(qrcodeContainer, `${window.location.origin}/front/src/lamarr/mobile/index.html`);
 
 async function changeWindow() {
     const data = await readJSONFile('/steps.json')
