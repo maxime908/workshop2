@@ -25,7 +25,6 @@ document.querySelector("#cancelButton").addEventListener("click", () => {
     dialog.close()
 })
 
-
 // Quand on clique sur le bouton "Commencer l'expérience" ou sur "Réessayer" sur le popup
 const buttonsStart = [document.querySelector("#retryButton"), document.querySelector("#start")]
 
@@ -78,13 +77,10 @@ async function showStep(step) {
         document.querySelector("#steps").innerHTML = ""
         document.querySelector("#steps").appendChild(endStep)
 
-        // === CHANGEMENT ICI : Envoi du signal RESET ===
+        // AJOUT ICI : async et await setParams "reset"
         document.querySelector("#finalNext").addEventListener("click", async () => {
             await setParams(personnality, "reset");
-            
-            setTimeout(() => {
-                window.location.href = "../../stats/index.html";
-            }, 500);
+            window.location.href = "../../stats/index.html";
         })
 
         return;
@@ -366,6 +362,9 @@ async function showStep(step) {
                     containerDates.querySelectorAll("button").forEach(btn => {
 
                         if (btn.textContent === answer.name) {
+                            // btn.style.color = "#FFF";
+                            // btn.style.border = "none";
+
                             if (answer.correct === 1) {
                                 setParams(personnality, "goodAnswer")
                                 btn.style.border = "3px solid #008610";
@@ -401,6 +400,7 @@ async function showStep(step) {
             }
         });
     }
+
 
     // On ajoute le nouveau step au body
     document.querySelector("#steps").appendChild(newStep)
