@@ -1,1 +1,5 @@
+<<<<<<< HEAD
 {"tesla":{"step":0,"params":""},"lamarr":{"step":0,"params":"wrongAnswer"},"bass":{"step":0,"params":""},"turing":{"step":0,"params":"VALIDATE"}}
+=======
+{"tesla":{"step":0,"params":""},"lamarr":{"step":2,"params":"goodAnswer"},"bass":{"step":0,"params":""},"turing":{"step":1,"params":"E"}}
+>>>>>>> 4921830f22c7d2f3565eef7f56310a89d96573e3
