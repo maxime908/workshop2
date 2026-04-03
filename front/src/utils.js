@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 //TODO : Change this to : /api/ for production 
-const url = "/api/"
+const url = "http://localhost/workshop2/api/"
 
 //Communications avec l'API
 

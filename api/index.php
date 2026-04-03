@@ -81,7 +81,7 @@
                     'endDate' => date("Y-m-d H:i:s"),
                     'score' => $data['score'],
                 ]);
-
+            
                 exit;
             }
         }

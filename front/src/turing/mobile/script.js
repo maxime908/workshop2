@@ -59,8 +59,12 @@ document.querySelector("#step3").addEventListener("click", ()=>{
     document.querySelector("#step3").style.display = "none"
     document.querySelector(".step3").style.display = "none"
     document.querySelector("#start").style.display ="block"
-    document.getElementById("step-btn circle").forEach((element) => {
+    document.querySelectorAll("#step-btn circle").forEach((element) => {
         element.style.fill = "#F8FCF9";
+    })
+
+    document.querySelectorAll(".hidd").forEach((element) => {
+        element.style.display = "block"
     })
 })
 
@@ -94,6 +98,10 @@ async function showStep(step) {
     // document.querySelector("#desc").textContent = questionName.question;
 
     if (step == 1) {
+        document.querySelectorAll(".hidd").forEach((element) => {
+            element.style.display = "none"
+        })
+
         clavier = document.createElement("div");
 
         document.querySelector("#step-btn1 circle").style.fill = "#C88010";
@@ -181,18 +189,21 @@ async function showStep(step) {
 
         qcmContainer = document.createElement("div");
         
-        const questionElement = document.createElement("h3");
-        questionElement.textContent = "question";
-        qcmContainer.appendChild(questionElement);
+        const questionElement = document.createElement("h1");
+        questionElement.textContent = "Pourquoi la machine de Turing est-elle importante ?";
+        questionElement.classList.add("question-step2")
+        questionElement.classList.add("jost")
 
-        const awnsers = ["reponsse A", "reponsse B", "reponsse C", "reponsse D"];
-        const gooodAwnser = "reponsse B"; 
+        const awnsers = awnserName.answers;
+        const gooodAwnser = awnserName.goodAnswer; 
         
         const buttonStep2 = [];
 
         const div = document.createElement("div")
 
         div.classList.add("btnGroup")
+
+        div.appendChild(questionElement)
 
         awnsers.forEach(awnser => {
             const btnAw = document.createElement("button");
@@ -223,6 +234,10 @@ async function showStep(step) {
                 }
             });
 
+            document.querySelectorAll(".hidd").forEach(element => {
+                element.style.display = "none";
+            });
+
             div.appendChild(btnAw)
             
             qcmContainer.appendChild(div);
@@ -237,17 +252,30 @@ async function showStep(step) {
     
         qcmIa = document.createElement("div")
         qcmIa.classList.add("step3")
+        qcmIa.classList.add("btnGroup")
+        const title = document.createElement("h1");
+        title.textContent = "Qui est l’humain ?"
+        const img = document.createElement("img")
+        img.src = "../assets/message.svg";
+        img.classList.add("img-message")
+
+        const div = document.createElement("div");
+
+        qcmIa.appendChild(title)
+        qcmIa.appendChild(img)
+        qcmIa.appendChild(div)
 
         document.querySelector("#step-btn3 circle").style.fill = "#C88010";
 
-        const awnsers = ["personne A", "personne B"]
-        const goodAnwser = "personne A"
+        const awnsers = awnserName.answers;
+        const goodAnwser = awnserName.goodAnswer;
 
        
         const buttonStep3 = [];
 
         awnsers.forEach(awnser => {
             const btnAw = document.createElement("button");
+            btnAw.classList.add("btnAw-sect3")
             btnAw.textContent = awnser;
             btnAw.style.display = "block"; 
             btnAw.style.margin = "10px 0"; 
@@ -265,12 +293,17 @@ async function showStep(step) {
                     console.log("Mauvaise réponse !");
                     btnAw.style.backgroundColor = "red";
                 }
+
+                qcmIa.querySelectorAll("button").forEach((element) => {
+                    if (element.textContent === goodAnwser) {
+                        element.style.backgroundColor = "green";
+                    }
+                })
             });
             
-            qcmIa.appendChild(btnAw);
+            div.appendChild(btnAw)
         });
 
-        document.querySelector("body").appendChild(qcmIa)
-
+        document.querySelector("#sect-step3").appendChild(qcmIa)
     } 
 }
