@@ -1,37 +1,203 @@
 body {
     background-color: #ffffff;
     font-family: 'Courier New', Courier, monospace;
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+    height: 100vh;
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
-    gap: 30px;
-    padding: 40px;
+    overflow: hidden; /* Prevents scrollbars from background vectors */
     color: #000000;
 }
 
+/* =========================================
+   STEP 0 STYLES (Landing Page)
+   ========================================= */
+#step-0-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.step0-asset {
+    position: absolute;
+}
+
+/* Background squiggly line */
+#vector-bg {
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+    object-position: center center; /* Keeps the split horizontally centered */
+    top: 12%;
+    left: 0;
+    z-index: 1;
+}
+
+/* Top center Title */
+#title-img {
+    top: 5%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40%;
+    max-width: 500px;
+    z-index: 2;
+}
+
+/* Center Head Portrait */
+#turing-head {
+    top: 45%; 
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-height: 600px;
+    z-index: 2;
+}
+#decor-1 {
+    top: 25%;
+    left: 20px;
+    transform: translateX(-50%); 
+    width: 120px;
+    z-index: 3;
+}
+
+#decor-2 {
+    bottom: 15%;
+    right: 20px;
+    transform: translateX(50%); 
+    width: 120px;
+    z-index: 3;
+}
+
+
+#qr-placeholder {
+    bottom: 3%;
+    left: 5%;
+    width: 150px;
+    height: 150px;
+    background-color: #d1d1d1;
+    z-index: 3;
+}
+
+
+#enigma-logo {
+    bottom: 5%;
+    left: 5%;
+    width: 200px;
+    z-index: 3;
+}
+
+
+@media (orientation: landscape) {
+    #turing-head {
+        height: 75vh;
+    }
+    #qr-placeholder {
+        width: 120px;
+        height: 120px;
+    }
+}
+
+
+
+
+#step-1-container {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    justify-content: space-around;
+    gap: 30px;
+    z-index: 5;
+}
+
+
+#step1-vector-bg {
+    position: absolute;
+    object-fit: cover;
+    object-position: center;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+
+
+
+#tv-container {
+    position: relative;
+    width: 450px; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#tv-img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+#tv-screen {
+    position: absolute;
+    top: 50%;
+    left: 42%; 
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 55%;
+}
+
+
+
+
+.secret-input {
+    background: transparent;
+    border: none;
+    border-bottom: 3px solid #000;
+    border-radius: 0;
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    color: #000;
+    width: 90%;
+    outline: none;
+    font-family: 'Courier New', Courier, monospace;
+    padding-bottom: 5px;
+    margin: 0;
+    box-shadow: none;
+}
 
 .lamp-board, .keyboard-container {
-    display: flex block;
+    display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    max-width: 650px;
+    max-width: 750px;
+    height:300px ;
     gap: 12px;
     background-color: #2a2a2a;
     padding: 25px;
     border-radius: 10px;
     box-shadow: inset 0px 0px 15px rgba(0,0,0,0.8), 0px 5px 15px rgba(0,0,0,0.5);
     border: 2px solid #111;
+    z-index: 10;
+   
 }
 
 .key {
-    width: 45px;
-    height: 45px;
+    width: 60px;
+    height: 60px;
     border-radius: 50%;
     background-color: #ddd;
     border: 2px solid #888;
     color: #111;
     font-weight: bold;
-    font-size: 18px;
+    font-size: 30px;
     cursor: pointer;
     box-shadow: 0px 4px 0px #888;
     transition: all 0.1s ease;
@@ -39,26 +205,24 @@ body {
 
 .key:active {
     box-shadow: 0px 0px 0px #888;
-    transform: translateY(4px); /* Effet d'enfoncement mécanique */
+    transform: translateY(4px);
 }
 
-
 .lamp {
-    width: 45px;
-    height: 45px;
+    width: 60px;
+    height: 60px;
     display: flex;
     justify-content: center;
     align-items: center;
     border-radius: 50%;
-    background-color: #333; /* Sombre quand c'est éteint */
-    color: #555; /* Lettre peu visible */
+    background-color: #333;
+    color: #555;
     border: 2px solid #111;
     font-weight: bold;
-    font-size: 18px;
+    font-size: 30px;
     box-shadow: inset 0px 2px 5px rgba(0,0,0,0.8);
-    transition: all 0.05s ease; /* Transition très rapide */
+    transition: all 0.05s ease;
 }
-
 
 .lamp.lit {
     background-color: #ffaa00; 
@@ -67,4 +231,3 @@ body {
     box-shadow: 0px 0px 15px #ffaa00, 0px 0px 30px #ffaa00, inset 0px 0px 10px rgba(255,255,255,0.8);
     text-shadow: 0px 0px 5px #fff;
 }
-
