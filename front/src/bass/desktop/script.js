@@ -71,7 +71,7 @@ async function changeWindow() {
 setInterval(changeWindow, 500)
 
 const qrcodeContainer = document.querySelector("#qrcode");
-new QRCode(qrcodeContainer, `${window.location.origin}/front/src/bass/mobile/index.html`);
+new QRCode(qrcodeContainer, `${window.location.origin}/src/bass/mobile/index.html`);
 
 function showStep(step) {
   gsap.fromTo(document.querySelector("#step" + step), {
