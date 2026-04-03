@@ -29,7 +29,7 @@ async function checkUpdates() {
         console.log("gn qrcode")
         const qrcodeContainer = document.querySelector("#qrcode");
         if (qrcodeContainer)qrcodeContainer.innerHTML = ""
-        new QRCode(qrcodeContainer, `${window.location.origin}/front/src/turing/mobile/index.html`);
+        new QRCode(qrcodeContainer, `${window.location.origin}/src/turing/mobile/index.html`);
        
       }
 

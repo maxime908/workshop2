@@ -25,7 +25,7 @@ stats.forEach(element => {
                 <div class="d-flex justify-content-between">
                     <div class="d-flex flex-column">
                         <span>
-                            Personnalité(e) choisi : ${element.name}
+                            Personnalité choisie : ${element.name}
                         </span>
                         <span>
                             score : ${element.score}

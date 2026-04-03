@@ -50,7 +50,7 @@ function changeVideo(step) {
 }
 
 const qrcodeContainer = document.querySelector("#qrcode");
-new QRCode(qrcodeContainer, `${window.location.origin}/src/lamarr/mobile/index.html`);
+new QRCode(qrcodeContainer, `https://b1-workshop.online/src/lamarr/mobile/index.html`);
 
 async function changeWindow() {
     const data = await readJSONFile('/steps.json')
