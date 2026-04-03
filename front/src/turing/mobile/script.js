@@ -149,7 +149,7 @@ async function showStep(step) {
         document.querySelector("#title").textContent = stepContent.name
         
         if (clavier) clavier.remove()
-        if (TextInput) TextInput.remove()
+        // if (TextInput) TextInput.remove()
         if (cryptedText) cryptedText.remove()
         if (valid) valid.remove()
         
