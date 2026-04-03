@@ -29,7 +29,8 @@ async function checkUpdates() {
         console.log("gn qrcode")
         const qrcodeContainer = document.querySelector("#qrcode");
         if (qrcodeContainer)qrcodeContainer.innerHTML = ""
-        new QRCode(qrcodeContainer, `https://b1-workshop.online/src/turing/mobile/index.html`);
+        new QRCode(qrcodeContainer, `${window.location.origin}/src/turing/mobile/index.html`);
+       
       }
 
       if (dataStep !== 0 && step0Container) {

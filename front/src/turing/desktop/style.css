@@ -28,9 +28,9 @@ body {
     width: 100vw;
     height: 1550px;
     object-position: center center; /* Keeps the split horizontally centered */
-    top: 14%;
     left: 0;
     z-index: 1;
+    bottom: 0%;
 }
 
 /* Top center Title */
@@ -45,7 +45,7 @@ body {
 
 /* Center Head Portrait */
 #turing-head {
-    top: 46%; 
+    top: 49%; 
     left: 50%;
     transform: translate(-50%, -50%);
     max-height: 1000px;
